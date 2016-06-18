@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <structure>
-	<element>
+	<ele>
 		<name>pom.xml</name>
 		<path></path>
 		<type>file</type>
 		<url>https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/pom.xml</url>
-	</element>
+	</ele>
 </structure>
