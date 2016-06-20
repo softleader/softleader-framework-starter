@@ -1,4 +1,19 @@
 <?xml version="1.0"?>
-<l>
-	<f><n>pom.xml</n><p></p><u>https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/pom.xml</u></f>
-</l>
+<layout>
+	<f n="" p="src/main/java/{pkg}/config" d="" u="" />
+	<f n="" p="src/main/java/{pkg}/service" d="" u="" />
+	<f n="" p="src/main/java/{pkg}/web" d="" u="" />
+	<f n="" p="src/main/resource" d="" u="" />
+	<f n="" p="src/main/webapp/WEB-INF" d="" u="" />
+	<f n="" p="src/test/java/{pkg}" d="" u="" />
+	<f n="" p="src/test/resources" d="" u="" />
+	<f n="pom.xml" p="" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/pom.xml"/>
+	<f n="{pj}SecurityWebApplicationInitializer.java" p="src/main/java/{pkg}/config" d="security" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/SecurityWebApplicationInitializer.java"/>
+	<f n="{pj}WebSecurityConfiguration.java" p="src/main/java/{pkg}/config" d="security" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/WebSecurityConfig.java"/>
+	<f n="{pj}WebApplicationInitializer.java" p="src/main/java/{pkg}/config" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/WebApplicationInitializer.java"/>
+	<f n="{pj}UserDetailsService.java" p="src/main/java/{pkg}/service" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/WebUserDetailsService.java"/>
+	<f n="IndexController.java" p="src/main/java/{pkg}/web" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/IndexController.java"/>
+	<f n="datasource.properties" p="src/main/resources" d="data" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.properties"/>
+	<f n="index.jsp" p="src/main/webapp/WEB-INF/pages" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/index.jsp"/>
+	<f n="login.jsp" p="src/main/webapp/WEB-INF/pages" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/login.jsp"/>
+</layout>
