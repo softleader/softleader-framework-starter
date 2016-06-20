@@ -3,7 +3,7 @@
 	<f n="" p="src/main/java/{pkg}/config" d="" u="" />
 	<f n="" p="src/main/java/{pkg}/service" d="" u="" />
 	<f n="" p="src/main/java/{pkg}/web" d="" u="" />
-	<f n="" p="src/main/resource" d="" u="" />
+	<f n="" p="src/main/resources" d="" u="" />
 	<f n="" p="src/main/webapp/WEB-INF/pages" d="" u="" />
 	<f n="" p="src/test/java/{pkg}" d="" u="" />
 	<f n="" p="src/test/resources" d="" u="" />
