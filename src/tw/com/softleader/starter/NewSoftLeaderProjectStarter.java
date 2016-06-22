@@ -28,7 +28,7 @@ import tw.com.softleader.starter.files.PomInputStream;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 
-public class NewSoftLeaderProjectWizard extends Wizard implements INewWizard {
+public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 
 	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
 	public static String STARTER_URL = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/starter.xml";
@@ -36,15 +36,15 @@ public class NewSoftLeaderProjectWizard extends Wizard implements INewWizard {
 	private WizardNewProjectCreationPage creation;
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
-	private NewSoftLeaderProjectWizardModel model;
+	private NewSoftLeaderProjectStarterModel model;
 
-	public NewSoftLeaderProjectWizard() {
+	public NewSoftLeaderProjectStarter() {
 	}
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		try {
-			model = new NewSoftLeaderProjectWizardModel(STARTER_URL);
+			model = new NewSoftLeaderProjectStarterModel(STARTER_URL);
 		} catch (ParserConfigurationException | SAXException | IOException | URISyntaxException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getClass().getName()));

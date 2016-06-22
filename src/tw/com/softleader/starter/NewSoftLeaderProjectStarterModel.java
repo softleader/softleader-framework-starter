@@ -30,11 +30,11 @@ import org.xml.sax.SAXException;
 
 import tw.com.softleader.starter.files.F;
 
-public class NewSoftLeaderProjectWizardModel implements Collection<F> {
+public class NewSoftLeaderProjectStarterModel implements Collection<F> {
 
 	private ArrayList<F> delegate = new ArrayList<>();
 
-	public NewSoftLeaderProjectWizardModel(String URL)
+	public NewSoftLeaderProjectStarterModel(String URL)
 			throws ParserConfigurationException, SAXException, IOException, URISyntaxException {
 		super();
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

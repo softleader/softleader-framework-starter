@@ -8,12 +8,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-public class NewSoftLeaderProjectWizardModelTest {
+public class NewSoftLeaderProjectStarterModelTest {
 
 	@Test
 	public void load() throws ParserConfigurationException, SAXException, IOException, URISyntaxException {
-		String url = NewSoftLeaderProjectWizardModelTest.class.getClassLoader().getResource("starter.xml").toString();
-		NewSoftLeaderProjectWizardModel layout = new NewSoftLeaderProjectWizardModel(url);
+		String url = NewSoftLeaderProjectStarterModelTest.class.getClassLoader().getResource("starter.xml").toString();
+		NewSoftLeaderProjectStarterModel layout = new NewSoftLeaderProjectStarterModel(url);
 		System.out.println(layout.size());
 		layout.forEach(f -> {
 			System.out.println(f);
