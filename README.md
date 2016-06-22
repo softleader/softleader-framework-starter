@@ -2,7 +2,7 @@
 
 ## Introduction
 
-An eclipse plugin to help building softleader-framework project easier and faster
+An eclipse plugin to build softleader-framework project easier and faster
 
 ## Getting Started
 
