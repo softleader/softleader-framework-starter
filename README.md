@@ -14,5 +14,5 @@ An eclipse plugin to help building softleader-framework project easier and faste
  
 ## Known to-dos
 
-- To convert to a maven porject
-- To select dependencies in second page
+- [To convert to a maven porject](https://github.com/softleader/softleader-framework-starter/issues/1)
+- [To select dependencies in second page](https://github.com/softleader/softleader-framework-starter/issues/2)
