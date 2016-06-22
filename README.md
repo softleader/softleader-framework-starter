@@ -8,7 +8,7 @@ An eclipse plugin to help building softleader-framework project easier and faste
 
 1. Import to Eclipse as a plug-ins project
 2. Export it as a Deployable plug-ins and fragments
-3. Copy jar into ${ECLIPSE_HOME}/../dropins folder
+3. Copy jar into `${ECLIPSE_HOME}/../dropins` folder
 4. Restart your Eclipse
 5. Now you can new a SoftLeader Starter Project
  
