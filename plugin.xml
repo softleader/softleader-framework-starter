@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="softleader-framework-starter.category"
+            name="SoftLeader">
+      </category>
+      <wizard
+            category="softleader-framework-starter.category"
+            class="tw.com.softleader.starter.NewSoftLeaderProjectWizard"
+            id="softleader-framework-starter.wizard"
+            name="SoftLeader Project Wizard"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            icon="icons/sample.gif"
+            id="tw.com.softleader.starter"
+            name="SoftLeader Navigator">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="tw.com.softleader.starter">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.ui.navigator.resources.*">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+      <viewerContentBinding
+            viewerId="tw.com.softleader.starter">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resourceContent">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.workingSets">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         id="softleader-framework-starter-nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="tw.com.softleader.starter.ProjectNature">
+         </run>
+      </runtime>
+   </extension>
+
+</plugin>
