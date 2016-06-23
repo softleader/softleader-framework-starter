@@ -45,7 +45,8 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class NewSoftLeaderProjectStarterModel {
 
-	public static String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
+	public static final String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
+	public static final String DEPENDENCIES = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/dependencies.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private final List<F> files = new ArrayList<F>();
