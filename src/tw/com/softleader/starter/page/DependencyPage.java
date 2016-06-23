@@ -91,8 +91,15 @@ public class DependencyPage extends WizardPage {
 					if (dNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element d = (Element) dNode;
 						String dDefaultSelect = d.getAttribute("default");
+						String dVersion = d.getAttribute("v");
+						if (dVersion.isEmpty()) {
+							dVersion = "${softleader-framework.version}";
+						}
+						String dScope = d.getAttribute("s");
 						String dEnabled = d.getAttribute("e");
-						dependencies.add(new DependencyRadio(m, d.getAttribute("g"), d.getAttribute("a"),
+						String dArtifact = d.getAttribute("a");
+						String dGroup = d.getAttribute("g");
+						dependencies.add(new DependencyRadio(m, dArtifact, dGroup, dArtifact, dVersion, dScope,
 								!multiSelected.isEmpty() && Boolean.parseBoolean(multiSelected),
 								!dDefaultSelect.isEmpty() && Boolean.parseBoolean(dDefaultSelect),
 								dEnabled.isEmpty() || Boolean.parseBoolean(dEnabled)));

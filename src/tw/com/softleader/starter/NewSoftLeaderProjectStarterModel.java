@@ -35,11 +35,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import tw.com.softleader.starter.files.ComponentInputStream;
-import tw.com.softleader.starter.files.DatasourceInputStream;
-import tw.com.softleader.starter.files.F;
-import tw.com.softleader.starter.files.JavaInputStream;
-import tw.com.softleader.starter.files.PomInputStream;
+import tw.com.softleader.starter.io.ComponentInputStream;
+import tw.com.softleader.starter.io.DatasourceInputStream;
+import tw.com.softleader.starter.io.F;
+import tw.com.softleader.starter.io.JavaInputStream;
+import tw.com.softleader.starter.io.PomInputStream;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;

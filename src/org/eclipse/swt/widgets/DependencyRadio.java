@@ -8,16 +8,20 @@ public class DependencyRadio extends Button {
 
 	private final String groupId;
 	private final String artifactId;
+	private final String version;
+	private final String scope;
 	private boolean selected;
 
-	public DependencyRadio(Composite parent, String groupId, String artifactId, boolean multiSelected,
-			boolean defaultSelected, boolean enabled) {
+	public DependencyRadio(Composite parent, String text, String groupId, String artifactId, String version,
+			String scope, boolean multiSelected, boolean defaultSelected, boolean enabled) {
 		super(parent, multiSelected ? SWT.CHECK : SWT.RADIO);
-		setText(artifactId);
+		setText(text);
 		setSelection(defaultSelected);
 		setEnabled(enabled);
 		this.groupId = groupId;
 		this.artifactId = artifactId;
+		this.version = version;
+		this.scope = scope;
 		this.selected = defaultSelected;
 
 		addDisposeListener(new DisposeListener() {
@@ -40,11 +44,24 @@ public class DependencyRadio extends Button {
 		return artifactId;
 	}
 
+	public String getVersion() {
+		return version;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
 	public String getPomText() {
 		String text = "\t\t<dependency>\n";
 		text += "\t\t\t<groupId>" + getGroupId() + "</groupId>\n";
 		text += "\t\t\t<artifactId>" + getArtifactId() + "</artifactId>\n";
-		text += "\t\t\t<version>${softleader-framework.version}</version>\n";
+		if (getVersion() != null && !getVersion().isEmpty()) {
+			text += "\t\t\t<version>" + getVersion() + "</version>\n";
+		}
+		if (getScope() != null && !getScope().isEmpty()) {
+			text += "\t\t\t<scope>" + getScope() + "</scope>\n";
+		}
 		text += "\t\t</dependency>";
 		return text;
 	}

@@ -79,19 +79,23 @@ public class DatasourcePage extends WizardPage {
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element ele = (Element) node;
 					String defaultSelect = ele.getAttribute("default");
+					String version = ele.getAttribute("v");
 					String enabled = ele.getAttribute("e");
-					datasources.add(new DataSourceRadio(group, ele.getAttribute("n"), ele.getAttribute("g"),
-							ele.getAttribute("a"), !defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
+					String name = ele.getAttribute("n");
+					String grp = ele.getAttribute("g");
+					String artifact = ele.getAttribute("a");
+					datasources.add(new DataSourceRadio(group, name, grp, version, artifact,
+							!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
 							enabled.isEmpty() || Boolean.parseBoolean(enabled)));
 				}
 			});
 		} catch (Exception e) {
 			throw new Error(e);
 		}
-		driverClass = createText(composite, "DriverClass", null);
-		url = createText(composite, "Url", null);
-		username = createText(composite, "Username", null);
-		password = createText(composite, "Password", null);
+		driverClass = createText(composite, "DriverClass", "");
+		url = createText(composite, "Url", "");
+		username = createText(composite, "Username", "");
+		password = createText(composite, "Password", "");
 
 		setControl(composite);
 		setPageComplete(false);
