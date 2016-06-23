@@ -84,7 +84,6 @@ public class DatasourcePage extends WizardPage {
 					String name = ele.getAttribute("n");
 					String grp = ele.getAttribute("g");
 					String artifact = ele.getAttribute("a");
-					System.out.println(artifact);
 					datasources.add(new DataSourceRadio(group, name, grp, artifact, version,
 							!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
 							enabled.isEmpty() || Boolean.parseBoolean(enabled)));
