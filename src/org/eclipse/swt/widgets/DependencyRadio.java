@@ -48,4 +48,13 @@ public class DependencyRadio extends Button {
 		return text;
 	}
 
+	public String getComponentText(String version) {
+		String text = "\t\t<dependent-module archiveName=\"" + getArtifactId() + "-" + version
+				+ ".jar\" deploy-path=\"/WEB-INF/lib\" handle=\"module:/resource/" + getArtifactId() + "/"
+				+ getArtifactId() + "\">";
+		text += "\t\t\t<dependency-type>uses</dependency-type>";
+		text += "\t\t</dependent-module>";
+		return text;
+	}
+
 }

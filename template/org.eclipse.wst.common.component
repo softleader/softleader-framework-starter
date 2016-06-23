@@ -5,30 +5,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
 
-        <dependent-module archiveName="softleader-data-jpa-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-data-jpa/softleader-data-jpa">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-data-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-data/softleader-data">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-domain-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-domain/softleader-domain">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-util-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-util/softleader-util">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-commons-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-commons/softleader-commons">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-web-mvc-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-web-mvc/softleader-web-mvc">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-web-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-web/softleader-web">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="softleader-security-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-security/softleader-security">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
+{dependent-module}
+
         <property name="context-root" value="{pj}"/>
         <property name="java-output-path" value="/{pj}/target/classes"/>
     </wb-module>
