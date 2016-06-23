@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -92,7 +93,6 @@ public class NewSoftLeaderProjectStarterModel {
 		}
 	}
 
-	@SuppressWarnings("restriction")
 	private IProject createBaseProject(String projectName, URI location, IProgressMonitor monitor)
 			throws CoreException {
 		monitor.beginTask("Creating base project", 2);
@@ -109,23 +109,11 @@ public class NewSoftLeaderProjectStarterModel {
 
 				desc.setName(projectDetails.getArtifact());
 
-				BuildCommand javascriptValidator = new BuildCommand();
-				javascriptValidator.setName("org.eclipse.wst.jsdt.core.javascriptValidator");
-
-				BuildCommand javabuilder = new BuildCommand();
-				javabuilder.setName("org.eclipse.jdt.core.javabuilder");
-
-				BuildCommand facetcorebuilder = new BuildCommand();
-				facetcorebuilder.setName("org.eclipse.wst.common.project.facet.core.builder");
-
-				BuildCommand maven2Builder = new BuildCommand();
-				maven2Builder.setName("org.eclipse.m2e.core.maven2Builder");
-
-				BuildCommand springbuilder = new BuildCommand();
-				springbuilder.setName("org.springframework.ide.eclipse.core.springbuilder");
-
-				desc.setBuildSpec(new ICommand[] { javascriptValidator, javabuilder, facetcorebuilder, maven2Builder,
-						springbuilder });
+				desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.jsdt.core.javascriptValidator"),
+						command("org.eclipse.jdt.core.javabuilder"),
+						command("org.eclipse.wst.common.project.facet.core.builder"),
+						command("org.eclipse.m2e.core.maven2Builder"),
+						command("org.springframework.ide.eclipse.core.springbuilder") });
 
 				desc.setNatureIds(new String[] { "org.springframework.ide.eclipse.core.springnature",
 						"org.eclipse.jem.workbench.JavaEMFNature", "org.eclipse.wst.common.modulecore.ModuleCoreNature",
@@ -139,6 +127,13 @@ public class NewSoftLeaderProjectStarterModel {
 		} finally {
 			monitor.done();
 		}
+	}
+
+	@SuppressWarnings("restriction")
+	private ICommand command(String builderName) {
+		BuildCommand command = new BuildCommand();
+		command.setBuilderName(builderName);
+		return command;
 	}
 
 	private void createFiles(String projectName, IProject project, IProgressMonitor monitor) {
