@@ -18,6 +18,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.core.internal.events.BuildCommand;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -84,13 +86,14 @@ public class NewSoftLeaderProjectStarterModel {
 		try {
 			IProject project = createBaseProject(projectName, locationURI, new SubProgressMonitor(monitor, 1));
 			project.open(null);
-			createMavenStructure(project, new SubProgressMonitor(monitor, 1));
+			createMavenArchetype(project, new SubProgressMonitor(monitor, 1));
 			createFiles(projectName, project, new SubProgressMonitor(monitor, 1));
 		} finally {
 			monitor.done();
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	private IProject createBaseProject(String projectName, URI location, IProgressMonitor monitor)
 			throws CoreException {
 		monitor.beginTask("Creating base project", 1);
@@ -103,6 +106,31 @@ public class NewSoftLeaderProjectStarterModel {
 					projectLocation = null;
 				}
 				monitor.setTaskName(projectLocation.toString());
+				desc.setName(projectDetails.getArtifact());
+
+				BuildCommand javascriptValidator = new BuildCommand();
+				javascriptValidator.setName("org.eclipse.wst.jsdt.core.javascriptValidator");
+
+				BuildCommand javabuilder = new BuildCommand();
+				javabuilder.setName("org.eclipse.jdt.core.javabuilder");
+
+				BuildCommand facetcorebuilder = new BuildCommand();
+				facetcorebuilder.setName("org.eclipse.wst.common.project.facet.core.builder");
+
+				BuildCommand maven2Builder = new BuildCommand();
+				maven2Builder.setName("org.eclipse.m2e.core.maven2Builder");
+
+				BuildCommand springbuilder = new BuildCommand();
+				springbuilder.setName("org.springframework.ide.eclipse.core.springbuilder");
+
+				desc.setBuildSpec(new ICommand[] { javascriptValidator, javabuilder, facetcorebuilder, maven2Builder,
+						springbuilder });
+
+				desc.setNatureIds(new String[] { "org.springframework.ide.eclipse.core.springnature",
+						"org.eclipse.jem.workbench.JavaEMFNature", "org.eclipse.wst.common.modulecore.ModuleCoreNature",
+						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
+						"org.eclipse.wst.common.project.facet.core.nature", "org.eclipse.wst.jsdt.core.jsNature" });
+
 				desc.setLocationURI(projectLocation);
 				project.create(desc, null);
 			}
@@ -144,8 +172,8 @@ public class NewSoftLeaderProjectStarterModel {
 		}
 	}
 
-	private void createMavenStructure(IProject project, IProgressMonitor monitor) {
-		monitor.beginTask("Creating maven structure", (int) files.stream().filter(F::isFolder).count());
+	private void createMavenArchetype(IProject project, IProgressMonitor monitor) {
+		monitor.beginTask("Creating maven archetype", (int) files.stream().filter(F::isFolder).count());
 		try {
 			String pkg = projectDetails.getPkgPath();
 			files.stream().filter(F::isFolder).forEach(f -> {

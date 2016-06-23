@@ -52,14 +52,5 @@
          </includes>
       </viewerContentBinding>
    </extension>
-   <extension
-         id="softleader-framework-starter-nature"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="tw.com.softleader.starter.ProjectNature">
-         </run>
-      </runtime>
-   </extension>
 
 </plugin>

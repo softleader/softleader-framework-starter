@@ -18,7 +18,20 @@
     </properties>
 
     <repositories>
-        [...]
+		<repository>
+            <id>releases</id>
+            <name>SoftLeader Framework</name>
+            <url>http://softleader.com.tw:8082/nexus/content/repositories/releases</url>
+        </repository>
+		<repository>
+			<id>snapshots</id>
+			<name>SoftLeader Framework</name>
+			<url>http://softleader.com.tw:8082/nexus/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>thirdparty</id>
+			<url>http://softleader.com.tw:8082/nexus/content/repositories/thirdparty</url>
+		</repository>
     </repositories>
 
     <dependencyManagement>
