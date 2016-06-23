@@ -1,13 +1,14 @@
 package tw.com.softleader.starter.files;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class F {
 
 	private String name;
 	private String path;
 	private Optional<String> dependency;
-	private Optional<String> content;
+	private Optional<Supplier<String>> content;
 
 	public F(String name, String path, String dependency) {
 		super();
@@ -25,11 +26,11 @@ public class F {
 		return path;
 	}
 
-	public Optional<String> getContent() {
+	public Optional<Supplier<String>> getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(Supplier<String> content) {
 		this.content = Optional.ofNullable(content);
 	}
 

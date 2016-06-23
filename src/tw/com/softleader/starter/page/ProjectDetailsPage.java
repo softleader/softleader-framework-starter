@@ -1,7 +1,5 @@
 package tw.com.softleader.starter.page;
 
-import java.util.Optional;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.wizard.WizardPage;
@@ -10,19 +8,19 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
 
 public class ProjectDetailsPage extends WizardPage {
 
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 
-	private Text group;
-	private Text artifact;
-	private Text version;
-	private Text desc;
-	private Text pkg;
+	private InputText group;
+	private InputText artifact;
+	private InputText version;
+	private InputText desc;
+	private InputText pkg;
 
 	private Listener textModifyListener = new Listener() {
 
@@ -64,12 +62,12 @@ public class ProjectDetailsPage extends WizardPage {
 		Dialog.applyDialogFont(composite);
 	}
 
-	private Text createText(Composite parent, String labelText, String initialValue) {
+	private InputText createText(Composite parent, String labelText, String initialValue) {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(labelText);
 		label.setFont(parent.getFont());
 
-		Text text = new Text(parent, SWT.BORDER);
+		InputText text = new InputText(parent, SWT.BORDER);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		text.setLayoutData(data);
@@ -117,23 +115,23 @@ public class ProjectDetailsPage extends WizardPage {
 	}
 
 	public String getGroup() {
-		return Optional.ofNullable(group).map(Text::getText).map(String::trim).orElse("");
+		return group.getValue();
 	}
 
 	public String getArtifact() {
-		return Optional.ofNullable(artifact).map(Text::getText).map(String::trim).orElse("");
+		return artifact.getValue();
 	}
 
 	public String getVersion() {
-		return Optional.ofNullable(version).map(Text::getText).map(String::trim).orElse("");
+		return version.getValue();
 	}
 
 	public String getDesc() {
-		return Optional.ofNullable(desc).map(Text::getText).map(String::trim).orElse("");
+		return desc.getValue();
 	}
 
 	public String getPkg() {
-		return Optional.ofNullable(pkg).map(Text::getText).map(String::trim).orElse("");
+		return pkg.getValue();
 	}
 
 	public String getPkgPath() {
