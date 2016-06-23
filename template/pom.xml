@@ -49,12 +49,7 @@
     <dependencies>
         <!-- softleader-framework -->
 {dependencies}
-
-        <!-- other libraries -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
+{datasource}
     </dependencies>
 
     <build>

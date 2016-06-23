@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -25,7 +26,6 @@ import org.w3c.dom.NodeList;
 public class DependencyPage extends WizardPage {
 
 	private static final String DEPENDENCIES = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/dependencies.xml";
-	private Composite container;
 	private Collection<VersionRadio> versions = new ArrayList<>();
 	private Map<String, Collection<DependencyRadio>> dependencyGroups = new HashMap<>();
 
@@ -36,26 +36,25 @@ public class DependencyPage extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
-		container = new Composite(parent, SWT.NONE);
+		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
+		composite.setLayout(layout);
 		layout.numColumns = 1;
-
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(DEPENDENCIES);
 			doc.getDocumentElement().normalize();
-			getDependencies(doc);
+			getDependencies(composite, doc);
 		} catch (Exception e) {
 			throw new Error(e);
 		}
-		setControl(container);
+		setControl(composite);
 		setPageComplete(true);
 	}
 
-	void getDependencies(Document doc) {
-		Group vgroup = new Group(container, SWT.SHADOW_IN);
+	void getDependencies(Composite parent, Document doc) {
+		Group vgroup = new Group(parent, SWT.SHADOW_IN);
 		vgroup.setText("Version");
 		vgroup.setLayout(new RowLayout(SWT.VERTICAL));
 		NodeList vrns = doc.getElementsByTagName("vrn");
@@ -74,7 +73,7 @@ public class DependencyPage extends WizardPage {
 			Node moduleNode = modules.item(modulesIdx);
 			if (moduleNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element module = (Element) moduleNode;
-				Group m = new Group(container, SWT.SHADOW_IN);
+				Group m = new Group(parent, SWT.SHADOW_IN);
 				m.setText(module.getAttribute("id"));
 				m.setLayout(new RowLayout(SWT.VERTICAL));
 				String multiSelected = module.getAttribute("multi");

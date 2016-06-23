@@ -36,9 +36,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import tw.com.softleader.starter.files.ComponentInputStream;
+import tw.com.softleader.starter.files.DatasourceInputStream;
 import tw.com.softleader.starter.files.F;
 import tw.com.softleader.starter.files.JavaInputStream;
 import tw.com.softleader.starter.files.PomInputStream;
+import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 
@@ -47,13 +49,15 @@ public class NewSoftLeaderProjectStarterModel {
 	public static final String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
+	private DatasourcePage datasource;
 	private final List<F> files = new ArrayList<F>();
 
-	public NewSoftLeaderProjectStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency)
-			throws ParserConfigurationException, SAXException, IOException {
+	public NewSoftLeaderProjectStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
+			DatasourcePage datasource) throws ParserConfigurationException, SAXException, IOException {
 		super();
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
+		this.datasource = datasource;
 		getArchetype();
 	}
 
@@ -150,9 +154,12 @@ public class NewSoftLeaderProjectStarterModel {
 					if (f.isJava()) {
 						file.create(new JavaInputStream(pkg, pj, content), true, monitor);
 					} else if (f.isPOM()) {
-						file.create(new PomInputStream(pj, projectDetails, dependency, content), true, monitor);
+						file.create(new PomInputStream(pj, projectDetails, dependency, datasource, content), true,
+								monitor);
 					} else if (f.isComponent()) {
 						file.create(new ComponentInputStream(projectName, dependency, content), true, monitor);
+					} else if (f.isDatasource()) {
+						file.create(new DatasourceInputStream(projectDetails, datasource, content), true, monitor);
 					} else {
 						file.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
 					}

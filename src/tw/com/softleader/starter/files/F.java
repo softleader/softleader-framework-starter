@@ -56,7 +56,11 @@ public class F {
 	}
 
 	public boolean isComponent() {
-		return getName().endsWith(".component");
+		return getName().endsWith("data");
+	}
+
+	public boolean isDatasource() {
+		return getName().endsWith("datasource.properties");
 	}
 
 	public boolean isPOM() {

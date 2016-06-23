@@ -21,6 +21,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.xml.sax.SAXException;
 
+import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 
@@ -31,6 +32,7 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 	private WizardNewProjectCreationPage creation;
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
+	private DatasourcePage datasource;
 	private NewSoftLeaderProjectStarterModel model;
 
 	public NewSoftLeaderProjectStarter() throws MalformedURLException {
@@ -50,9 +52,12 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 
 		dependency = new DependencyPage(TITLE);
 		dependency.setPreviousPage(projectDetails);
+		
+		datasource = new DatasourcePage(TITLE);
+		datasource.setPreviousPage(dependency);
 
 		try {
-			model = new NewSoftLeaderProjectStarterModel(projectDetails, dependency);
+			model = new NewSoftLeaderProjectStarterModel(projectDetails, dependency, datasource);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getMessage()));
@@ -94,6 +99,7 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 		addPage(creation);
 		addPage(projectDetails);
 		addPage(dependency);
+		addPage(datasource);
 	}
 
 }
