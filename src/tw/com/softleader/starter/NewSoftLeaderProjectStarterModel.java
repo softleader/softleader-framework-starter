@@ -78,10 +78,6 @@ public class NewSoftLeaderProjectStarterModel {
 		});
 	}
 
-	public List<F> getFiles() {
-		return files;
-	}
-
 	public void performFinish(String projectName, URI locationURI, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException, CoreException {
 		monitor.beginTask("Importing SoftLeader Project", 3);
