@@ -13,9 +13,11 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DataSourceRadio;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -64,6 +66,9 @@ public class DatasourcePage extends WizardPage {
 		label.setFont(parent.getFont());
 
 		try {
+			Group group = new Group(composite, SWT.SHADOW_IN);
+			group.setLayout(new RowLayout(SWT.VERTICAL));
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(DATASOURCE);
@@ -74,7 +79,7 @@ public class DatasourcePage extends WizardPage {
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element ele = (Element) node;
 					String defaultSelect = ele.getAttribute("default");
-					datasources.add(new DataSourceRadio(composite, ele.getAttribute("n"), ele.getAttribute("g"),
+					datasources.add(new DataSourceRadio(group, ele.getAttribute("n"), ele.getAttribute("g"),
 							ele.getAttribute("a"), defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
 				}
 			});
