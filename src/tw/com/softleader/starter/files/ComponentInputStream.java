@@ -7,16 +7,16 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class ComponentInputStream extends ByteArrayInputStream {
 
-	public ComponentInputStream(ProjectDetailsPage projectDetails, DependencyPage dependency, String source) {
-		super(merge(projectDetails, dependency, source).getBytes());
+	public ComponentInputStream(String projectName, DependencyPage dependency, String source) {
+		super(merge(projectName, dependency, source).getBytes());
 	}
 
-	private static String merge(ProjectDetailsPage projectDetails, DependencyPage dependency, String source) {
+	private static String merge(String projectName, DependencyPage dependency, String source) {
 		// source = source.replaceAll("\\{pkg\\}", pkg).replaceAll("\\{pj\\}",
 		// pj);
 		// TODO
 
-		source = source.replaceAll("\\{artifact\\}", projectDetails.getArtifact());
+		source = source.replaceAll("\\{pj\\}", projectName);
 		return source;
 	}
 

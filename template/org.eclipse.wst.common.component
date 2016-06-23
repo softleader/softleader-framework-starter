@@ -29,7 +29,7 @@
         <dependent-module archiveName="softleader-security-1.1.0.SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/softleader-security/softleader-security">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="context-root" value="{artifact}"/>
-        <property name="java-output-path" value="/{artifact}/target/classes"/>
+        <property name="context-root" value="{pj}"/>
+        <property name="java-output-path" value="/{pj}/target/classes"/>
     </wb-module>
 </project-modules>

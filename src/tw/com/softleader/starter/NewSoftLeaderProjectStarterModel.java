@@ -61,7 +61,7 @@ public class NewSoftLeaderProjectStarterModel {
 		Document doc = dBuilder.parse(STARTER_URL);
 		doc.getDocumentElement().normalize();
 		NodeList nodes = doc.getElementsByTagName("f");
-		IntStream.range(0, nodes.getLength()).parallel().forEach(i -> {
+		IntStream.range(0, nodes.getLength()).forEach(i -> {
 			Node node = nodes.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element ele = (Element) node;
@@ -150,9 +150,8 @@ public class NewSoftLeaderProjectStarterModel {
 						file.create(new JavaInputStream(pkg, pj, content), true, monitor);
 					} else if (f.isPOM()) {
 						file.create(new PomInputStream(pj, projectDetails, dependency, content), true, monitor);
-					}
-					if (f.isComponent()) {
-						file.create(new ComponentInputStream(projectDetails, dependency, content), true, monitor);
+					} else if (f.isComponent()) {
+						file.create(new ComponentInputStream(projectName, dependency, content), true, monitor);
 					} else {
 						file.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
 					}
