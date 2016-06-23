@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
@@ -50,7 +51,7 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 			model = new NewSoftLeaderProjectStarterModel(projectDetails, dependency);
 		} catch (ParserConfigurationException | SAXException | IOException | URISyntaxException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
-					String.format(ERROR_DIALOG, e.getClass().getName()));
+					String.format(ERROR_DIALOG, e.getMessage()));
 			throw new Error(e);
 		}
 	}
@@ -61,15 +62,18 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 		URI locationURI = creation.getLocationURI();
 		Job job = new Job("Import Getting Started Content") {
 			@Override
-			protected IStatus run(IProgressMonitor mon) {
+			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					model.performFinish(projectName, locationURI, mon);
+					model.performFinish(projectName, locationURI, monitor);
 					return Status.OK_STATUS;
 				} catch (Throwable e) {
-					// MessageDialog.openError(getShell(), "Error creating the
-					// project",
-					// String.format(ERROR_DIALOG, e.getClass().getName()));
 					e.printStackTrace();
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							MessageDialog.openError(getShell(), "Error creating the project",
+									String.format(ERROR_DIALOG, e.getMessage()));
+						}
+					});
 					return Status.CANCEL_STATUS;
 				}
 			}
