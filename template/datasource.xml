@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<datasource.xml>
+	<d n="POSTGRESQL" g="org.postgresql" a="postgresql" default="true" />
+</datasource.xml>
