@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <datasource>
-	<d n="POSTGRESQL" g="org.postgresql" a="postgresql" default="true" />
+	<d n="POSTGRESQL" g="org.postgresql" a="postgresql" default="true"/>
+	<d n="HSQL" g="org.hsqldb" a="hsqldb"/>
+	<d n="H2" g="com.h2database" a="h2"/>
 </datasource>
