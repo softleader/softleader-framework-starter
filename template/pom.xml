@@ -48,7 +48,7 @@
 
     <dependencies>
         <!-- softleader-framework -->
-		{dependencies}
+{dependencies}
 
         <!-- other libraries -->
         <dependency>

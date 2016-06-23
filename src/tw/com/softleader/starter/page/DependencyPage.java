@@ -64,7 +64,7 @@ public class DependencyPage extends WizardPage {
 			if (vrnNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element vrn = (Element) vrnNode;
 				String defaultSelect = vrn.getAttribute("default");
-				versions.add(new VersionRadio(vgroup, versions, vrn.getAttribute("sl"), vrn.getAttribute("io"),
+				versions.add(new VersionRadio(vgroup, vrn.getAttribute("sl"), vrn.getAttribute("io"),
 						defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
 			}
 		});
@@ -88,7 +88,7 @@ public class DependencyPage extends WizardPage {
 					if (dNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element d = (Element) dNode;
 						String dDefaultSelect = d.getAttribute("default");
-						dependencies.add(new DependencyRadio(m, dependencies, d.getAttribute("g"), d.getAttribute("a"),
+						dependencies.add(new DependencyRadio(m, d.getAttribute("g"), d.getAttribute("a"),
 								multiSelected != null && Boolean.parseBoolean(multiSelected),
 								dDefaultSelect != null && Boolean.parseBoolean(dDefaultSelect)));
 					}

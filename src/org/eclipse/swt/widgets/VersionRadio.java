@@ -1,10 +1,8 @@
 package org.eclipse.swt.widgets;
 
-import java.util.Collection;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 
 public class VersionRadio extends Button {
 
@@ -12,23 +10,17 @@ public class VersionRadio extends Button {
 	private final String ioPlatform;
 	private boolean selected;
 
-	public VersionRadio(Composite parent, Collection<VersionRadio> versions, String softleaderFramework,
-			String ioPlatform, boolean defaultSelected) {
+	public VersionRadio(Composite parent, String softleaderFramework, String ioPlatform, boolean defaultSelected) {
 		super(parent, SWT.RADIO);
 		setText(softleaderFramework);
 		setSelection(defaultSelected);
 		this.softleaderFramework = softleaderFramework;
 		this.ioPlatform = ioPlatform;
-		addSelectionListener(new SelectionListener() {
+		this.selected = defaultSelected;
+		addDisposeListener(new DisposeListener() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				versions.forEach(v -> v.selected = false);
-				selected = true;
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
+			public void widgetDisposed(DisposeEvent e) {
+				selected = getSelection();
 			}
 		});
 	}
@@ -44,4 +36,11 @@ public class VersionRadio extends Button {
 	public String getIoPlatform() {
 		return ioPlatform;
 	}
+
+	@Override
+	public String toString() {
+		return "VersionRadio [softleaderFramework=" + softleaderFramework + ", ioPlatform=" + ioPlatform + ", selected="
+				+ selected + "]";
+	}
+
 }

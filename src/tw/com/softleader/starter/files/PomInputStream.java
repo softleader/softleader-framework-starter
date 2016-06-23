@@ -1,6 +1,11 @@
 package tw.com.softleader.starter.files;
 
 import java.io.ByteArrayInputStream;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+import org.eclipse.swt.widgets.DependencyRadio;
+import org.eclipse.swt.widgets.VersionRadio;
 
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
@@ -18,7 +23,13 @@ public class PomInputStream extends ByteArrayInputStream {
 		source = source.replace("{artifactId}", projectDetails.getArtifact());
 		source = source.replace("{version}", projectDetails.getVersion());
 
-		// TODO: dependencies
+		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
+		source = source.replace("{slVersion}", version.getSoftleaderFramework());
+		source = source.replace("{ioVersion}", version.getIoPlatform());
+
+		String dependencyText = dependency.getDependencyGroups().values().stream().flatMap(Collection::stream)
+				.filter(DependencyRadio::isSelected).map(DependencyRadio::getPomText).collect(Collectors.joining("/n"));
+		source = source.replace("{dependencies}", dependencyText);
 
 		return source;
 	}
