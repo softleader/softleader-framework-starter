@@ -11,8 +11,3 @@ An eclipse plugin to build softleader-framework project easier and faster
 3. Copy jar into `${ECLIPSE_HOME}/../dropins` folder
 4. Restart your Eclipse
 5. Now you can new a SoftLeader Starter Project
- 
-## Known to-dos
-
-- [To convert to a maven porject](https://github.com/softleader/softleader-framework-starter/issues/1)
-- [To select dependencies in second page](https://github.com/softleader/softleader-framework-starter/issues/2)
