@@ -56,14 +56,42 @@ public class DependencyPage extends WizardPage {
 		Group vgroup = new Group(container, SWT.SHADOW_IN);
 		vgroup.setText("Version");
 		vgroup.setLayout(new RowLayout(SWT.VERTICAL));
-		NodeList vs = doc.getElementsByTagName("vs");
-		IntStream.range(0, vs.getLength()).forEach(i -> {
-			Node node = vs.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element ele = (Element) node;
-				String defaultSelect = ele.getAttribute("default");
-				versions.add(new VersionRadio(vgroup, versions, ele.getAttribute("n"), ele.getAttribute("n"),
+		NodeList vrns = doc.getElementsByTagName("vrns");
+		IntStream.range(0, vrns.getLength()).forEach(vrnsIdx -> {
+			Node vrnNode = vrns.item(vrnsIdx);
+			if (vrnNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element vrn = (Element) vrnNode;
+				String defaultSelect = vrn.getAttribute("default");
+				versions.add(new VersionRadio(vgroup, versions, vrn.getAttribute("n"), vrn.getAttribute("n"),
 						defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
+			}
+		});
+
+		NodeList modules = doc.getElementsByTagName("modules");
+		IntStream.range(0, modules.getLength()).forEach(modulesIdx -> {
+			Node moduleNode = modules.item(modulesIdx);
+			if (moduleNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element module = (Element) moduleNode;
+
+				Group m = new Group(container, SWT.SHADOW_IN);
+				m.setText(module.getAttribute("id"));
+				m.setLayout(new RowLayout(SWT.VERTICAL));
+				String multiSelected = module.getAttribute("multi");
+
+				Collection<DependencyRadio> dependencies = new ArrayList<>();
+				dependencyGroups.put(m.getText(), dependencies);
+
+				NodeList dList = module.getElementsByTagName("d");
+				IntStream.range(0, dList.getLength()).forEach(dIdx -> {
+					Node dNode = modules.item(dIdx);
+					if (moduleNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element d = (Element) dNode;
+						String ddefaultSelect = d.getAttribute("default");
+						dependencies.add(new DependencyRadio(m, dependencies, d.getAttribute("g"),
+								d.getAttribute("a"), multiSelected != null && Boolean.parseBoolean(multiSelected),
+								ddefaultSelect != null && Boolean.parseBoolean(ddefaultSelect)));
+					}
+				});
 			}
 		});
 

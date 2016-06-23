@@ -3,6 +3,8 @@ package org.eclipse.swt.widgets;
 import java.util.Collection;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 public class DependencyRadio extends Button {
 
@@ -11,17 +13,23 @@ public class DependencyRadio extends Button {
 	private boolean selected;
 
 	public DependencyRadio(Composite parent, Collection<DependencyRadio> dependencies, String groupId,
-			String artifactId, boolean multiSelected) {
+			String artifactId, boolean multiSelected, boolean defaultSelected) {
 		super(parent, multiSelected ? SWT.CHECK : SWT.RADIO);
 		setText(artifactId);
+		setSelection(defaultSelected);
 		this.groupId = groupId;
 		this.artifactId = artifactId;
-		addListener(SWT.Selection, new Listener() {
+		addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void handleEvent(Event event) {
+			public void widgetSelected(SelectionEvent e) {
 				dependencies.forEach(v -> v.selected = false);
 				selected = true;
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
 			}
 		});
 	}
