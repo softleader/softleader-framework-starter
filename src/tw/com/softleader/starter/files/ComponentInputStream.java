@@ -3,7 +3,6 @@ package tw.com.softleader.starter.files;
 import java.io.ByteArrayInputStream;
 
 import tw.com.softleader.starter.page.DependencyPage;
-import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class ComponentInputStream extends ByteArrayInputStream {
 
