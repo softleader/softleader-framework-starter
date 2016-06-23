@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +45,19 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 public class NewSoftLeaderProjectStarterModel {
 
 	public static final String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
-	public static final String DEPENDENCIES = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/dependencies.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private final List<F> files = new ArrayList<F>();
 
 	public NewSoftLeaderProjectStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency)
-			throws ParserConfigurationException, SAXException, IOException, URISyntaxException {
+			throws ParserConfigurationException, SAXException, IOException {
 		super();
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
+		getArchetype();
+	}
 
+	private void getArchetype() throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(ARCHETYPE);
