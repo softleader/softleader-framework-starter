@@ -26,7 +26,6 @@
 		<d g="tw.com.softleader" a="softleader-data-mybatis"/>
 	</module>
 	<module id="Integration" multi="true" l="v">
-		<d g="tw.com.softleader" a="softleader-integration" e="false"/>
 	</module>
 	<module id="Test" multi="true" l="v">
 		<d g="tw.com.softleader" a="softleader-test" s="test" default="true"/>
