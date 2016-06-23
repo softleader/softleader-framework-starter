@@ -46,4 +46,13 @@ public class DependencyRadio extends Button {
 		return artifactId;
 	}
 
+	public String getPomText() {
+		String text = "\t\t<dependency>\n";
+		text += "\t\t\t<groupId>" + getGroupId() + "</groupId>\n";
+		text += "\t\t\t<artifactId>" + getArtifactId() + "</artifactId>\n";
+		text += "\t\t\t<version>${softleader-framework.version}</version>\n";
+		text += "\t\t</dependency>\n";
+		return text;
+	}
+
 }

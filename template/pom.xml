@@ -12,8 +12,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <softleader-framework.version>1.1.0.SNAPSHOT</softleader-framework.version>
-        <spring.io.platform.version>2.0.3.RELEASE</spring.io.platform.version>
+        <softleader-framework.version>{slVersion}</softleader-framework.version>
+        <spring.io.platform.version>{ioVersion}</spring.io.platform.version>
         <source.code.version>1.8</source.code.version>
     </properties>
 
@@ -48,32 +48,7 @@
 
     <dependencies>
         <!-- softleader-framework -->
-        <dependency>
-            <groupId>tw.com.softleader</groupId>
-            <artifactId>softleader-data-jpa</artifactId>
-            <version>${softleader-framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>tw.com.softleader</groupId>
-            <artifactId>softleader-domain</artifactId>
-            <version>${softleader-framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>tw.com.softleader</groupId>
-            <artifactId>softleader-web-mvc</artifactId>
-            <version>${softleader-framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>tw.com.softleader</groupId>
-            <artifactId>softleader-security</artifactId>
-            <version>${softleader-framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>tw.com.softleader</groupId>
-            <artifactId>softleader-test</artifactId>
-            <version>${softleader-framework.version}</version>
-            <scope>test</scope>
-        </dependency>
+		{dependencies}
 
         <!-- other libraries -->
         <dependency>
