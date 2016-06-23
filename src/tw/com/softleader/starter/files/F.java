@@ -55,6 +55,10 @@ public class F {
 		return getName().endsWith(".java");
 	}
 
+	public boolean isComponent() {
+		return getName().endsWith(".component");
+	}
+
 	public boolean isPOM() {
 		return getName().endsWith("pom.xml");
 	}

@@ -7,7 +7,7 @@
     <version>{version}</version>
     <packaging>war</packaging>
 
-    <name>#{projectName}</name>
+    <name>{projectName}</name>
     <url>http://www.softleader.com.tw</url>
 
     <properties>

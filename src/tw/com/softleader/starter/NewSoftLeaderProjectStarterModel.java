@@ -36,6 +36,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import tw.com.softleader.starter.files.ComponentInputStream;
 import tw.com.softleader.starter.files.F;
 import tw.com.softleader.starter.files.JavaInputStream;
 import tw.com.softleader.starter.files.PomInputStream;
@@ -149,6 +150,9 @@ public class NewSoftLeaderProjectStarterModel {
 						file.create(new JavaInputStream(pkg, pj, content), true, monitor);
 					} else if (f.isPOM()) {
 						file.create(new PomInputStream(pj, projectDetails, dependency, content), true, monitor);
+					}
+					if (f.isComponent()) {
+						file.create(new ComponentInputStream(projectDetails, dependency, content), true, monitor);
 					} else {
 						file.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
 					}
