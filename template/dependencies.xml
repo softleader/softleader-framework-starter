@@ -17,7 +17,7 @@
 	<module id="Domain" multi="true" l="v">
 		<d g="tw.com.softleader" a="softleader-domain-rule"/>
 		<d g="tw.com.softleader" a="softleader-domain-formula"/>
-		<d g="tw.com.softleader" a="softleader-domain-bpm"/>
+		<d g="tw.com.softleader" a="softleader-domain-bpm" e="false"/>
 		<d g="tw.com.softleader" a="softleader-domain-scheduling"/>
 		<d g="tw.com.softleader" a="softleader-report-jasper"/>
 	</module>
