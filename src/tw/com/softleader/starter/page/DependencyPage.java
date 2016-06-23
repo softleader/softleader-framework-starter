@@ -1,14 +1,10 @@
 package tw.com.softleader.starter.page;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,8 +24,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import tw.com.softleader.starter.files.F;
 
 public class DependencyPage extends WizardPage {
 
@@ -67,10 +61,9 @@ public class DependencyPage extends WizardPage {
 			Node node = vs.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element ele = (Element) node;
-				System.out.println("=== " + ele.getAttribute("default"));
-				boolean defaultSelect = ele.getAttribute("default") != null;
+				String defaultSelect = ele.getAttribute("default");
 				versions.add(new VersionRadio(vgroup, versions, ele.getAttribute("n"), ele.getAttribute("n"),
-						defaultSelect));
+						defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
 			}
 		});
 

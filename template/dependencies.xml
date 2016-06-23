@@ -5,12 +5,12 @@
 		<v sl="1.0.0.RELEASE" io="1.1.3.RELEASE" />
 	</vs>
 	<ms>
-		<m id="Web">
+		<m id="Web" multi="false">
 			<d g="tw.com.softleader" a="softleader-web-mvc" default="true"/>
 			<d g="tw.com.softleader" a="softleader-security" default="true"/>
 			<d g="tw.com.softleader" a="softleader-resources"/>
 		</m>
-		<m id="Domain">
+		<m id="Domain" multi="true">
 			<d g="tw.com.softleader" a="softleader-domain" default="true"/>
 			<d g="tw.com.softleader" a="softleader-domain-rule"/>
 			<d g="tw.com.softleader" a="softleader-domain-formula"/>
@@ -18,11 +18,11 @@
 			<d g="tw.com.softleader" a="softleader-domain-scheduling"/>
 			<d g="tw.com.softleader" a="softleader-report-jasper"/>
 		</m>
-		<m id="Data" radio>
+		<m id="Data" multi="false">
 			<d g="tw.com.softleader" a="softleader-data-jpa" default="true"/>
 			<d g="tw.com.softleader" a="softleader-data-mybatis"/>
 		</m>
-		<m id="Test">
+		<m id="Test" multi="false">
 			<d g="tw.com.softleader" a="softleader-test" s="test" default="true"/>
 		</m>
 	</ms>
