@@ -45,7 +45,7 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class NewSoftLeaderProjectStarterModel {
 
-	public static String STARTER_URL = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/starter.xml";
+	public static String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private final List<F> files = new ArrayList<F>();
@@ -58,7 +58,7 @@ public class NewSoftLeaderProjectStarterModel {
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(STARTER_URL);
+		Document doc = dBuilder.parse(ARCHETYPE);
 		doc.getDocumentElement().normalize();
 		NodeList nodes = doc.getElementsByTagName("f");
 		IntStream.range(0, nodes.getLength()).forEach(i -> {

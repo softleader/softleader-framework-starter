@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<layout>
+<archetype>
 	<f n="" p=".settings" d="" u="" />
 	<f n="" p="src/main/java/{pkg}/config" d="" u="" />
 	<f n="" p="src/main/java/{pkg}/service" d="" u="" />
@@ -24,4 +24,4 @@
 	<f n="datasource.properties" p="src/main/resources" d="data" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.properties"/>
 	<f n="index.jsp" p="src/main/webapp/WEB-INF/pages" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/index.jsp"/>
 	<f n="login.jsp" p="src/main/webapp/WEB-INF/pages" d="web-mvc" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/login.jsp"/>
-</layout>
+</archetype>
