@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+
+import {pkg}.service.{pj}UserDetailsService;
 import tw.com.softleader.security.authentication.MoreDetailsBinder;
 import tw.com.softleader.security.authentication.MoreUserDetailsService;
 import tw.com.softleader.security.config.MoreWebSecurityConfiguration;
@@ -24,7 +26,7 @@ public class {pj}WebSecurityConfig extends MoreWebSecurityConfiguration {
   @Bean
   @Override
   public MoreUserDetailsService moreUserDetailsService() {
-    return new I519UserDetailsService();
+    return new {pj}UserDetailsService();
   }
 
 }

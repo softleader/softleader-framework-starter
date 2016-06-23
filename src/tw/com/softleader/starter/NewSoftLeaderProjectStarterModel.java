@@ -9,7 +9,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -26,6 +25,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,7 +47,7 @@ public class NewSoftLeaderProjectStarterModel {
 	public static String STARTER_URL = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/starter.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
-	private List<F> files = new ArrayList<F>();
+	private final List<F> files = new ArrayList<F>();
 
 	public NewSoftLeaderProjectStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency)
 			throws ParserConfigurationException, SAXException, IOException, URISyntaxException {
@@ -83,11 +83,12 @@ public class NewSoftLeaderProjectStarterModel {
 
 	public void performFinish(String projectName, URI locationURI, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException, CoreException {
-		monitor.beginTask("Importing SoftLeader Project", 3);
+		monitor.beginTask("Importing SoftLeader Project", 4);
 		try {
 			IProject project = createBaseProject(projectName, locationURI, new SubProgressMonitor(monitor, 1));
 			createMavenArchetype(project, new SubProgressMonitor(monitor, 1));
 			createFiles(projectName, project, new SubProgressMonitor(monitor, 1));
+			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 		} finally {
 			monitor.done();
 		}
@@ -109,16 +110,12 @@ public class NewSoftLeaderProjectStarterModel {
 
 				desc.setName(projectDetails.getArtifact());
 
-				desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.jsdt.core.javascriptValidator"),
-						command("org.eclipse.jdt.core.javabuilder"),
-						command("org.eclipse.wst.common.project.facet.core.builder"),
-						command("org.eclipse.m2e.core.maven2Builder"),
-						command("org.springframework.ide.eclipse.core.springbuilder") });
+				desc.setBuildSpec(new ICommand[] { command("org.eclipse.jdt.core.javabuilder"),
+						command("org.springframework.ide.eclipse.core.springbuilder"),
+						command("org.eclipse.m2e.core.maven2Builder") });
 
 				desc.setNatureIds(new String[] { "org.springframework.ide.eclipse.core.springnature",
-						"org.eclipse.jem.workbench.JavaEMFNature", "org.eclipse.wst.common.modulecore.ModuleCoreNature",
-						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
-						"org.eclipse.wst.common.project.facet.core.nature", "org.eclipse.wst.jsdt.core.jsNature" });
+						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature" });
 
 				project.create(desc, monitor);
 				project.open(monitor);
