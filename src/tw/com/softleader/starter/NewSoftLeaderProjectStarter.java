@@ -1,13 +1,18 @@
 package tw.com.softleader.starter;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.net.URI;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
@@ -38,12 +43,11 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 		projectDetails = new ProjectDetailsPage(TITLE);
 		projectDetails.setPreviousPage(creation);
 
-		try {
-			dependency = new DependencyPage(TITLE);
-			dependency.setPreviousPage(projectDetails);
+		dependency = new DependencyPage(TITLE);
+		dependency.setPreviousPage(projectDetails);
 
-			// model = new NewSoftLeaderProjectStarterModel(projectDetails,
-			// dependency);
+		try {
+			model = new NewSoftLeaderProjectStarterModel(projectDetails, dependency);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getMessage()));
@@ -53,40 +57,37 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		// String projectName = creation.getProjectName();
-		// URI locationURI = creation.getLocationURI();
-		// Job job = new Job("Import Getting Started Content") {
-		// @Override
-		// protected IStatus run(IProgressMonitor monitor) {
-		// try {
-		// model.performFinish(projectName, locationURI, monitor);
-		// return Status.OK_STATUS;
-		// } catch (Throwable e) {
-		// e.printStackTrace();
-		// Display.getDefault().syncExec(new Runnable() {
-		// public void run() {
-		// MessageDialog.openError(getShell(), "Error creating the project",
-		// String.format(ERROR_DIALOG, e.getMessage()));
-		// }
-		// });
-		// return Status.CANCEL_STATUS;
-		// }
-		// }
-		// };
-		// job.setPriority(Job.BUILD);
-		// job.setUser(true); // shows progress in default eclipse config
-		// job.schedule();
-		dependency.getVersions().forEach(v -> {
-			System.out.println(v.getSoftleaderFramework() + ": " + v.getIoPlatform() + "/ " + v.isSelected());
-		});
+		String projectName = creation.getProjectName();
+		URI locationURI = creation.getLocationURI();
+		Job job = new Job("Import Getting Started Content") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					model.performFinish(projectName, locationURI, monitor);
+					return Status.OK_STATUS;
+				} catch (Throwable e) {
+					e.printStackTrace();
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							MessageDialog.openError(getShell(), "Error creating the project",
+									String.format(ERROR_DIALOG, e.getMessage()));
+						}
+					});
+					return Status.CANCEL_STATUS;
+				}
+			}
+		};
+		job.setPriority(Job.BUILD);
+		job.setUser(true); // shows progress in default eclipse config
+		job.schedule();
 		return true;
 	}
 
 	@Override
 	public void addPages() {
 		super.addPages();
-		// addPage(creation);
-		// addPage(projectDetails);
+		addPage(creation);
+		addPage(projectDetails);
 		addPage(dependency);
 	}
 
