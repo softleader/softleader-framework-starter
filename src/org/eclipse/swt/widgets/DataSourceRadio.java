@@ -5,8 +5,8 @@ public class DataSourceRadio extends DependencyRadio {
 	private final String database;
 
 	public DataSourceRadio(Composite parent, String database, String groupId, String artifactId,
-			boolean defaultSelected) {
-		super(parent, groupId, artifactId, false, defaultSelected);
+			boolean defaultSelected, boolean enabled) {
+		super(parent, groupId, artifactId, false, defaultSelected, enabled);
 		this.database = database;
 	}
 

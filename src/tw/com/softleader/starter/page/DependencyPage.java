@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -64,7 +63,7 @@ public class DependencyPage extends WizardPage {
 				Element vrn = (Element) vrnNode;
 				String defaultSelect = vrn.getAttribute("default");
 				versions.add(new VersionRadio(vgroup, vrn.getAttribute("sl"), vrn.getAttribute("io"),
-						defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
+						!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect)));
 			}
 		});
 
@@ -75,7 +74,12 @@ public class DependencyPage extends WizardPage {
 				Element module = (Element) moduleNode;
 				Group m = new Group(parent, SWT.SHADOW_IN);
 				m.setText(module.getAttribute("id"));
-				m.setLayout(new RowLayout(SWT.VERTICAL));
+				String layout = module.getAttribute("l");
+				if (layout == null) {
+					m.setLayout(new RowLayout(SWT.VERTICAL));
+				} else {
+					m.setLayout(new RowLayout(layout.equals("v") ? SWT.VERTICAL : SWT.HORIZONTAL));
+				}
 				String multiSelected = module.getAttribute("multi");
 
 				Collection<DependencyRadio> dependencies = new ArrayList<>();
@@ -87,9 +91,11 @@ public class DependencyPage extends WizardPage {
 					if (dNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element d = (Element) dNode;
 						String dDefaultSelect = d.getAttribute("default");
+						String dEnabled = d.getAttribute("e");
 						dependencies.add(new DependencyRadio(m, d.getAttribute("g"), d.getAttribute("a"),
-								multiSelected != null && Boolean.parseBoolean(multiSelected),
-								dDefaultSelect != null && Boolean.parseBoolean(dDefaultSelect)));
+								!multiSelected.isEmpty() && Boolean.parseBoolean(multiSelected),
+								!dDefaultSelect.isEmpty() && Boolean.parseBoolean(dDefaultSelect),
+								dEnabled.isEmpty() || Boolean.parseBoolean(dEnabled)));
 					}
 				});
 			}

@@ -79,17 +79,19 @@ public class DatasourcePage extends WizardPage {
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element ele = (Element) node;
 					String defaultSelect = ele.getAttribute("default");
+					String enabled = ele.getAttribute("e");
 					datasources.add(new DataSourceRadio(group, ele.getAttribute("n"), ele.getAttribute("g"),
-							ele.getAttribute("a"), defaultSelect != null && Boolean.parseBoolean(defaultSelect)));
+							ele.getAttribute("a"), !defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
+							enabled.isEmpty() || Boolean.parseBoolean(enabled)));
 				}
 			});
 		} catch (Exception e) {
 			throw new Error(e);
 		}
-		driverClass = createText(composite, "DriverClass", "");
-		url = createText(composite, "Url", "");
-		username = createText(composite, "Username", "");
-		password = createText(composite, "Password", "");
+		driverClass = createText(composite, "DriverClass", "org.postgresql.Driver");
+		url = createText(composite, "Url", "jdbc:postgresql://softleader.com.tw:5432/i519Payment");
+		username = createText(composite, "Username", "postgres");
+		password = createText(composite, "Password", "sleader");
 
 		setControl(composite);
 		setPageComplete(false);

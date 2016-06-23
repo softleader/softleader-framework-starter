@@ -50,6 +50,13 @@
         <!-- softleader-framework -->
 {dependencies}
 {datasource}
+
+		<!-- others -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
     <build>

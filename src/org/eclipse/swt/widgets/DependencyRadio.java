@@ -11,10 +11,11 @@ public class DependencyRadio extends Button {
 	private boolean selected;
 
 	public DependencyRadio(Composite parent, String groupId, String artifactId, boolean multiSelected,
-			boolean defaultSelected) {
+			boolean defaultSelected, boolean enabled) {
 		super(parent, multiSelected ? SWT.CHECK : SWT.RADIO);
 		setText(artifactId);
 		setSelection(defaultSelected);
+		setEnabled(enabled);
 		this.groupId = groupId;
 		this.artifactId = artifactId;
 		this.selected = defaultSelected;
@@ -51,8 +52,8 @@ public class DependencyRadio extends Button {
 	public String getComponentText(String version) {
 		String text = "\t\t<dependent-module archiveName=\"" + getArtifactId() + "-" + version
 				+ ".jar\" deploy-path=\"/WEB-INF/lib\" handle=\"module:/resource/" + getArtifactId() + "/"
-				+ getArtifactId() + "\">";
-		text += "\t\t\t<dependency-type>uses</dependency-type>";
+				+ getArtifactId() + "\">\n";
+		text += "\t\t\t<dependency-type>uses</dependency-type>\n";
 		text += "\t\t</dependent-module>";
 		return text;
 	}

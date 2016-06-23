@@ -22,7 +22,7 @@ public class ComponentInputStream extends ByteArrayInputStream {
 		String dependentModule = dependency.getDependencyGroups().values().stream().flatMap(Collection::stream)
 				.filter(DependencyRadio::isSelected)
 				.map(select -> select.getComponentText(version.getSoftleaderFramework()))
-				.collect(Collectors.joining("/n"));
+				.collect(Collectors.joining("\n"));
 		source = source.replace("{dependent-module}", dependentModule);
 
 		return source;
