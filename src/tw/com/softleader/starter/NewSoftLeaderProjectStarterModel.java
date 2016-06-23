@@ -117,10 +117,11 @@ public class NewSoftLeaderProjectStarterModel {
 
 				desc.setName(projectDetails.getArtifact());
 
-				desc.setBuildSpec(new ICommand[] { command("org.eclipse.jdt.core.javabuilder"),
-						command("org.eclipse.m2e.core.maven2Builder") });
+				desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.common.project.facet.core.builder"),
+						command("org.eclipse.jdt.core.javabuilder"), command("org.eclipse.m2e.core.maven2Builder") });
 
-				desc.setNatureIds(new String[] { "org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
+				desc.setNatureIds(new String[] { "org.eclipse.wst.common.project.facet.core.nature",
+						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
 						"org.eclipse.wst.common.modulecore.ModuleCoreNature" });
 
 				project.create(desc, monitor);

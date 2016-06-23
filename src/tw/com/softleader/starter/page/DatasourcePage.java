@@ -88,10 +88,10 @@ public class DatasourcePage extends WizardPage {
 		} catch (Exception e) {
 			throw new Error(e);
 		}
-		driverClass = createText(composite, "DriverClass", "org.postgresql.Driver");
-		url = createText(composite, "Url", "jdbc:postgresql://softleader.com.tw:5432/i519Payment");
-		username = createText(composite, "Username", "postgres");
-		password = createText(composite, "Password", "sleader");
+		driverClass = createText(composite, "DriverClass", null);
+		url = createText(composite, "Url", null);
+		username = createText(composite, "Username", null);
+		password = createText(composite, "Password", null);
 
 		setControl(composite);
 		setPageComplete(false);
