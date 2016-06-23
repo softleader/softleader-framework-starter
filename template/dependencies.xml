@@ -2,19 +2,19 @@
 <dependencies>
 	<vrn sl="1.1.0.SNAPSHOT" io="2.0.3.RELEASE" default="true"/>
 	<vrn sl="1.0.0.RELEASE" io="1.1.3.RELEASE" />
-	<module id="Basic" multi="true">
-		<d g="tw.com.softleader" a="softleader-util" default="true" grayed="true"/>
-		<d g="tw.com.softleader" a="softleader-commons" default="true" grayed="true"/>
-		<d g="tw.com.softleader" a="softleader-web" default="true" grayed="true"/>
-		<d g="tw.com.softleader" a="softleader-domain" default="true" grayed="true"/>
-		<d g="tw.com.softleader" a="softleader-data" default="true" grayed="true"/>
+	<module id="Basic" multi="true" l="h">
+		<d g="tw.com.softleader" a="softleader-util" default="true" e="false"/>
+		<d g="tw.com.softleader" a="softleader-commons" default="true" e="false"/>
+		<d g="tw.com.softleader" a="softleader-web" default="true" e="false"/>
+		<d g="tw.com.softleader" a="softleader-domain" default="true" e="false"/>
+		<d g="tw.com.softleader" a="softleader-data" default="true" e="false"/>
 	</module>
-	<module id="Web" multi="true">
+	<module id="Web" multi="true" l="v">
 		<d g="tw.com.softleader" a="softleader-web-mvc" default="true"/>
 		<d g="tw.com.softleader" a="softleader-security" default="true"/>
 		<d g="tw.com.softleader" a="softleader-resources"/>
 	</module>
-	<module id="Domain" multi="true">
+	<module id="Domain" multi="true" l="v">
 		<d g="tw.com.softleader" a="softleader-domain" default="true"/>
 		<d g="tw.com.softleader" a="softleader-domain-rule"/>
 		<d g="tw.com.softleader" a="softleader-domain-formula"/>
@@ -22,11 +22,11 @@
 		<d g="tw.com.softleader" a="softleader-domain-scheduling"/>
 		<d g="tw.com.softleader" a="softleader-report-jasper"/>
 	</module>
-	<module id="Data" multi="false">
+	<module id="Data" multi="false" l="v">
 		<d g="tw.com.softleader" a="softleader-data-jpa" default="true"/>
 		<d g="tw.com.softleader" a="softleader-data-mybatis"/>
 	</module>
-	<module id="Test" multi="true">
+	<module id="Test" multi="true" l="v">
 		<d g="tw.com.softleader" a="softleader-test" s="test" default="true"/>
 	</module>
 </dependencies>
