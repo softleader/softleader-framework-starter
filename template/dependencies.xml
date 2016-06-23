@@ -15,7 +15,6 @@
 		<d g="tw.com.softleader" a="softleader-resources"/>
 	</module>
 	<module id="Domain" multi="true" l="v">
-		<d g="tw.com.softleader" a="softleader-domain" default="true"/>
 		<d g="tw.com.softleader" a="softleader-domain-rule"/>
 		<d g="tw.com.softleader" a="softleader-domain-formula"/>
 		<d g="tw.com.softleader" a="softleader-domain-bpm"/>
