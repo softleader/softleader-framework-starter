@@ -56,7 +56,7 @@ public class F {
 	}
 
 	public boolean isComponent() {
-		return getName().endsWith("data");
+		return getName().endsWith(".component");
 	}
 
 	public boolean isDatasource() {

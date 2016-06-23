@@ -14,4 +14,12 @@ public class DataSourceRadio extends DependencyRadio {
 		return database;
 	}
 
+	public String getPomText() {
+		String text = "\t\t<dependency>\n";
+		text += "\t\t\t<groupId>" + getGroupId() + "</groupId>\n";
+		text += "\t\t\t<artifactId>" + getArtifactId() + "</artifactId>\n";
+		text += "\t\t</dependency>";
+		return text;
+	}
+
 }

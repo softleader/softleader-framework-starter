@@ -31,7 +31,7 @@ public class PomInputStream extends ByteArrayInputStream {
 		source = source.replace("{ioVersion}", version.getIoPlatform());
 
 		String dependencyText = dependency.getDependencyGroups().values().stream().flatMap(Collection::stream)
-				.filter(DependencyRadio::isSelected).map(DependencyRadio::getPomText).collect(Collectors.joining("/n"));
+				.filter(DependencyRadio::isSelected).map(DependencyRadio::getPomText).collect(Collectors.joining("\n"));
 		source = source.replace("{dependencies}", dependencyText);
 
 		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst().get(); // 一定會有選擇
