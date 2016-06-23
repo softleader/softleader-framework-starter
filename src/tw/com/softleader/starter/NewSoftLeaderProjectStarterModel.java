@@ -85,7 +85,6 @@ public class NewSoftLeaderProjectStarterModel {
 		monitor.beginTask("Importing SoftLeader Project", 3);
 		try {
 			IProject project = createBaseProject(projectName, locationURI, new SubProgressMonitor(monitor, 1));
-			project.open(null);
 			createMavenArchetype(project, new SubProgressMonitor(monitor, 1));
 			createFiles(projectName, project, new SubProgressMonitor(monitor, 1));
 		} finally {
@@ -106,6 +105,8 @@ public class NewSoftLeaderProjectStarterModel {
 					projectLocation = null;
 				}
 				monitor.setTaskName(projectLocation.toString());
+				desc.setLocationURI(projectLocation);
+
 				desc.setName(projectDetails.getArtifact());
 
 				BuildCommand javascriptValidator = new BuildCommand();
@@ -131,8 +132,8 @@ public class NewSoftLeaderProjectStarterModel {
 						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
 						"org.eclipse.wst.common.project.facet.core.nature", "org.eclipse.wst.jsdt.core.jsNature" });
 
-				desc.setLocationURI(projectLocation);
-				project.create(desc, null);
+				project.create(desc, monitor);
+				project.open(monitor);
 			}
 			return project;
 		} finally {
@@ -147,24 +148,20 @@ public class NewSoftLeaderProjectStarterModel {
 			String pkgPath = projectDetails.getPkgPath();
 			String pj = projectName.substring(0, 1).toUpperCase() + projectName.substring(1);
 			files.stream().filter(F::isFile).forEach(f -> {
-				IProgressMonitor mon = new SubProgressMonitor(monitor, 1);
 				try {
 					String fullPath = f.getPath().replace("{pkg}", pkgPath).replace("{pj}", pj) + "/"
 							+ f.getName().replace("{pj}", pj);
-					mon.setTaskName(fullPath);
 					IFile file = project.getFile(fullPath);
 					String content = f.getContent().map(Supplier::get).orElse("");
 					if (f.isJava()) {
-						file.create(new JavaInputStream(pkg, pj, content), true, null);
+						file.create(new JavaInputStream(pkg, pj, content), true, monitor);
 					} else if (f.isPOM()) {
-						file.create(new PomInputStream(pj, projectDetails, dependency, content), true, null);
+						file.create(new PomInputStream(pj, projectDetails, dependency, content), true, monitor);
 					} else {
-						file.create(new ByteArrayInputStream(content.getBytes()), true, null);
+						file.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
 					}
 				} catch (Exception e) {
 					throw new Error("Error creating " + f, e);
-				} finally {
-					mon.done();
 				}
 			});
 		} finally {
@@ -177,16 +174,12 @@ public class NewSoftLeaderProjectStarterModel {
 		try {
 			String pkg = projectDetails.getPkgPath();
 			files.stream().filter(F::isFolder).forEach(f -> {
-				IProgressMonitor mon = new SubProgressMonitor(monitor, 1);
 				try {
 					String path = f.getPath().replace("{pkg}", pkg);
-					mon.setTaskName(path);
-					createFolder(project.getFolder(path));
+					createFolder(project.getFolder(path), monitor);
 					System.out.println("Folder [" + path + "] created");
 				} catch (Exception e) {
 					throw new Error("Error creating " + f, e);
-				} finally {
-					mon.done();
 				}
 			});
 		} finally {
@@ -194,13 +187,13 @@ public class NewSoftLeaderProjectStarterModel {
 		}
 	}
 
-	private void createFolder(IFolder folder) throws CoreException {
+	private void createFolder(IFolder folder, IProgressMonitor monitor) throws CoreException {
 		IContainer parent = folder.getParent();
 		if (parent instanceof IFolder) {
-			createFolder((IFolder) parent);
+			createFolder((IFolder) parent, new SubProgressMonitor(monitor, 1));
 		}
 		if (!folder.exists()) {
-			folder.create(false, true, null);
+			folder.create(false, true, monitor);
 		}
 	}
 
