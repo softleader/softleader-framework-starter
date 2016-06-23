@@ -16,10 +16,6 @@ public class ComponentInputStream extends ByteArrayInputStream {
 	}
 
 	private static String merge(String projectName, DependencyPage dependency, String source) {
-		// source = source.replaceAll("\\{pkg\\}", pkg).replaceAll("\\{pj\\}",
-		// pj);
-		// TODO
-
 		source = source.replaceAll("\\{pj\\}", projectName);
 
 		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
