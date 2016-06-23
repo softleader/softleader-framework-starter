@@ -95,7 +95,7 @@ public class NewSoftLeaderProjectStarterModel {
 	@SuppressWarnings("restriction")
 	private IProject createBaseProject(String projectName, URI location, IProgressMonitor monitor)
 			throws CoreException {
-		monitor.beginTask("Creating base project", 1);
+		monitor.beginTask("Creating base project", 2);
 		try {
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 			if (!project.exists()) {
