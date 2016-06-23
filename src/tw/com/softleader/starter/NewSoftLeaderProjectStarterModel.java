@@ -169,7 +169,7 @@ public class NewSoftLeaderProjectStarterModel {
 				try {
 					String path = f.getPath().replace("{pkg}", pkg);
 					createFolder(project.getFolder(path), monitor);
-					System.out.println("Folder [" + path + "] created");
+					// System.out.println("Folder [" + path + "] created");
 				} catch (Exception e) {
 					throw new Error("Error creating " + f, e);
 				}
