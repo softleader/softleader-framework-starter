@@ -8,10 +8,12 @@
 	<f n="" p="src/main/webapp/WEB-INF/pages" d="" u="" />
 	<f n="" p="src/test/java/{pkg}" d="" u="" />
 	<f n="" p="src/test/resources" d="" u="" />
+	<f n="org.eclipse.wst.common.component" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.wst.common.component"/>
 	<f n="org.eclipse.wst.common.project.facet.core.xml" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.wst.common.project.facet.core.xml"/>
 	<f n="org.eclipse.m2e.core.prefs" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.m2e.core.prefs"/>
 	<f n="org.eclipse.jdt.core.prefs" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.jdt.core.prefs"/>
 	<f n="org.eclipse.core.resources.prefs" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.core.resources.prefs"/>
+	<f n="org.eclipse.wst.validation.prefs" p=".settings/" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/org.eclipse.wst.validation.prefs"/>
 	<f n=".classpath" p="" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/classpath"/>
 	<f n="pom.xml" p="" d="" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/pom.xml"/>
 	<f n="{pj}SecurityWebApplicationInitializer.java" p="src/main/java/{pkg}/config" d="security" u="https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/SecurityWebApplicationInitializer.java"/>
