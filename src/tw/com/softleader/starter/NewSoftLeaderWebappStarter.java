@@ -2,7 +2,6 @@ package tw.com.softleader.starter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
