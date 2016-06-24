@@ -48,15 +48,14 @@ public class ProjectDetailsPage extends WizardPage {
 
 		@Override
 		public void handleEvent(Event event) {
-			setPageComplete(validateProjectDetails() && validateMavenDetails());
+			setPageComplete(validatePage());
 		}
 	};
 	private Listener nameModifyListener = new Listener() {
 		@Override
 		public void handleEvent(Event e) {
 			setLocationForSelection();
-			setPageComplete(validateProjectDetails() && validateMavenDetails());
-
+			setPageComplete(validatePage());
 		}
 	};
 
@@ -145,7 +144,7 @@ public class ProjectDetailsPage extends WizardPage {
 					setErrorMessage(errorMessage);
 				boolean valid = errorMessage == null;
 				if (valid) {
-					valid = validateMavenDetails() && validateProjectDetails();
+					valid = validatePage();
 				}
 
 				setPageComplete(valid);
@@ -249,6 +248,11 @@ public class ProjectDetailsPage extends WizardPage {
 		locationArea.updateProjectName(getProjectName());
 	}
 
+	protected boolean validatePage() {
+		locationURI = locationArea.getProjectLocationURI();
+		return validateProjectDetails() && validateMavenDetails();
+	}
+
 	protected boolean validateProjectDetails() {
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 
@@ -284,12 +288,6 @@ public class ProjectDetailsPage extends WizardPage {
 		setErrorMessage(null);
 		setMessage(null);
 		return true;
-	}
-
-	@Override
-	public void dispose() {
-		locationURI = locationArea.getProjectLocationURI();
-		super.dispose();
 	}
 
 }
