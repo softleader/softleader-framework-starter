@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -53,19 +54,29 @@ public class DependencyPage extends WizardPage {
 	}
 
 	void getDependencies(Composite parent, Document doc) {
-		Group vgroup = new Group(parent, SWT.SHADOW_IN);
-		vgroup.setText("Version");
-		vgroup.setLayout(new RowLayout(SWT.VERTICAL));
-		NodeList vrns = doc.getElementsByTagName("vrn");
-		IntStream.range(0, vrns.getLength()).forEach(vrnsIdx -> {
-			Node vrnNode = vrns.item(vrnsIdx);
-			if (vrnNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element vrn = (Element) vrnNode;
-				String defaultSelect = vrn.getAttribute("default");
-				versions.add(new VersionRadio(vgroup, vrn.getAttribute("sl"), vrn.getAttribute("io"),
-						!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect)));
+		Node vrnsNode = doc.getElementsByTagName("vrns").item(0);
+		if (vrnsNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element vrnsEle = (Element) vrnsNode;
+			Group vgroup = new Group(parent, SWT.SHADOW_IN);
+			vgroup.setText(vrnsEle.getAttribute("id"));
+			String layout = vrnsEle.getAttribute("l");
+			if (layout == null) {
+				vgroup.setLayout(new RowLayout(SWT.VERTICAL));
+			} else {
+				vgroup.setLayout(new RowLayout(layout.equals("v") ? SWT.VERTICAL : SWT.HORIZONTAL));
 			}
-		});
+			vgroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			NodeList vrns = vrnsEle.getElementsByTagName("vrn");
+			IntStream.range(0, vrns.getLength()).forEach(vrnsIdx -> {
+				Node vrnNode = vrns.item(vrnsIdx);
+				if (vrnNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element vrn = (Element) vrnNode;
+					String defaultSelect = vrn.getAttribute("default");
+					versions.add(new VersionRadio(vgroup, vrn.getAttribute("sl"), vrn.getAttribute("io"),
+							!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect)));
+				}
+			});
+		}
 
 		NodeList modules = doc.getElementsByTagName("module");
 		IntStream.range(0, modules.getLength()).forEach(modulesIdx -> {
@@ -73,6 +84,7 @@ public class DependencyPage extends WizardPage {
 			if (moduleNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element module = (Element) moduleNode;
 				Group m = new Group(parent, SWT.SHADOW_IN);
+				m.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 				m.setText(module.getAttribute("id"));
 				String layout = module.getAttribute("l");
 				if (layout == null) {
