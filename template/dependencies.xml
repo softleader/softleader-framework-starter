@@ -12,8 +12,8 @@
 		<d g="tw.com.softleader" a="softleader-data" default="true" e="false"/>
 	</module>
 	<module id="Web" multi="true" l="v">
-		<d g="tw.com.softleader" a="softleader-web-mvc" default="true"/>
-		<d g="tw.com.softleader" a="softleader-security" default="true"/>
+		<d g="tw.com.softleader" a="softleader-web-mvc" default="true" e="false"/>
+		<d g="tw.com.softleader" a="softleader-security" default="true" e="false"/>
 		<d g="tw.com.softleader" a="softleader-resources"/>
 	</module>
 	<module id="Domain" multi="true" l="v">
@@ -28,6 +28,6 @@
 		<d g="tw.com.softleader" a="softleader-data-mybatis"/>
 	</module>
 	<module id="Test" multi="true" l="v">
-		<d g="tw.com.softleader" a="softleader-test" s="test" default="true"/>
+		<d g="tw.com.softleader" a="softleader-test" s="test" default="true" e="false"/>
 	</module>
 </dependencies>
