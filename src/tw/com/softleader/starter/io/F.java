@@ -22,6 +22,10 @@ public class F {
 		return name;
 	}
 
+	public String getFullPath() {
+		return getPath() + "/" + getName();
+	}
+
 	public String getPath() {
 		return path;
 	}

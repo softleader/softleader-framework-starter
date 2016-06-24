@@ -32,6 +32,11 @@
 			<id>thirdparty</id>
 			<url>http://softleader.com.tw:8082/nexus/content/repositories/thirdparty</url>
 		</repository>
+		<!-- for domain-rule -->
+		<repository>
+			<id>jboss-ga-repository</id>
+			<url>http://softleader.com.tw:8082/nexus/content/repositories/jboss-ga-repository/</url>
+		</repository>
     </repositories>
 
     <dependencyManagement>

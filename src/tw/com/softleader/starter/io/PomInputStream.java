@@ -15,14 +15,14 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class PomInputStream extends ByteArrayInputStream {
 
-	public PomInputStream(String pj, ProjectDetailsPage projectDetails, DependencyPage dependency,
-			DatasourcePage datasource, String source) {
-		super(merge(pj, projectDetails, dependency, datasource, source).getBytes());
+	public PomInputStream(ProjectDetailsPage projectDetails, DependencyPage dependency, DatasourcePage datasource,
+			String source) {
+		super(merge(projectDetails, dependency, datasource, source).getBytes());
 	}
 
-	private static String merge(String pj, ProjectDetailsPage projectDetails, DependencyPage dependency,
-			DatasourcePage datasource, String source) {
-		source = source.replace("{projectName}", pj);
+	private static String merge(ProjectDetailsPage projectDetails, DependencyPage dependency, DatasourcePage datasource,
+			String source) {
+		source = source.replace("{projectName}", projectDetails.getProjectName());
 		source = source.replace("{groupId}", projectDetails.getGroup());
 		source = source.replace("{artifactId}", projectDetails.getArtifact());
 		source = source.replace("{version}", projectDetails.getVersion());

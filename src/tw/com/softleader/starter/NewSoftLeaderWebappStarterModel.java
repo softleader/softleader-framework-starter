@@ -143,18 +143,15 @@ public class NewSoftLeaderWebappStarterModel {
 	private void createFiles(IProject project, IProgressMonitor monitor) {
 		monitor.beginTask("Creating files", (int) files.stream().filter(F::isFile).count());
 		try {
-			String pkg = projectDetails.getPkg();
 			String pkgPath = projectDetails.getPkgPath();
 			files.stream().filter(F::isFile).forEach(f -> {
 				try {
-					String fullPath = f.getPath().replace("{pkg}", pkgPath) + "/" + f.getName();
-					IFile file = project.getFile(fullPath);
+					IFile file = project.getFile(f.getFullPath().replace("{pkg}", pkgPath));
 					String content = f.getContent().map(Supplier::get).orElse("");
 					if (f.isJava()) {
-						file.create(new JavaInputStream(pkg, content), true, monitor);
+						file.create(new JavaInputStream(projectDetails.getPkg(), content), true, monitor);
 					} else if (f.isPOM()) {
-						file.create(new PomInputStream(projectDetails.getProjectName(), projectDetails, dependency,
-								datasource, content), true, monitor);
+						file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, monitor);
 					} else if (f.isComponent()) {
 						file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content),
 								true, monitor);

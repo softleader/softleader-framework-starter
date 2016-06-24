@@ -224,6 +224,11 @@ public class ProjectDetailsPage extends WizardPage {
 		return pkg.getValue();
 	}
 
+	/**
+	 * 將 package 的 <code>'.'</code> 轉換成 <code>'/'</code>
+	 * 
+	 * @return
+	 */
 	public String getPkgPath() {
 		return getPkg().replace(".", "/");
 	}
