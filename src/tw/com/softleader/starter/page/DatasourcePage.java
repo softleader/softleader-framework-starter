@@ -47,10 +47,6 @@ public class DatasourcePage extends WizardPage {
 	public DatasourcePage(String title) {
 		super("Datasource Page");
 		setTitle(title);
-		setControl(driverClass);
-		setControl(url);
-		setControl(username);
-		setControl(password);
 	}
 
 	@Override

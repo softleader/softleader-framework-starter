@@ -44,7 +44,7 @@ import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 
-public class NewSoftLeaderProjectStarterModel {
+public class NewSoftLeaderWebappStarterModel {
 
 	public static final String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
 	private ProjectDetailsPage projectDetails;
@@ -52,7 +52,7 @@ public class NewSoftLeaderProjectStarterModel {
 	private DatasourcePage datasource;
 	private final List<F> files = new ArrayList<F>();
 
-	public NewSoftLeaderProjectStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
+	public NewSoftLeaderWebappStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
 			DatasourcePage datasource) throws ParserConfigurationException, SAXException, IOException {
 		super();
 		this.projectDetails = projectDetails;
@@ -88,28 +88,28 @@ public class NewSoftLeaderProjectStarterModel {
 		});
 	}
 
-	public void performFinish(String projectName, URI locationURI, IProgressMonitor monitor)
+	public void performFinish(IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException, CoreException {
 		monitor.beginTask("Importing SoftLeader Project", 4);
 		try {
-			IProject project = createBaseProject(projectName, locationURI, new SubProgressMonitor(monitor, 1));
+			IProject project = createBaseProject(new SubProgressMonitor(monitor, 1));
 			createMavenArchetype(project, new SubProgressMonitor(monitor, 1));
-			createFiles(projectName, project, new SubProgressMonitor(monitor, 1));
+			createFiles(project, new SubProgressMonitor(monitor, 1));
 			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 		} finally {
 			monitor.done();
 		}
 	}
 
-	private IProject createBaseProject(String projectName, URI location, IProgressMonitor monitor)
-			throws CoreException {
+	private IProject createBaseProject(IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask("Creating base project", 2);
 		try {
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			IProject project = projectDetails.getProjectHandle();
 			if (!project.exists()) {
-				URI projectLocation = location;
+				URI projectLocation = projectDetails.getLocationURI();
 				IProjectDescription desc = project.getWorkspace().newProjectDescription(project.getName());
-				if (location != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI().equals(location)) {
+				if (projectDetails.getLocationURI() != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI()
+						.equals(projectDetails.getLocationURI())) {
 					projectLocation = null;
 				}
 				monitor.setTaskName(projectLocation.toString());
@@ -140,12 +140,12 @@ public class NewSoftLeaderProjectStarterModel {
 		return command;
 	}
 
-	private void createFiles(String projectName, IProject project, IProgressMonitor monitor) {
+	private void createFiles(IProject project, IProgressMonitor monitor) {
 		monitor.beginTask("Creating files", (int) files.stream().filter(F::isFile).count());
 		try {
 			String pkg = projectDetails.getPkg();
 			String pkgPath = projectDetails.getPkgPath();
-			String pj = projectName.substring(0, 1).toUpperCase() + projectName.substring(1);
+			String pj = projectDetails.getProjectNameUpperCamel();
 			files.stream().filter(F::isFile).forEach(f -> {
 				try {
 					String fullPath = f.getPath().replace("{pkg}", pkgPath).replace("{pj}", pj) + "/"
@@ -158,7 +158,8 @@ public class NewSoftLeaderProjectStarterModel {
 						file.create(new PomInputStream(pj, projectDetails, dependency, datasource, content), true,
 								monitor);
 					} else if (f.isComponent()) {
-						file.create(new ComponentInputStream(projectName, dependency, content), true, monitor);
+						file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content),
+								true, monitor);
 					} else if (f.isDatasource()) {
 						file.create(new DatasourceInputStream(projectDetails, datasource, content), true, monitor);
 					} else {

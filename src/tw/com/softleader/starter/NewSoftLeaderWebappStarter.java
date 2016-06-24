@@ -18,24 +18,22 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.xml.sax.SAXException;
 
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 
-public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
+public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
 	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
-	private static final String TITLE = "New SoftLeader Project";
-	private WizardNewProjectCreationPage creation;
+	private static final String TITLE = "New SoftLeader Webapp";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
-	private NewSoftLeaderProjectStarterModel model;
+	private NewSoftLeaderWebappStarterModel model;
 
-	public NewSoftLeaderProjectStarter() throws MalformedURLException {
+	public NewSoftLeaderWebappStarter() throws MalformedURLException {
 		setDefaultPageImageDescriptor(
 				ImageDescriptor.createFromURL(new URL("https://avatars2.githubusercontent.com/u/18475967?v=3&s=40")));
 	}
@@ -44,20 +42,16 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// layout.forEach(System.out::println);
 
-		creation = new WizardNewProjectCreationPage("Project Location");
-		creation.setTitle(TITLE);
-
 		projectDetails = new ProjectDetailsPage(TITLE);
-		projectDetails.setPreviousPage(creation);
 
 		dependency = new DependencyPage(TITLE);
 		dependency.setPreviousPage(projectDetails);
-		
+
 		datasource = new DatasourcePage(TITLE);
 		datasource.setPreviousPage(dependency);
 
 		try {
-			model = new NewSoftLeaderProjectStarterModel(projectDetails, dependency, datasource);
+			model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getMessage()));
@@ -67,13 +61,11 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		String projectName = creation.getProjectName();
-		URI locationURI = creation.getLocationURI();
-		Job job = new Job("Import Getting Started Content") {
+		Job job = new Job("Import SoftLeader Webapp Content") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					model.performFinish(projectName, locationURI, monitor);
+					model.performFinish(monitor);
 					return Status.OK_STATUS;
 				} catch (Throwable e) {
 					e.printStackTrace();
@@ -96,7 +88,6 @@ public class NewSoftLeaderProjectStarter extends Wizard implements INewWizard {
 	@Override
 	public void addPages() {
 		super.addPages();
-		addPage(creation);
 		addPage(projectDetails);
 		addPage(dependency);
 		addPage(datasource);

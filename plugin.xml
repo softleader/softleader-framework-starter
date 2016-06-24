@@ -9,9 +9,9 @@
       </category>
       <wizard
             category="softleader-framework-starter.category"
-            class="tw.com.softleader.starter.NewSoftLeaderProjectStarter"
+            class="tw.com.softleader.starter.NewSoftLeaderWebappStarter"
             id="softleader-framework-starter.wizard"
-            name="SoftLeader Project Starter"
+            name="SoftLeader Webapp Project"
             project="true">
       </wizard>
    </extension>
