@@ -26,9 +26,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DatasourcePage extends WizardPage {
+public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage {
 
-	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 	private static final String DATASOURCE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.xml";
 	private Collection<DataSourceRadio> datasources = new ArrayList<>();
 	private InputText driverClass;
@@ -88,36 +87,15 @@ public class DatasourcePage extends WizardPage {
 		} catch (Exception e) {
 			throw new Error(e);
 		}
-		driverClass = createText(composite, "DriverClass", "");
-		url = createText(composite, "Url", "");
-		username = createText(composite, "Username", "");
-		password = createText(composite, "Password", "");
+		driverClass = createText(composite, "DriverClass", "", textModifyListener);
+		url = createText(composite, "Url", "", textModifyListener);
+		username = createText(composite, "Username", "", textModifyListener);
+		password = createText(composite, "Password", "", textModifyListener);
 
 		setControl(composite);
 		setPageComplete(false);
 		setMessage(null);
 		Dialog.applyDialogFont(composite);
-	}
-
-	private InputText createText(Composite parent, String labelText, String initialValue) {
-		Label label = new Label(parent, SWT.NONE);
-		label.setText(labelText);
-		label.setFont(parent.getFont());
-
-		InputText text = new InputText(parent, SWT.BORDER);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
-		text.setLayoutData(data);
-		text.setFont(parent.getFont());
-
-		// Set the initial value first before listener
-		// to avoid handling an event during the creation.
-		if (text != null) {
-			text.setText(initialValue);
-		}
-		text.addListener(SWT.Modify, textModifyListener);
-		BidiUtils.applyBidiProcessing(text, BidiUtils.BTD_DEFAULT);
-		return text;
 	}
 
 	private boolean validatePage() {

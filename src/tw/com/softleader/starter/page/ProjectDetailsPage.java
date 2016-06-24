@@ -26,9 +26,8 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea.IErrorMessageReporter;
 
-public class ProjectDetailsPage extends WizardPage {
+public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterPage {
 
-	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
 	private static final String DEFAULT_GROUP = "tw.com.softleader";
 	private static final String DEFAULT_ARTIFACT = "softleader-project";
 	private static final String DEFAULT_DESCRIPTION = "SoftLeader Project";
@@ -98,11 +97,11 @@ public class ProjectDetailsPage extends WizardPage {
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		group = createText(composite, "Group", DEFAULT_GROUP);
-		artifact = createText(composite, "Artifact", DEFAULT_ARTIFACT);
-		version = createText(composite, "Version", DEFAULT_VERSION);
-		desc = createText(composite, "Description", DEFAULT_DESCRIPTION);
-		pkg = createText(composite, "Package", DEFAULT_PACKAGE);
+		group = createText(composite, "Group", DEFAULT_GROUP, textModifyListener);
+		artifact = createText(composite, "Artifact", DEFAULT_ARTIFACT, textModifyListener);
+		version = createText(composite, "Version", DEFAULT_VERSION, textModifyListener);
+		desc = createText(composite, "Description", DEFAULT_DESCRIPTION, textModifyListener);
+		pkg = createText(composite, "Package", DEFAULT_PACKAGE, textModifyListener);
 
 		Dialog.applyDialogFont(composite);
 	}
@@ -150,27 +149,6 @@ public class ProjectDetailsPage extends WizardPage {
 				setPageComplete(valid);
 			}
 		};
-	}
-
-	private InputText createText(Composite parent, String labelText, String initialValue) {
-		Label label = new Label(parent, SWT.NONE);
-		label.setText(labelText);
-		label.setFont(parent.getFont());
-
-		InputText text = new InputText(parent, SWT.BORDER);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
-		text.setLayoutData(data);
-		text.setFont(parent.getFont());
-
-		// Set the initial value first before listener
-		// to avoid handling an event during the creation.
-		if (text != null) {
-			text.setText(initialValue);
-		}
-		text.addListener(SWT.Modify, textModifyListener);
-		BidiUtils.applyBidiProcessing(text, BidiUtils.BTD_DEFAULT);
-		return text;
 	}
 
 	private boolean validateMavenDetails() {

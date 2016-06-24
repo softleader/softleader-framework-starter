@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DependencyPage extends WizardPage {
+public class DependencyPage extends WizardPage implements SoftLeaderStarterPage {
 
 	private static final String DEPENDENCIES = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/dependencies.xml";
 	private Collection<VersionRadio> versions = new ArrayList<>();
@@ -59,6 +59,9 @@ public class DependencyPage extends WizardPage {
 			Element vrnsEle = (Element) vrnsNode;
 			Group vgroup = new Group(parent, SWT.SHADOW_IN);
 			vgroup.setText(vrnsEle.getAttribute("id"));
+			GridData data = new GridData(GridData.FILL_HORIZONTAL);
+			data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+			vgroup.setData(data);
 			String layout = vrnsEle.getAttribute("l");
 			if (layout == null) {
 				vgroup.setLayout(new RowLayout(SWT.VERTICAL));
@@ -84,7 +87,9 @@ public class DependencyPage extends WizardPage {
 			if (moduleNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element module = (Element) moduleNode;
 				Group m = new Group(parent, SWT.SHADOW_IN);
-				m.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				GridData data = new GridData(GridData.FILL_HORIZONTAL);
+				data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+				m.setLayoutData(data);
 				m.setText(module.getAttribute("id"));
 				String layout = module.getAttribute("l");
 				if (layout == null) {
