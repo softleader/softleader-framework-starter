@@ -145,18 +145,16 @@ public class NewSoftLeaderWebappStarterModel {
 		try {
 			String pkg = projectDetails.getPkg();
 			String pkgPath = projectDetails.getPkgPath();
-			String pj = projectDetails.getProjectNameUpperCamel();
 			files.stream().filter(F::isFile).forEach(f -> {
 				try {
-					String fullPath = f.getPath().replace("{pkg}", pkgPath).replace("{pj}", pj) + "/"
-							+ f.getName().replace("{pj}", pj);
+					String fullPath = f.getPath().replace("{pkg}", pkgPath) + "/" + f.getName();
 					IFile file = project.getFile(fullPath);
 					String content = f.getContent().map(Supplier::get).orElse("");
 					if (f.isJava()) {
-						file.create(new JavaInputStream(pkg, pj, content), true, monitor);
+						file.create(new JavaInputStream(pkg, content), true, monitor);
 					} else if (f.isPOM()) {
-						file.create(new PomInputStream(pj, projectDetails, dependency, datasource, content), true,
-								monitor);
+						file.create(new PomInputStream(projectDetails.getProjectName(), projectDetails, dependency,
+								datasource, content), true, monitor);
 					} else if (f.isComponent()) {
 						file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content),
 								true, monitor);

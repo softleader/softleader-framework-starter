@@ -12,7 +12,7 @@ import tw.com.softleader.security.config.MoreWebSecurityConfiguration;
 
 @Configuration
 @EnableWebSecurity
-public class {pj}WebSecurityConfig extends MoreWebSecurityConfiguration {
+public class WebSecurityConfig extends MoreWebSecurityConfiguration {
 
   @Bean
   @Override

@@ -12,7 +12,7 @@ import tw.com.softleader.security.authentication.MoreUserDetailsService;
 import tw.com.softleader.security.pojo.SimpleUserDetails;
 import tw.com.softleader.util.StringUtils;
 
-public class {pj}UserDetailsService implements MoreUserDetailsService {
+public class UserDetailsService implements MoreUserDetailsService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;

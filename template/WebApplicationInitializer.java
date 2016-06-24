@@ -5,12 +5,12 @@ import tw.com.softleader.data.config.DataSourceConfiguration;
 import tw.com.softleader.domain.config.DomainConfiguration;
 import tw.com.softleader.web.mvc.config.WebMvcConfiguration;
 
-public class {pj}WebApplicationInitializer
+public class WebApplicationInitializer
     extends AbstractAnnotationConfigDispatcherServletInitializer {
 
   @Override
   protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[] {DataSourceConfiguration.class, DomainConfiguration.class, {pj}WebSecurityConfig.class};
+    return new Class<?>[] {DataSourceConfiguration.class, DomainConfiguration.class, WebSecurityConfig.class};
   }
 
   @Override

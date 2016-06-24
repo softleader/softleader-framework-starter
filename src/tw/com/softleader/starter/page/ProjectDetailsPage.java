@@ -240,10 +240,6 @@ public class ProjectDetailsPage extends WizardPage {
 		return projectName.getValue();
 	}
 
-	public String getProjectNameUpperCamel() {
-		return getProjectName().substring(0, 1).toUpperCase() + getProjectName().substring(1);
-	}
-
 	void setLocationForSelection() {
 		locationArea.updateProjectName(getProjectName());
 	}
