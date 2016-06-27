@@ -1,5 +1,5 @@
 {
-	"baseUrl": "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template",
+	"baseUrl": "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources",
 	"projectDetails": "/projectDetails.json",
 	"dependency": "/dependencies.json",
 	"datasource": "/datasource.json"
