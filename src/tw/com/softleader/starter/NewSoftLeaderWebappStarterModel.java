@@ -1,20 +1,13 @@
 package tw.com.softleader.starter;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.internal.events.BuildCommand;
@@ -28,11 +21,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.eclipse.core.runtime.SubMonitor;
 import org.xml.sax.SAXException;
 
 import tw.com.softleader.starter.io.ComponentInputStream;
@@ -46,55 +35,58 @@ import tw.com.softleader.starter.page.ProjectDetailsPage;
 
 public class NewSoftLeaderWebappStarterModel {
 
-	public static final String ARCHETYPE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
+	// public static final String ARCHETYPE =
+	// "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
 	private final List<F> files = new ArrayList<F>();
 
 	public NewSoftLeaderWebappStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
-			DatasourcePage datasource) throws ParserConfigurationException, SAXException, IOException {
+			DatasourcePage datasource) {
 		super();
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
 		this.datasource = datasource;
-		getArchetype();
+		// getArchetype();
 	}
 
-	private void getArchetype() throws ParserConfigurationException, SAXException, IOException {
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(ARCHETYPE);
-		doc.getDocumentElement().normalize();
-		NodeList nodes = doc.getElementsByTagName("f");
-		IntStream.range(0, nodes.getLength()).forEach(i -> {
-			Node node = nodes.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element ele = (Element) node;
-				F f = new F(ele.getAttribute("n"), ele.getAttribute("p"), ele.getAttribute("d"));
-				String url = ele.getAttribute("u");
-				if (url != null && !url.isEmpty()) {
-					f.setContent(() -> {
-						try (BufferedReader buffer = new BufferedReader(
-								new InputStreamReader(new URL(url).openStream()))) {
-							return buffer.lines().collect(Collectors.joining("\n"));
-						} catch (Exception e) {
-							throw new Error(e);
-						}
-					});
-				}
-				files.add(f);
-			}
-		});
-	}
+	// private void getArchetype() throws ParserConfigurationException,
+	// SAXException, IOException {
+	// DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	// DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	// Document doc = dBuilder.parse(ARCHETYPE);
+	// doc.getDocumentElement().normalize();
+	// NodeList nodes = doc.getElementsByTagName("f");
+	// IntStream.range(0, nodes.getLength()).forEach(i -> {
+	// Node node = nodes.item(i);
+	// if (node.getNodeType() == Node.ELEMENT_NODE) {
+	// Element ele = (Element) node;
+	// F f = new F(ele.getAttribute("n"), ele.getAttribute("p"),
+	// ele.getAttribute("d"));
+	// String url = ele.getAttribute("u");
+	// if (url != null && !url.isEmpty()) {
+	// f.setContent(() -> {
+	// try (BufferedReader buffer = new BufferedReader(
+	// new InputStreamReader(new URL(url).openStream()))) {
+	// return buffer.lines().collect(Collectors.joining("\n"));
+	// } catch (Exception e) {
+	// throw new Error(e);
+	// }
+	// });
+	// }
+	// files.add(f);
+	// }
+	// });
+	// }
 
 	public void performFinish(IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException, CoreException {
 		monitor.beginTask("Importing SoftLeader Project", 4);
 		try {
-			IProject project = createBaseProject(new SubProgressMonitor(monitor, 1));
-			createMavenArchetype(project, new SubProgressMonitor(monitor, 1));
-			createFiles(project, new SubProgressMonitor(monitor, 1));
+			IProject project = createBaseProject(SubMonitor.convert(monitor, 1));
+			createMavenArchetype(project, SubMonitor.convert(monitor, 1));
+			createFiles(project, SubMonitor.convert(monitor, 1));
 			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 		} finally {
 			monitor.done();
@@ -190,7 +182,7 @@ public class NewSoftLeaderWebappStarterModel {
 	private void createFolder(IFolder folder, IProgressMonitor monitor) throws CoreException {
 		IContainer parent = folder.getParent();
 		if (parent instanceof IFolder) {
-			createFolder((IFolder) parent, new SubProgressMonitor(monitor, 1));
+			createFolder((IFolder) parent, SubMonitor.convert(monitor, 1));
 		}
 		if (!folder.exists()) {
 			folder.create(false, true, monitor);

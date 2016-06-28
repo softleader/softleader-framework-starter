@@ -26,13 +26,11 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea.IErrorMessageReporter;
 
+import tw.com.softleader.starter.pojo.Starter;
+
 public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterPage {
 
-	private static final String DEFAULT_GROUP = "tw.com.softleader";
-	private static final String DEFAULT_ARTIFACT = "softleader-project";
-	private static final String DEFAULT_DESCRIPTION = "SoftLeader Project";
-	private static final String DEFAULT_PACKAGE = "tw.com.softleader.";
-	private static final String DEFAULT_VERSION = "0.0.1-SNAPSHOT";
+	private final Starter starter;
 	private InputText projectName;
 	private InputText group;
 	private InputText artifact;
@@ -58,9 +56,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		}
 	};
 
-	public ProjectDetailsPage(String title) {
+	public ProjectDetailsPage(String title, Starter starter) {
 		super("Project details page");
 		setTitle(title);
+		this.starter = starter;
 	}
 
 	@Override
@@ -97,11 +96,11 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		group = createText(composite, "Group", DEFAULT_GROUP, textModifyListener);
-		artifact = createText(composite, "Artifact", DEFAULT_ARTIFACT, textModifyListener);
-		version = createText(composite, "Version", DEFAULT_VERSION, textModifyListener);
-		desc = createText(composite, "Description", DEFAULT_DESCRIPTION, textModifyListener);
-		pkg = createText(composite, "Package", DEFAULT_PACKAGE, textModifyListener);
+		group = createText(composite, "Group", starter.getProject().getGroup(), textModifyListener);
+		artifact = createText(composite, "Artifact", starter.getProject().getArtifact(), textModifyListener);
+		version = createText(composite, "Version", starter.getProject().getVersion(), textModifyListener);
+		desc = createText(composite, "Description", starter.getProject().getDesc(), textModifyListener);
+		pkg = createText(composite, "Package", starter.getProject().getPkg(), textModifyListener);
 
 		Dialog.applyDialogFont(composite);
 	}

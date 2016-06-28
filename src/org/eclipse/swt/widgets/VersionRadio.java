@@ -4,11 +4,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
+import tw.com.softleader.starter.pojo.Version;
+
 public class VersionRadio extends Button {
 
 	private final String softleaderFramework;
 	private final String ioPlatform;
 	private boolean selected;
+
+	public VersionRadio(Composite parent, Version version) {
+		this(parent, version.getSl(), version.getIo(), version.isDft());
+	}
 
 	public VersionRadio(Composite parent, String softleaderFramework, String ioPlatform, boolean defaultSelected) {
 		super(parent, SWT.RADIO);

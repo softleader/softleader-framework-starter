@@ -1,8 +1,10 @@
 package org.eclipse.swt.widgets;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+
+import tw.com.softleader.starter.pojo.Dependency;
+import tw.com.softleader.starter.pojo.Group.Style;
 
 public class DependencyRadio extends Button {
 
@@ -12,9 +14,14 @@ public class DependencyRadio extends Button {
 	private final String scope;
 	private boolean selected;
 
+	public DependencyRadio(Composite parent, Style style, Dependency dependency) {
+		this(parent, dependency.getArtifact(), dependency.getGroup(), dependency.getArtifact(), dependency.getVersion(),
+				dependency.getScope(), style.swt, dependency.isDft(), dependency.isEnabled());
+	}
+
 	public DependencyRadio(Composite parent, String text, String groupId, String artifactId, String version,
-			String scope, boolean multiSelected, boolean defaultSelected, boolean enabled) {
-		super(parent, multiSelected ? SWT.CHECK : SWT.RADIO);
+			String scope, int style, boolean defaultSelected, boolean enabled) {
+		super(parent, style);
 		setText(text);
 		setSelection(defaultSelected);
 		setEnabled(enabled);

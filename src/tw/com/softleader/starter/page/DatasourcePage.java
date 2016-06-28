@@ -2,13 +2,8 @@ package tw.com.softleader.starter.page;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.IntStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -21,19 +16,19 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
+import tw.com.softleader.starter.pojo.Starter;
 
 public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage {
 
-	private static final String DATASOURCE = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.xml";
+	// private static final String DATASOURCE =
+	// "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.xml";
 	private Collection<DataSourceRadio> datasources = new ArrayList<>();
 	private InputText driverClass;
 	private InputText url;
 	private InputText username;
 	private InputText password;
+	private Starter starter;
 
 	private Listener textModifyListener = new Listener() {
 
@@ -43,9 +38,10 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		}
 	};
 
-	public DatasourcePage(String title) {
+	public DatasourcePage(String title, Starter starter) {
 		super("Datasource Page");
 		setTitle(title);
+		this.starter = starter;
 	}
 
 	@Override
@@ -57,36 +53,45 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("Database");
+		label.setText(starter.getDatabase().getText());
 		label.setFont(parent.getFont());
 
-		try {
-			Group group = new Group(composite, SWT.SHADOW_IN);
-			group.setLayout(new RowLayout(SWT.VERTICAL));
+		// try {
+		//
+		// Group group = new Group(composite, SWT.SHADOW_IN);
+		// group.setLayout(new RowLayout(SWT.VERTICAL));
+		//
+		// DocumentBuilderFactory dbFactory =
+		// DocumentBuilderFactory.newInstance();
+		// DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		// Document doc = dBuilder.parse(DATASOURCE);
+		// doc.getDocumentElement().normalize();
+		// NodeList d = doc.getElementsByTagName("d");
+		// IntStream.range(0, d.getLength()).forEach(i -> {
+		// Node node = d.item(i);
+		// if (node.getNodeType() == Node.ELEMENT_NODE) {
+		// Element ele = (Element) node;
+		// String defaultSelect = ele.getAttribute("default");
+		// String version = ele.getAttribute("v");
+		// String enabled = ele.getAttribute("e");
+		// String name = ele.getAttribute("n");
+		// String grp = ele.getAttribute("g");
+		// String artifact = ele.getAttribute("a");
+		// datasources.add(new DataSourceRadio(group, name, grp, artifact,
+		// version,
+		// !defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
+		// enabled.isEmpty() || Boolean.parseBoolean(enabled)));
+		// }
+		// });
+		// } catch (Exception e) {
+		// throw new Error(e);
+		// }
 
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(DATASOURCE);
-			doc.getDocumentElement().normalize();
-			NodeList d = doc.getElementsByTagName("d");
-			IntStream.range(0, d.getLength()).forEach(i -> {
-				Node node = d.item(i);
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
-					Element ele = (Element) node;
-					String defaultSelect = ele.getAttribute("default");
-					String version = ele.getAttribute("v");
-					String enabled = ele.getAttribute("e");
-					String name = ele.getAttribute("n");
-					String grp = ele.getAttribute("g");
-					String artifact = ele.getAttribute("a");
-					datasources.add(new DataSourceRadio(group, name, grp, artifact, version,
-							!defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
-							enabled.isEmpty() || Boolean.parseBoolean(enabled)));
-				}
-			});
-		} catch (Exception e) {
-			throw new Error(e);
-		}
+		Group group = new Group(composite, SWT.SHADOW_IN);
+		group.setLayout(new RowLayout(starter.getDatabase().getLayout().swt));
+		starter.getDatabase().getData().stream().map(d -> new DataSourceRadio(group, d, () -> driverClass))
+				.forEach(datasources::add);
+
 		driverClass = createText(composite, "DriverClass", "", textModifyListener);
 		url = createText(composite, "Url", "", textModifyListener);
 		username = createText(composite, "Username", "", textModifyListener);

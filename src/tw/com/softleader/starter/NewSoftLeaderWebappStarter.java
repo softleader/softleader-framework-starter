@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -17,14 +15,15 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.xml.sax.SAXException;
 
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
+import tw.com.softleader.starter.pojo.Starter;
 
 public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
+	public static final String STARTER = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/starter.json";
 	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
 	private static final String TITLE = "New SoftLeader Webapp";
 	private ProjectDetailsPage projectDetails;
@@ -41,21 +40,24 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// layout.forEach(System.out::println);
 
-		projectDetails = new ProjectDetailsPage(TITLE);
-
-		dependency = new DependencyPage(TITLE);
-		dependency.setPreviousPage(projectDetails);
-
-		datasource = new DatasourcePage(TITLE);
-		datasource.setPreviousPage(dependency);
-
+		Starter starter;
 		try {
-			model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
-		} catch (ParserConfigurationException | SAXException | IOException e) {
+			starter = Starter.fromUrl(STARTER);
+		} catch (IOException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getMessage()));
 			throw new Error(e);
 		}
+
+		projectDetails = new ProjectDetailsPage(TITLE, starter);
+
+		dependency = new DependencyPage(TITLE, starter);
+		dependency.setPreviousPage(projectDetails);
+
+		datasource = new DatasourcePage(TITLE, starter);
+		datasource.setPreviousPage(dependency);
+
+		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
 	}
 
 	@Override
