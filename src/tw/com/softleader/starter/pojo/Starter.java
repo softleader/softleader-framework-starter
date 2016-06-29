@@ -7,7 +7,8 @@ import java.util.Collection;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.google.gson.GsonBuilder;
+
+import tw.com.softleader.starter.util.JSON;
 
 public class Starter {
 
@@ -24,7 +25,7 @@ public class Starter {
 
 	public static Starter fromUrl(URL url) throws IOException {
 		String json = Resources.toString(url, Charsets.UTF_8);
-		return new GsonBuilder().create().fromJson(json, Starter.class);
+		return JSON.from(json, Starter.class);
 	}
 
 	public static Starter fromUrl(String url) throws IOException {

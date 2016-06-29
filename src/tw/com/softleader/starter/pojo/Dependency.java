@@ -1,5 +1,7 @@
 package tw.com.softleader.starter.pojo;
 
+import java.util.Optional;
+
 public class Dependency {
 
 	private String group;
@@ -8,10 +10,10 @@ public class Dependency {
 	private String scope;
 	private boolean dft;
 	private boolean enabled = true;
-	private String exmaple;
+	private Snippet snippet;
 
 	public Dependency(String group, String artifact, String version, String scope, boolean dft, boolean enabled,
-			String exmaple) {
+			Snippet snippet) {
 		super();
 		this.group = group;
 		this.artifact = artifact;
@@ -19,7 +21,7 @@ public class Dependency {
 		this.scope = scope;
 		this.dft = dft;
 		this.enabled = enabled;
-		this.exmaple = exmaple;
+		this.snippet = snippet;
 	}
 
 	public Dependency() {
@@ -74,12 +76,12 @@ public class Dependency {
 		this.enabled = enabled;
 	}
 
-	public String getExmaple() {
-		return exmaple;
+	public Snippet getSnippet() {
+		return snippet;
 	}
 
-	public void setExmaple(String exmaple) {
-		this.exmaple = exmaple;
+	public void setSnippet(Snippet snippet) {
+		this.snippet = snippet;
 	}
 
 }

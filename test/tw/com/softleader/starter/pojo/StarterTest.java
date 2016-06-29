@@ -7,11 +7,10 @@ import java.util.Collection;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.gson.GsonBuilder;
-
 import tw.com.softleader.starter.NewSoftLeaderWebappStarter;
 import tw.com.softleader.starter.pojo.Group.Layout;
 import tw.com.softleader.starter.pojo.Group.Style;
+import tw.com.softleader.starter.util.JSON;
 
 public class StarterTest {
 
@@ -100,8 +99,7 @@ public class StarterTest {
 				.add(new Database("HSQL", "org.hsqldb", "hsqldb", null, "org.hsqldb.jdbcDriver", false, true));
 		database.getData().add(new Database("H2", "com.h2database", "h2", null, "org.h2.Driver", false, true));
 
-		String json = new GsonBuilder()// .setPrettyPrinting()
-				.create().toJson(starter);
+		String json = JSON.toString(starter);
 		System.out.println(json);
 	}
 
