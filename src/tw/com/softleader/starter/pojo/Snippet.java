@@ -7,7 +7,7 @@ public class Snippet {
 	private String zip;
 	private Collection<String> rootConfigs;
 	private Collection<String> servletConfigs;
-	private Collection<Source> sources;
+	private Collection<Src> srcs;
 
 	public String getZip() {
 		return zip;
@@ -33,12 +33,12 @@ public class Snippet {
 		this.servletConfigs = servletConfigs;
 	}
 
-	public Collection<Source> getSources() {
-		return sources;
+	public Collection<Src> getSrcs() {
+		return srcs;
 	}
 
-	public void setSources(Collection<Source> sources) {
-		this.sources = sources;
+	public void setSrcs(Collection<Src> srcs) {
+		this.srcs = srcs;
 	}
 
 }

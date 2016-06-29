@@ -1,7 +1,5 @@
 package tw.com.softleader.starter.pojo;
 
-import java.util.Optional;
-
 public class Dependency {
 
 	private String group;

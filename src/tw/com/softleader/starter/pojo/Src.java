@@ -1,16 +1,16 @@
 package tw.com.softleader.starter.pojo;
 
-public class Source {
+public class Src {
 
 	private String name;
 	private String path;
 	private String resource;
 
-	public Source() {
+	public Src() {
 		super();
 	}
 
-	public Source(String name, String path, String resource) {
+	public Src(String name, String path, String resource) {
 		super();
 		this.name = name;
 		this.path = path;
