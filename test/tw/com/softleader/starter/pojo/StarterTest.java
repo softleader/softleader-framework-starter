@@ -34,8 +34,8 @@ public class StarterTest {
 		versionGroup.setLayout(Layout.H);
 		Collection<Version> versions;
 		versionGroup.setData(versions = new ArrayList<>());
-		versions.add(new Version("1.1.0.SNAPSHOT", "2.0.3.RELEASE", true));
-		versions.add(new Version("1.0.0.SNAPSHOT", "1.1.3.RELEASE", false));
+		versions.add(new Version("1.1.0.SNAPSHOT", "2.0.3.RELEASE", true, true));
+		versions.add(new Version("1.0.0.RELEASE", "1.1.3.RELEASE", false, false));
 
 		Collection<Group<Dependency>> modules;
 		starter.setModules(modules = new ArrayList<>());

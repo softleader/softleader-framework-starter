@@ -13,16 +13,13 @@ public class VersionRadio extends Button {
 	private boolean selected;
 
 	public VersionRadio(Composite parent, Version version) {
-		this(parent, version.getSl(), version.getIo(), version.isDft());
-	}
-
-	public VersionRadio(Composite parent, String softleaderFramework, String ioPlatform, boolean defaultSelected) {
 		super(parent, SWT.RADIO);
-		setText(softleaderFramework);
-		setSelection(defaultSelected);
-		this.softleaderFramework = softleaderFramework;
-		this.ioPlatform = ioPlatform;
-		this.selected = defaultSelected;
+		setText(version.getSl());
+		setSelection(version.isDft());
+		setEnabled(version.isEnabled());
+		this.softleaderFramework = version.getSl();
+		this.ioPlatform = version.getIo();
+		this.selected = version.isDft();
 		addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
