@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbench;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
+import tw.com.softleader.starter.page.SiteInfoPage;
 import tw.com.softleader.starter.pojo.Starter;
 
 public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
@@ -29,6 +30,7 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
+	private SiteInfoPage siteInfo;
 	private NewSoftLeaderWebappStarterModel model;
 
 	public NewSoftLeaderWebappStarter() throws MalformedURLException {
@@ -57,7 +59,10 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		datasource = new DatasourcePage(TITLE, starter);
 		datasource.setPreviousPage(dependency);
 
-		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
+		siteInfo = new SiteInfoPage(TITLE, starter);
+		siteInfo.setPreviousPage(datasource);
+
+		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource, siteInfo);
 	}
 
 	@Override
@@ -92,6 +97,7 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		addPage(projectDetails);
 		addPage(dependency);
 		addPage(datasource);
+		addPage(siteInfo);
 	}
 
 }

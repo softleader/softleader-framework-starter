@@ -38,7 +38,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	private InputText version;
 	private InputText desc;
 	private InputText pkg;
-	private InputText baseUrl;
 	private URI locationURI;
 	private ProjectContentsLocationArea locationArea;
 	private WorkingSetGroup workingSetGroup;
@@ -70,7 +69,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		createSiteInfo(composite);
 		createProjectDetails(composite);
 		createMavenDetails(composite);
 		setPageComplete(false);
@@ -91,17 +89,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 
 		// Scale the button based on the rest of the dialog
 		setButtonLayoutData(locationArea.getBrowseButton());
-	}
-
-	private void createSiteInfo(Composite parent) {
-		Group composite = new Group(parent, SWT.SHADOW_IN);
-		composite.setText("Site Info");
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		composite.setData(data);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		composite.setLayout(layout);
-		baseUrl = createText(composite, "Base Url", starter.getBaseUrl(), (int) (TEXT_WIDTH * 1.2), textModifyListener);
 	}
 
 	private void createMavenDetails(Composite parent) {
@@ -140,6 +127,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		data.widthHint = TEXT_WIDTH;
 		projectName.setLayoutData(data);
 		projectName.setFont(parent.getFont());
+		projectName.setSelection(0);
 
 		// Set the initial value first before listener
 		// to avoid handling an event during the creation.
@@ -190,17 +178,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		}
 		if (getPkg().endsWith(".")) {
 			setMessage("Package must not end with '.'");
-			return false;
-		}
-
-		setMessage(null);
-		return true;
-	}
-
-	private boolean validateSiteInfo() {
-		setErrorMessage(null);
-		if (getBaseUrl().isEmpty()) {
-			setMessage("BaseUrl is required");
 			return false;
 		}
 
@@ -262,7 +239,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 
 		String projectFieldContents = getProjectName();
-		if (projectFieldContents.equals("")) { //$NON-NLS-1$
+		if (projectFieldContents == null || projectFieldContents.equals("")) { //$NON-NLS-1$
 			setErrorMessage(null);
 			setMessage(IDEWorkbenchMessages.WizardNewProjectCreationPage_projectNameEmpty);
 			return false;
@@ -293,10 +270,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setErrorMessage(null);
 		setMessage(null);
 		return true;
-	}
-
-	public String getBaseUrl() {
-		return baseUrl.getValue();
 	}
 
 }

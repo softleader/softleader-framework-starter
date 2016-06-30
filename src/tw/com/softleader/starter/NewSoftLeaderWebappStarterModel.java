@@ -30,6 +30,7 @@ import tw.com.softleader.starter.io.PomInputStream;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
+import tw.com.softleader.starter.page.SiteInfoPage;
 import tw.com.softleader.starter.pojo.Snippet;
 import tw.com.softleader.starter.pojo.Source;
 
@@ -38,13 +39,15 @@ public class NewSoftLeaderWebappStarterModel {
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
+	private SiteInfoPage siteInfo;
 
 	public NewSoftLeaderWebappStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
-			DatasourcePage datasource) {
+			DatasourcePage datasource, SiteInfoPage siteInfo) {
 		super();
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
 		this.datasource = datasource;
+		this.siteInfo = siteInfo;
 	}
 
 	public void performFinish(IProgressMonitor monitor)
@@ -100,10 +103,10 @@ public class NewSoftLeaderWebappStarterModel {
 		subMonitor.setTaskName("Importing snippet");
 		selecteds.stream().forEach(selected -> {
 			try {
-				String snippetUrl = projectDetails.getBaseUrl() + "/" + selected.getSnippet();
-				subMonitor.subTask("Downloading '" + snippetUrl + "'");
+				String snippetUrl = siteInfo.getBaseUrl() + "/" + selected.getSnippet();
+				subMonitor.subTask("Downloading " + snippetUrl);
 				Snippet snippet = Snippet.load(snippetUrl);
-				subMonitor.subTask("Loading '" + selected.getSnippet() + "'");
+				subMonitor.subTask("Loading " + selected.getSnippet());
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
 						snippet.getFolders().size() + snippet.getSources().size());
 				createFolders(project, snippet.getFolders(), snippetMonitor);
