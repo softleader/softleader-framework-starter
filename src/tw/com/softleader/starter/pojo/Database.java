@@ -9,13 +9,14 @@ public class Database {
 	private String driver;
 	private boolean dft;
 	private boolean enabled;
+	private String urlHint;
 
 	public Database() {
 		super();
 	}
 
 	public Database(String name, String group, String artifact, String version, String driver, boolean dft,
-			boolean enabled) {
+			boolean enabled, String urlHint) {
 		super();
 		this.name = name;
 		this.group = group;
@@ -24,6 +25,7 @@ public class Database {
 		this.driver = driver;
 		this.dft = dft;
 		this.enabled = enabled;
+		this.urlHint = urlHint;
 	}
 
 	public String getName() {
@@ -82,4 +84,17 @@ public class Database {
 		this.enabled = enabled;
 	}
 
+	public String getUrlHint() {
+		return urlHint;
+	}
+
+	public void setUrlHint(String urlHint) {
+		this.urlHint = urlHint;
+	}
+
+	@Override
+	public String toString() {
+		return "Database [name=" + name + ", group=" + group + ", artifact=" + artifact + ", version=" + version
+				+ ", driver=" + driver + ", dft=" + dft + ", enabled=" + enabled + ", urlHint=" + urlHint + "]";
+	}
 }

@@ -94,19 +94,23 @@ public class StarterTest {
 		database.setLayout(Layout.V);
 		database.setStyle(Style.RADIO);
 		database.setData(new ArrayList<>());
-		database.getData().add(
-				new Database("PostgreSQL", "org.postgresql", "postgresql", null, "org.postgresql.Driver", true, true));
-		database.getData().add(
-				new Database("MySQL", "mysql", "mysql-connector-java", null, "com.mysql.jdbc.Driver", false, true));
+		database.getData().add(new Database("PostgreSQL", "org.postgresql", "postgresql", null, "org.postgresql.Driver",
+				true, true, "jdbc:postgresql:[<//host>[:<5432>/]]<database>"));
+		database.getData().add(new Database("MySQL", "mysql", "mysql-connector-java", null, "com.mysql.jdbc.Driver",
+				false, true,
+				"jdbc:mysql://<hostname>[,<failoverhost>][<:3306>]/<dbname>[?<param1>=<value1>][&<param2>=<value2>]"));
 		database.getData().add(new Database("Oracle ojdbc6", "com.oracle", "ojdbc6", "11.2.0.1.0",
-				"oracle.jdbc.driver.OracleDriver", false, true));
+				"oracle.jdbc.driver.OracleDriver", false, true, "jdbc:oracle:thin:@<server>[:<1521>]:<database_name>"));
 		database.getData().add(new Database("Oracle ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
-				"oracle.jdbc.driver.OracleDriver", false, true));
-		database.getData().add(new Database("Microsoft sqljdbc4", "com.microsoft.sqlserver", "sqljdbc4", "4.0",
-				"org.hsqldb.jdbcDriver", false, true));
+				"oracle.jdbc.driver.OracleDriver", false, true, "jdbc:oracle:thin:@<server>[:<1521>]:<database_name>"));
 		database.getData()
-				.add(new Database("HSQL", "org.hsqldb", "hsqldb", null, "org.hsqldb.jdbcDriver", false, true));
-		database.getData().add(new Database("H2", "com.h2database", "h2", null, "org.h2.Driver", false, true));
+				.add(new Database("Microsoft sqljdbc4", "com.microsoft.sqlserver", "sqljdbc4", "4.0",
+						"com.microsoft.sqlserver.jdbc.SQLServerDriver", false, true,
+						"jdbc:sqlserver://<server_name>:1433;databaseName=<db_name>"));
+		database.getData().add(new Database("HSQL", "org.hsqldb", "hsqldb", null, "org.hsqldb.jdbcDriver", false, true,
+				"jdbc:hsqldb:hsql://<server>[:<1476>]"));
+		database.getData().add(new Database("H2", "com.h2database", "h2", null, "org.h2.Driver", false, true,
+				"jdbc:h2://<server>:<9092>/<db-name>"));
 
 		String json = JSON.toString(starter);
 		System.out.println(json);
@@ -121,6 +125,7 @@ public class StarterTest {
 		Assert.assertNotNull(starter.getVersions());
 		Assert.assertNotNull(starter.getModules());
 		Assert.assertNotNull(starter.getProject());
+		starter.getDatabase().getData().forEach(System.out::println);
 	}
 
 	@Test
