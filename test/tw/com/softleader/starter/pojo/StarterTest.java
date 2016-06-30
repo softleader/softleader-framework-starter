@@ -99,9 +99,9 @@ public class StarterTest {
 		database.getData().add(new Database("MySQL", "mysql", "mysql-connector-java", null, "com.mysql.jdbc.Driver",
 				false, true,
 				"jdbc:mysql://<hostname>[,<failoverhost>][<:3306>]/<dbname>[?<param1>=<value1>][&<param2>=<value2>]"));
-		database.getData().add(new Database("Oracle ojdbc6", "com.oracle", "ojdbc6", "11.2.0.1.0",
+		database.getData().add(new Database("Oracle Thin ojdbc6", "com.oracle", "ojdbc6", "11.2.0.1.0",
 				"oracle.jdbc.driver.OracleDriver", false, true, "jdbc:oracle:thin:@<server>[:<1521>]:<database_name>"));
-		database.getData().add(new Database("Oracle ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
+		database.getData().add(new Database("Oracle Thin ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
 				"oracle.jdbc.driver.OracleDriver", false, true, "jdbc:oracle:thin:@<server>[:<1521>]:<database_name>"));
 		database.getData()
 				.add(new Database("Microsoft sqljdbc4", "com.microsoft.sqlserver", "sqljdbc4", "4.0",

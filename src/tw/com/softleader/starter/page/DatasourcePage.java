@@ -23,11 +23,10 @@ import tw.com.softleader.starter.pojo.Starter;
 
 public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage {
 
-	// private static final String DATASOURCE =
-	// "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/datasource.xml";
 	private Collection<DataSourceRadio> datasources = new ArrayList<>();
 	private InputText driverClass;
 	private InputText url;
+	private Label urlHint;
 	private InputText username;
 	private InputText password;
 	private Starter starter;
@@ -60,13 +59,15 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 
 		Group group = new Group(composite, SWT.SHADOW_IN);
 		group.setLayout(new RowLayout(starter.getDatabase().getLayout().swt));
-		starter.getDatabase().getData().stream().map(d -> new DataSourceRadio(group, d, () -> driverClass))
+		starter.getDatabase().getData().stream().map(d -> new DataSourceRadio(group, d, () -> this))
 				.forEach(datasources::add);
 
-		Optional<String> defaultDriver = starter.getDatabase().getData().stream().filter(Database::isDft).findFirst()
-				.map(Database::getDriver);
-		driverClass = createText(composite, "Driver Class", defaultDriver.orElse(""), TEXT_WIDTH, textModifyListener);
+		Optional<Database> defaultDatabase = starter.getDatabase().getData().stream().filter(Database::isDft)
+				.findFirst();
+		driverClass = createText(composite, "Driver Class", defaultDatabase.map(Database::getDriver).orElse(""),
+				TEXT_WIDTH, textModifyListener);
 		url = createText(composite, "Url", "", TEXT_WIDTH, textModifyListener);
+		urlHint = createUrlHint(composite, defaultDatabase.map(Database::getUrlHint).orElse(""));
 		username = createText(composite, "Username", "", TEXT_WIDTH, textModifyListener);
 		password = createText(composite, "Password", "", TEXT_WIDTH, textModifyListener);
 
@@ -76,21 +77,31 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		Dialog.applyDialogFont(composite);
 	}
 
+	private Label createUrlHint(Composite parent, String initialValue) {
+		Label urlLabel = new Label(parent, SWT.NONE);
+		urlLabel.setText("");
+		Label urlHint = new Label(parent, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = TEXT_WIDTH;
+		urlHint.setLayoutData(data);
+		return urlHint;
+	}
+
 	private boolean validatePage() {
 		setErrorMessage(null);
-		if (getDriverClass().isEmpty()) {
+		if (getDriverClass().getValue().isEmpty()) {
 			setMessage("DriverClass is required");
 			return false;
 		}
-		if (getUrl().isEmpty()) {
+		if (getUrl().getValue().isEmpty()) {
 			setMessage("Url is required");
 			return false;
 		}
-		if (getPassword().isEmpty()) {
+		if (getPassword().getValue().isEmpty()) {
 			setMessage("Password is required");
 			return false;
 		}
-		if (getUsername().isEmpty()) {
+		if (getUsername().getValue().isEmpty()) {
 			setMessage("Username is required");
 			return false;
 		}
@@ -102,20 +113,28 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		return datasources;
 	}
 
-	public String getDriverClass() {
-		return driverClass.getValue();
+	public InputText getDriverClass() {
+		return driverClass;
 	}
 
-	public String getUrl() {
-		return url.getValue();
+	public void setDriverClass(InputText driverClass) {
+		this.driverClass = driverClass;
 	}
 
-	public String getPassword() {
-		return password.getValue();
+	public InputText getUrl() {
+		return url;
 	}
 
-	public String getUsername() {
-		return username.getValue();
+	public Label getUrlHint() {
+		return urlHint;
+	}
+
+	public InputText getUsername() {
+		return username;
+	}
+
+	public InputText getPassword() {
+		return password;
 	}
 
 }

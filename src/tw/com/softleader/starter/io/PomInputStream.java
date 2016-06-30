@@ -22,10 +22,10 @@ public class PomInputStream extends ByteArrayInputStream {
 
 	private static String merge(ProjectDetailsPage projectDetails, DependencyPage dependency, DatasourcePage datasource,
 			String source) {
-		source = source.replace("{projectName}", projectDetails.getProjectName());
-		source = source.replace("{groupId}", projectDetails.getGroup());
-		source = source.replace("{artifactId}", projectDetails.getArtifact());
-		source = source.replace("{version}", projectDetails.getVersion());
+		source = source.replace("{projectName}", projectDetails.getProjectName().getValue());
+		source = source.replace("{groupId}", projectDetails.getGroup().getValue());
+		source = source.replace("{artifactId}", projectDetails.getArtifact().getValue());
+		source = source.replace("{version}", projectDetails.getVersion().getValue());
 
 		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
 		source = source.replace("{slVersion}", version.getSoftleaderFramework());

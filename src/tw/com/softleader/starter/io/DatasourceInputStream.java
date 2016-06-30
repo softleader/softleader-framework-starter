@@ -14,15 +14,14 @@ public class DatasourceInputStream extends ByteArrayInputStream {
 	}
 
 	private static String merge(ProjectDetailsPage projectDetails, DatasourcePage datasource, String source) {
-		source = source.replace("{pkg}", projectDetails.getPkg());
+		source = source.replace("{pkg}", projectDetails.getPkg().getValue());
 
-		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst()
-				.get();
+		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst().get();
 		source = source.replace("{database}", ds.getDatabase().toUpperCase());
-		source = source.replace("{driverClass}", datasource.getDriverClass());
-		source = source.replace("{url}", datasource.getUrl());
-		source = source.replace("{username}", datasource.getUsername());
-		source = source.replace("{password}", datasource.getPassword());
+		source = source.replace("{driverClass}", datasource.getDriverClass().getValue());
+		source = source.replace("{url}", datasource.getUrl().getValue());
+		source = source.replace("{username}", datasource.getUsername().getValue());
+		source = source.replace("{password}", datasource.getPassword().getValue());
 
 		return source;
 	}

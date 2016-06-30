@@ -38,7 +38,9 @@ public class JSON {
 	private static Gson gson() {
 		BooleanAdapter booleanAdapter = new BooleanAdapter();
 		return new GsonBuilder().registerTypeAdapter(Boolean.class, booleanAdapter)
-				.registerTypeAdapter(boolean.class, booleanAdapter).setPrettyPrinting().create();
+				.registerTypeAdapter(boolean.class, booleanAdapter)
+				// .setPrettyPrinting()
+				.create();
 	}
 
 	public static <T> T from(String json, Class<T> classOfT) throws JsonSyntaxException {

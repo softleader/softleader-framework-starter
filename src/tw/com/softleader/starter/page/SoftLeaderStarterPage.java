@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public interface SoftLeaderStarterPage {
 
-	public static final int TEXT_WIDTH = 500;
+	public static final int TEXT_WIDTH = 600;
 
 	default InputText createText(Composite parent, String labelText, String initialValue, int witdh,
 			Listener modifyListener) {

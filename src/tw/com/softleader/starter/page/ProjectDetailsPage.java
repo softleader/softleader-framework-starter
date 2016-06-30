@@ -15,7 +15,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -156,27 +155,27 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 
 	private boolean validateMavenDetails() {
 		setErrorMessage(null);
-		if (getGroup().isEmpty()) {
+		if (getGroup().getValue().isEmpty()) {
 			setMessage("Group is required");
 			return false;
 		}
-		if (getArtifact().isEmpty()) {
+		if (getArtifact().getValue().isEmpty()) {
 			setMessage("Artifact is required");
 			return false;
 		}
-		if (getArtifact().endsWith("-")) {
+		if (getArtifact().getValue().endsWith("-")) {
 			setMessage("Artifact must not end with '-'");
 			return false;
 		}
-		if (getVersion().isEmpty()) {
+		if (getVersion().getValue().isEmpty()) {
 			setMessage("Version is required");
 			return false;
 		}
-		if (getPkg().isEmpty()) {
+		if (getPkg().getValue().isEmpty()) {
 			setMessage("Package is required");
 			return false;
 		}
-		if (getPkg().endsWith(".")) {
+		if (getPkg().getValue().endsWith(".")) {
 			setMessage("Package must not end with '.'");
 			return false;
 		}
@@ -185,24 +184,24 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		return true;
 	}
 
-	public String getGroup() {
-		return group.getValue();
+	public InputText getGroup() {
+		return group;
 	}
 
-	public String getArtifact() {
-		return artifact.getValue();
+	public InputText getArtifact() {
+		return artifact;
 	}
 
-	public String getVersion() {
-		return version.getValue();
+	public InputText getVersion() {
+		return version;
 	}
 
-	public String getDesc() {
-		return desc.getValue();
+	public InputText getDesc() {
+		return desc;
 	}
 
-	public String getPkg() {
-		return pkg.getValue();
+	public InputText getPkg() {
+		return pkg;
 	}
 
 	/**
@@ -211,7 +210,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	 * @return
 	 */
 	public String getPkgPath() {
-		return getPkg().replace(".", "/");
+		return getPkg().getValue().replace(".", "/");
 	}
 
 	public URI getLocationURI() {
@@ -219,15 +218,15 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	}
 
 	public IProject getProjectHandle() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectName());
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectName().getValue());
 	}
 
-	public String getProjectName() {
-		return projectName.getValue();
+	public InputText getProjectName() {
+		return projectName;
 	}
 
 	void setLocationForSelection() {
-		locationArea.updateProjectName(getProjectName());
+		locationArea.updateProjectName(getProjectName().getValue());
 	}
 
 	protected boolean validatePage() {
@@ -238,7 +237,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	protected boolean validateProjectDetails() {
 		IWorkspace workspace = IDEWorkbenchPlugin.getPluginWorkspace();
 
-		String projectFieldContents = getProjectName();
+		String projectFieldContents = getProjectName().getValue();
 		if (projectFieldContents == null || projectFieldContents.equals("")) { //$NON-NLS-1$
 			setErrorMessage(null);
 			setMessage(IDEWorkbenchMessages.WizardNewProjectCreationPage_projectNameEmpty);
@@ -257,7 +256,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 			return false;
 		}
 
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectName());
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(getProjectName().getValue());
 		locationArea.setExistingProject(project);
 
 		String validLocationMessage = locationArea.checkValidLocation();

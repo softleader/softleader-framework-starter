@@ -70,7 +70,7 @@ public class NewSoftLeaderWebappStarterModel {
 			}
 			desc.setLocationURI(projectLocation);
 
-			desc.setName(projectDetails.getArtifact());
+			desc.setName(projectDetails.getArtifact().getValue());
 
 			desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.common.project.facet.core.builder"),
 					command("org.eclipse.jdt.core.javabuilder"), command("org.eclipse.m2e.core.maven2Builder") });
@@ -130,12 +130,13 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.worked(1);
 			} else {
 				if (source.isJava()) {
-					file.create(new JavaInputStream(projectDetails.getPkg(), content), true, subMonitor);
+					file.create(new JavaInputStream(projectDetails.getPkg().getValue(), content), true, subMonitor);
 				} else if (source.isPOM()) {
 					file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, subMonitor);
 				} else if (source.isComponent()) {
-					file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content), true,
-							subMonitor);
+					file.create(
+							new ComponentInputStream(projectDetails.getProjectName().getValue(), dependency, content),
+							true, subMonitor);
 				} else if (source.isDatasource()) {
 					file.create(new DatasourceInputStream(projectDetails, datasource, content), true, subMonitor);
 				} else {
