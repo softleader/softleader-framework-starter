@@ -20,11 +20,11 @@ public class SnippetTest {
 		rootConfigs.add("tw.com.softleader.data.config.DataSourceConfiguration.class");
 		rootConfigs.add("tw.com.softleader.domain.config.DomainConfiguration.class");
 		rootConfigs.add("WebSecurityConfig.class");
-		
+
 		Collection<String> servletConfigs;
-		snippet.setRootConfigs(servletConfigs = new ArrayList<>());
+		snippet.setServletConfigs(servletConfigs = new ArrayList<>());
 		servletConfigs.add("tw.com.softleader.web.mvc.config.WebMvcConfiguration.class");
-		
+
 		Collection<String> folders;
 		snippet.setFolders(folders = new ArrayList<>());
 		folders.add(".settings");
@@ -66,8 +66,15 @@ public class SnippetTest {
 	public void testLoad() throws MalformedURLException, IOException {
 		Snippet snippet = Snippet.load(
 				"https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/softleader-web-mvc.zip");
+		System.out.println("Root configs are:");
+		snippet.getRootConfigs().forEach(System.out::println);
+
+		System.out.println("Servlet configs are:");
+		snippet.getServletConfigs().forEach(System.out::println);
+
 		System.out.println("Folders are:");
 		snippet.getFolders().forEach(System.out::println);
+
 		System.out.println("Files are:");
 		snippet.getSources().forEach(System.out::println);
 	}
