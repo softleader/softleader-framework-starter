@@ -98,7 +98,7 @@ public class StarterTest {
 				new Database("PostgreSQL", "org.postgresql", "postgresql", null, "org.postgresql.Driver", true, true));
 		database.getData().add(
 				new Database("MySQL", "mysql", "mysql-connector-java", null, "com.mysql.jdbc.Driver", false, true));
-		database.getData().add(new Database("oracle ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
+		database.getData().add(new Database("Oracle ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
 				"oracle.jdbc.driver.OracleDriver", false, true));
 		database.getData().add(new Database("Oracle ojdbc6", "com.oracle", "ojdbc6", "11.2.0.1.0",
 				"oracle.jdbc.driver.OracleDriver", false, true));
