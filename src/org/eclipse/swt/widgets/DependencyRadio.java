@@ -4,10 +4,11 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
 import tw.com.softleader.starter.pojo.Dependency;
-import tw.com.softleader.starter.pojo.Snippet;
 import tw.com.softleader.starter.pojo.Group.Style;
 
 public class DependencyRadio extends Button {
+
+	public static final String SOFTLEADER_FRAMEOWK_VERISON = "${softleader-framework.version}";
 
 	private final String groupId;
 	private final String artifactId;
@@ -30,6 +31,9 @@ public class DependencyRadio extends Button {
 		setEnabled(enabled);
 		this.groupId = groupId;
 		this.artifactId = artifactId;
+		if ("tw.com.softleader".equals(getGroupId()) && (version == null || version.isEmpty())) {
+			version = SOFTLEADER_FRAMEOWK_VERISON;
+		}
 		this.version = version;
 		this.scope = scope;
 		this.selected = defaultSelected;
