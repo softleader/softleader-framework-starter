@@ -65,10 +65,10 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 
 		Optional<String> defaultDriver = starter.getDatabase().getData().stream().filter(Database::isDft).findFirst()
 				.map(Database::getDriver);
-		driverClass = createText(composite, "DriverClass", defaultDriver.orElse(""), textModifyListener);
-		url = createText(composite, "Url", "", textModifyListener);
-		username = createText(composite, "Username", "", textModifyListener);
-		password = createText(composite, "Password", "", textModifyListener);
+		driverClass = createText(composite, "DriverClass", defaultDriver.orElse(""), TEXT_WIDTH, textModifyListener);
+		url = createText(composite, "Url", "", TEXT_WIDTH, textModifyListener);
+		username = createText(composite, "Username", "", TEXT_WIDTH, textModifyListener);
+		password = createText(composite, "Password", "", TEXT_WIDTH, textModifyListener);
 
 		setControl(composite);
 		setPageComplete(false);

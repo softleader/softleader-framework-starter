@@ -46,7 +46,7 @@ public class DependencyPage extends WizardPage implements SoftLeaderStarterPage 
 		Group group = new Group(parent, SWT.SHADOW_IN);
 		group.setText(starter.getVersions().getText());
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+		data.widthHint = TEXT_WIDTH;
 		group.setData(data);
 		group.setLayout(new RowLayout(starter.getVersions().getLayout().swt));
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -58,7 +58,7 @@ public class DependencyPage extends WizardPage implements SoftLeaderStarterPage 
 			Group group = new Group(parent, SWT.SHADOW_IN);
 			group.setText(module.getText());
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
-			data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+			data.widthHint = TEXT_WIDTH;
 			group.setData(data);
 			group.setLayout(new RowLayout(module.getLayout().swt));
 			group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

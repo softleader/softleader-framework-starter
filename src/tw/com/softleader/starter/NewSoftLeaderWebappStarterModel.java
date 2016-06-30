@@ -32,19 +32,16 @@ import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 import tw.com.softleader.starter.pojo.Snippet;
 import tw.com.softleader.starter.pojo.Source;
-import tw.com.softleader.starter.pojo.Starter;
 
 public class NewSoftLeaderWebappStarterModel {
 
-	private Starter starter;
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
 
-	public NewSoftLeaderWebappStarterModel(Starter starter, ProjectDetailsPage projectDetails,
-			DependencyPage dependency, DatasourcePage datasource) {
+	public NewSoftLeaderWebappStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
+			DatasourcePage datasource) {
 		super();
-		this.starter = starter;
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
 		this.datasource = datasource;
@@ -103,7 +100,7 @@ public class NewSoftLeaderWebappStarterModel {
 		subMonitor.setTaskName("Importing snippet");
 		selecteds.stream().forEach(selected -> {
 			try {
-				String snippetUrl = starter.getBaseUrl() + "/" + selected.getSnippet();
+				String snippetUrl = projectDetails.getBaseUrl() + "/" + selected.getSnippet();
 				subMonitor.subTask("Downloading '" + snippetUrl + "'");
 				Snippet snippet = Snippet.load(snippetUrl);
 				subMonitor.subTask("Loading '" + selected.getSnippet() + "'");

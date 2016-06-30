@@ -15,6 +15,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -37,6 +38,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	private InputText version;
 	private InputText desc;
 	private InputText pkg;
+	private InputText baseUrl;
 	private URI locationURI;
 	private ProjectContentsLocationArea locationArea;
 	private WorkingSetGroup workingSetGroup;
@@ -67,6 +69,8 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		createSiteInfo(composite);
 		createProjectDetails(composite);
 		createMavenDetails(composite);
 		setPageComplete(false);
@@ -89,6 +93,17 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setButtonLayoutData(locationArea.getBrowseButton());
 	}
 
+	private void createSiteInfo(Composite parent) {
+		Group composite = new Group(parent, SWT.SHADOW_IN);
+		composite.setText("Site Info");
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		composite.setData(data);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		composite.setLayout(layout);
+		baseUrl = createText(composite, "Base Url", starter.getBaseUrl(), (int) (TEXT_WIDTH * 1.2), textModifyListener);
+	}
+
 	private void createMavenDetails(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -96,11 +111,12 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		group = createText(composite, "Group", starter.getProject().getGroup(), textModifyListener);
-		artifact = createText(composite, "Artifact", starter.getProject().getArtifact(), textModifyListener);
-		version = createText(composite, "Version", starter.getProject().getVersion(), textModifyListener);
-		desc = createText(composite, "Description", starter.getProject().getDesc(), textModifyListener);
-		pkg = createText(composite, "Package", starter.getProject().getPkg(), textModifyListener);
+		group = createText(composite, "Group", starter.getProject().getGroup(), TEXT_WIDTH, textModifyListener);
+		artifact = createText(composite, "Artifact", starter.getProject().getArtifact(), TEXT_WIDTH,
+				textModifyListener);
+		version = createText(composite, "Version", starter.getProject().getVersion(), TEXT_WIDTH, textModifyListener);
+		desc = createText(composite, "Description", starter.getProject().getDesc(), TEXT_WIDTH, textModifyListener);
+		pkg = createText(composite, "Package", starter.getProject().getPkg(), TEXT_WIDTH, textModifyListener);
 
 		Dialog.applyDialogFont(composite);
 	}
@@ -121,7 +137,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		// new project name entry field
 		projectName = new InputText(projectGroup, SWT.BORDER);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+		data.widthHint = TEXT_WIDTH;
 		projectName.setLayoutData(data);
 		projectName.setFont(parent.getFont());
 
@@ -174,6 +190,17 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		}
 		if (getPkg().endsWith(".")) {
 			setMessage("Package must not end with '.'");
+			return false;
+		}
+
+		setMessage(null);
+		return true;
+	}
+
+	private boolean validateSiteInfo() {
+		setErrorMessage(null);
+		if (getBaseUrl().isEmpty()) {
+			setMessage("BaseUrl is required");
 			return false;
 		}
 
@@ -266,6 +293,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setErrorMessage(null);
 		setMessage(null);
 		return true;
+	}
+
+	public String getBaseUrl() {
+		return baseUrl.getValue();
 	}
 
 }

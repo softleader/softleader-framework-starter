@@ -57,7 +57,7 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		datasource = new DatasourcePage(TITLE, starter);
 		datasource.setPreviousPage(dependency);
 
-		model = new NewSoftLeaderWebappStarterModel(starter, projectDetails, dependency, datasource);
+		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
 	}
 
 	@Override
