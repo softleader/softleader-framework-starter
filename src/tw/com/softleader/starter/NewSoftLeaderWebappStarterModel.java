@@ -79,8 +79,8 @@ public class NewSoftLeaderWebappStarterModel {
 					"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
 					"org.eclipse.wst.common.modulecore.ModuleCoreNature" });
 
-			project.create(desc, subMonitor.split(1, SubMonitor.SUPPRESS_NONE));
-			project.open(subMonitor.split(1, SubMonitor.SUPPRESS_NONE));
+			project.create(desc, subMonitor.newChild(1, SubMonitor.SUPPRESS_NONE));
+			project.open(subMonitor.newChild(1, SubMonitor.SUPPRESS_NONE));
 		}
 		subMonitor.setWorkRemaining(0);
 		return project;
@@ -122,7 +122,7 @@ public class NewSoftLeaderWebappStarterModel {
 	private void createSources(IProject project, Collection<Source> sources, SubMonitor monitor) throws CoreException {
 		String pkgPath = projectDetails.getPkgPath();
 		for (Source source : sources) {
-			SubMonitor subMonitor = monitor.split(1, SubMonitor.SUPPRESS_NONE);
+			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
 			String path = source.getFullPath().replace("{pkg}", pkgPath);
 			IFile file = project.getFile(path);
 			String content = source.getContent();
@@ -150,7 +150,7 @@ public class NewSoftLeaderWebappStarterModel {
 		String pkg = projectDetails.getPkgPath();
 		for (String folder : folders) {
 			String path = folder.replace("{pkg}", pkg);
-			createFolder(project.getFolder(path), monitor.split(1, SubMonitor.SUPPRESS_NONE));
+			createFolder(project.getFolder(path), monitor.newChild(1, SubMonitor.SUPPRESS_NONE));
 			// System.out.println("Folder [" + path + "] created");
 		}
 	}
