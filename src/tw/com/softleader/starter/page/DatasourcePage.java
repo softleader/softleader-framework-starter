@@ -84,6 +84,7 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = TEXT_WIDTH;
 		urlHint.setLayoutData(data);
+		urlHint.setText(initialValue);
 		return urlHint;
 	}
 
