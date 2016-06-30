@@ -27,6 +27,7 @@ import tw.com.softleader.starter.io.ComponentInputStream;
 import tw.com.softleader.starter.io.DatasourceInputStream;
 import tw.com.softleader.starter.io.JavaInputStream;
 import tw.com.softleader.starter.io.PomInputStream;
+import tw.com.softleader.starter.io.WebApplicationInitializerInputStream;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
@@ -109,8 +110,8 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.subTask("Loading " + selected.getSnippet());
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
 						snippet.getFolders().size() + snippet.getSources().size());
-				createFolders(project, snippet.getFolders(), snippetMonitor);
-				createSources(project, snippet.getSources(), snippetMonitor);
+				createFolders(project, snippet, snippetMonitor);
+				createSources(project, snippet, snippetMonitor);
 			} catch (Exception e) {
 				throw new Error(e);
 			} finally {
@@ -119,7 +120,8 @@ public class NewSoftLeaderWebappStarterModel {
 		});
 	}
 
-	private void createSources(IProject project, Collection<Source> sources, SubMonitor monitor) throws CoreException {
+	private void createSources(IProject project, Snippet snippet, SubMonitor monitor) throws CoreException {
+		Collection<Source> sources = snippet.getSources();
 		String pkgPath = projectDetails.getPkgPath();
 		for (Source source : sources) {
 			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
@@ -129,7 +131,10 @@ public class NewSoftLeaderWebappStarterModel {
 			if (content == null || content.isEmpty()) {
 				subMonitor.worked(1);
 			} else {
-				if (source.isJava()) {
+				if (source.isWebApplicationInitializer()) {
+					file.create(new WebApplicationInitializerInputStream(projectDetails.getPkg().getValue(),
+							snippet.getRootConfigs(), snippet.getServletConfigs(), content), true, subMonitor);
+				} else if (source.isJava()) {
 					file.create(new JavaInputStream(projectDetails.getPkg().getValue(), content), true, subMonitor);
 				} else if (source.isPOM()) {
 					file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, subMonitor);
@@ -147,7 +152,8 @@ public class NewSoftLeaderWebappStarterModel {
 		}
 	}
 
-	private void createFolders(IProject project, Collection<String> folders, SubMonitor monitor) throws CoreException {
+	private void createFolders(IProject project, Snippet snippet, SubMonitor monitor) throws CoreException {
+		Collection<String> folders = snippet.getFolders();
 		String pkg = projectDetails.getPkgPath();
 		for (String folder : folders) {
 			String path = folder.replace("{pkg}", pkg);

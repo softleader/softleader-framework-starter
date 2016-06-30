@@ -78,6 +78,10 @@ public class Source {
 		this.content = content;
 	}
 
+	public boolean isWebApplicationInitializer() {
+		return getName().endsWith("WebApplicationInitializer.java");
+	}
+
 	public boolean isJava() {
 		return getName().endsWith(".java");
 	}
