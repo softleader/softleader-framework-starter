@@ -8,10 +8,10 @@ public class Dependency {
 	private String scope;
 	private boolean dft;
 	private boolean enabled = true;
-	private Snippet snippet;
+	private String snippet;
 
 	public Dependency(String group, String artifact, String version, String scope, boolean dft, boolean enabled,
-			Snippet snippet) {
+			String snippet) {
 		super();
 		this.group = group;
 		this.artifact = artifact;
@@ -74,11 +74,11 @@ public class Dependency {
 		this.enabled = enabled;
 	}
 
-	public Snippet getSnippet() {
+	public String getSnippet() {
 		return snippet;
 	}
 
-	public void setSnippet(Snippet snippet) {
+	public void setSnippet(String snippet) {
 		this.snippet = snippet;
 	}
 

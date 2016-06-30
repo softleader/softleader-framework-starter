@@ -31,7 +31,7 @@ public class PomInputStream extends ByteArrayInputStream {
 		source = source.replace("{slVersion}", version.getSoftleaderFramework());
 		source = source.replace("{ioVersion}", version.getIoPlatform());
 
-		String dependencyText = dependency.getDependencyGroups().values().stream().flatMap(Collection::stream)
+		String dependencyText = dependency.getModules().values().stream().flatMap(Collection::stream)
 				.filter(DependencyRadio::isSelected).sorted(Comparator.comparing(DependencyRadio::getArtifactId))
 				.map(DependencyRadio::getPomText).collect(Collectors.joining("\n"));
 		source = source.replace("{dependencies}", dependencyText);

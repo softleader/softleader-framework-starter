@@ -57,7 +57,7 @@ public class StarterTest {
 		group.setStyle(Style.CHECK);
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
-		data.add(new Dependency("tw.com.softleader", "softleader-web-mvc", null, null, true, false, null));
+		data.add(new Dependency("tw.com.softleader", "softleader-web-mvc", null, null, true, false, "softleader-web-mvc.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-security", null, null, true, false, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-resources", null, null, false, true, null));
 

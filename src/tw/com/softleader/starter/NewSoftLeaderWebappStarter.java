@@ -57,12 +57,12 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		datasource = new DatasourcePage(TITLE, starter);
 		datasource.setPreviousPage(dependency);
 
-		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource);
+		model = new NewSoftLeaderWebappStarterModel(starter, projectDetails, dependency, datasource);
 	}
 
 	@Override
 	public boolean performFinish() {
-		Job job = new Job("Import SoftLeader Webapp Content") {
+		Job job = new Job("Importing SoftLeader Webapp Project") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {

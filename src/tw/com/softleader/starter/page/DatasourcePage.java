@@ -2,6 +2,7 @@ package tw.com.softleader.starter.page;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardPage;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import tw.com.softleader.starter.pojo.Database;
 import tw.com.softleader.starter.pojo.Starter;
 
 public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage {
@@ -56,49 +58,20 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		label.setText(starter.getDatabase().getText());
 		label.setFont(parent.getFont());
 
-		// try {
-		//
-		// Group group = new Group(composite, SWT.SHADOW_IN);
-		// group.setLayout(new RowLayout(SWT.VERTICAL));
-		//
-		// DocumentBuilderFactory dbFactory =
-		// DocumentBuilderFactory.newInstance();
-		// DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		// Document doc = dBuilder.parse(DATASOURCE);
-		// doc.getDocumentElement().normalize();
-		// NodeList d = doc.getElementsByTagName("d");
-		// IntStream.range(0, d.getLength()).forEach(i -> {
-		// Node node = d.item(i);
-		// if (node.getNodeType() == Node.ELEMENT_NODE) {
-		// Element ele = (Element) node;
-		// String defaultSelect = ele.getAttribute("default");
-		// String version = ele.getAttribute("v");
-		// String enabled = ele.getAttribute("e");
-		// String name = ele.getAttribute("n");
-		// String grp = ele.getAttribute("g");
-		// String artifact = ele.getAttribute("a");
-		// datasources.add(new DataSourceRadio(group, name, grp, artifact,
-		// version,
-		// !defaultSelect.isEmpty() && Boolean.parseBoolean(defaultSelect),
-		// enabled.isEmpty() || Boolean.parseBoolean(enabled)));
-		// }
-		// });
-		// } catch (Exception e) {
-		// throw new Error(e);
-		// }
-
 		Group group = new Group(composite, SWT.SHADOW_IN);
 		group.setLayout(new RowLayout(starter.getDatabase().getLayout().swt));
 		starter.getDatabase().getData().stream().map(d -> new DataSourceRadio(group, d, () -> driverClass))
 				.forEach(datasources::add);
 
-		driverClass = createText(composite, "DriverClass", "", textModifyListener);
+		Optional<String> defaultDriver = starter.getDatabase().getData().stream().filter(Database::isDft).findFirst()
+				.map(Database::getDriver);
+		driverClass = createText(composite, "DriverClass", defaultDriver.orElse(""), textModifyListener);
 		url = createText(composite, "Url", "", textModifyListener);
 		username = createText(composite, "Username", "", textModifyListener);
 		password = createText(composite, "Password", "", textModifyListener);
 
 		setControl(composite);
-		setPageComplete(false);
+		setPageComplete(true);
 		setMessage(null);
 		Dialog.applyDialogFont(composite);
 	}

@@ -4,6 +4,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
 import tw.com.softleader.starter.pojo.Dependency;
+import tw.com.softleader.starter.pojo.Snippet;
 import tw.com.softleader.starter.pojo.Group.Style;
 
 public class DependencyRadio extends Button {
@@ -13,10 +14,12 @@ public class DependencyRadio extends Button {
 	private final String version;
 	private final String scope;
 	private boolean selected;
+	private String snippet;
 
 	public DependencyRadio(Composite parent, Style style, Dependency dependency) {
 		this(parent, dependency.getArtifact(), dependency.getGroup(), dependency.getArtifact(), dependency.getVersion(),
 				dependency.getScope(), style.swt, dependency.isDft(), dependency.isEnabled());
+		this.snippet = dependency.getSnippet();
 	}
 
 	public DependencyRadio(Composite parent, String text, String groupId, String artifactId, String version,
@@ -80,6 +83,14 @@ public class DependencyRadio extends Button {
 		text += "\t\t\t<dependency-type>uses</dependency-type>\n";
 		text += "\t\t</dependent-module>";
 		return text;
+	}
+
+	public String getSnippet() {
+		return snippet;
+	}
+
+	public boolean hasAnySnippet() {
+		return getSnippet() != null && !getSnippet().isEmpty();
 	}
 
 }

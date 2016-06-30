@@ -14,9 +14,6 @@ public class DataSourceRadio extends DependencyRadio {
 	public DataSourceRadio(Composite parent, Database database, Supplier<InputText> driverClassText) {
 		this(parent, database.getName(), database.getGroup(), database.getArtifact(), database.getVersion(),
 				database.isDft(), database.isEnabled());
-		if (database.isDft()) {
-			driverClassText.get().setText(database.getDriver());
-		}
 		addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {

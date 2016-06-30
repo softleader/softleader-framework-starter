@@ -19,7 +19,7 @@ public class ComponentInputStream extends ByteArrayInputStream {
 		source = source.replaceAll("\\{pj\\}", projectName);
 
 		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
-		String dependentModule = dependency.getDependencyGroups().values().stream().flatMap(Collection::stream)
+		String dependentModule = dependency.getModules().values().stream().flatMap(Collection::stream)
 				.filter(DependencyRadio::isSelected)
 				.map(select -> select.getComponentText(version.getSoftleaderFramework()))
 				.collect(Collectors.joining("\n"));

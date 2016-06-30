@@ -3,12 +3,10 @@ package tw.com.softleader.starter;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
-import javax.xml.parsers.ParserConfigurationException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.internal.events.BuildCommand;
 import org.eclipse.core.resources.ICommand;
@@ -21,108 +19,71 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
-import org.xml.sax.SAXException;
+import org.eclipse.swt.widgets.DependencyRadio;
 
 import tw.com.softleader.starter.io.ComponentInputStream;
 import tw.com.softleader.starter.io.DatasourceInputStream;
-import tw.com.softleader.starter.io.F;
 import tw.com.softleader.starter.io.JavaInputStream;
 import tw.com.softleader.starter.io.PomInputStream;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
+import tw.com.softleader.starter.pojo.Snippet;
+import tw.com.softleader.starter.pojo.Source;
+import tw.com.softleader.starter.pojo.Starter;
 
 public class NewSoftLeaderWebappStarterModel {
 
-	// public static final String ARCHETYPE =
-	// "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/template/archetype.xml";
+	private Starter starter;
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
 	private DatasourcePage datasource;
-	private final List<F> files = new ArrayList<F>();
 
-	public NewSoftLeaderWebappStarterModel(ProjectDetailsPage projectDetails, DependencyPage dependency,
-			DatasourcePage datasource) {
+	public NewSoftLeaderWebappStarterModel(Starter starter, ProjectDetailsPage projectDetails,
+			DependencyPage dependency, DatasourcePage datasource) {
 		super();
+		this.starter = starter;
 		this.projectDetails = projectDetails;
 		this.dependency = dependency;
 		this.datasource = datasource;
-		// getArchetype();
 	}
-
-	// private void getArchetype() throws ParserConfigurationException,
-	// SAXException, IOException {
-	// DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	// DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	// Document doc = dBuilder.parse(ARCHETYPE);
-	// doc.getDocumentElement().normalize();
-	// NodeList nodes = doc.getElementsByTagName("f");
-	// IntStream.range(0, nodes.getLength()).forEach(i -> {
-	// Node node = nodes.item(i);
-	// if (node.getNodeType() == Node.ELEMENT_NODE) {
-	// Element ele = (Element) node;
-	// F f = new F(ele.getAttribute("n"), ele.getAttribute("p"),
-	// ele.getAttribute("d"));
-	// String url = ele.getAttribute("u");
-	// if (url != null && !url.isEmpty()) {
-	// f.setContent(() -> {
-	// try (BufferedReader buffer = new BufferedReader(
-	// new InputStreamReader(new URL(url).openStream()))) {
-	// return buffer.lines().collect(Collectors.joining("\n"));
-	// } catch (Exception e) {
-	// throw new Error(e);
-	// }
-	// });
-	// }
-	// files.add(f);
-	// }
-	// });
-	// }
 
 	public void performFinish(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException, CoreException {
-		monitor.beginTask("Importing SoftLeader Project", 4);
-		try {
-			IProject project = createBaseProject(SubMonitor.convert(monitor, 1));
-			createMavenArchetype(project, SubMonitor.convert(monitor, 1));
-			createFiles(project, SubMonitor.convert(monitor, 1));
-			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
-		} finally {
-			monitor.done();
-		}
+			throws InvocationTargetException, InterruptedException, CoreException, MalformedURLException, IOException {
+		IProject project = createProject(monitor);
+		createSnippet(project, monitor);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 	}
 
-	private IProject createBaseProject(IProgressMonitor monitor) throws CoreException {
-		monitor.beginTask("Creating base project", 2);
-		try {
-			IProject project = projectDetails.getProjectHandle();
-			if (!project.exists()) {
-				URI projectLocation = projectDetails.getLocationURI();
-				IProjectDescription desc = project.getWorkspace().newProjectDescription(project.getName());
-				if (projectDetails.getLocationURI() != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI()
-						.equals(projectDetails.getLocationURI())) {
-					projectLocation = null;
-				}
-				monitor.setTaskName(projectLocation.toString());
-				desc.setLocationURI(projectLocation);
-
-				desc.setName(projectDetails.getArtifact());
-
-				desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.common.project.facet.core.builder"),
-						command("org.eclipse.jdt.core.javabuilder"), command("org.eclipse.m2e.core.maven2Builder") });
-
-				desc.setNatureIds(new String[] { "org.eclipse.wst.common.project.facet.core.nature",
-						"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
-						"org.eclipse.wst.common.modulecore.ModuleCoreNature" });
-
-				project.create(desc, monitor);
-				project.open(monitor);
+	private IProject createProject(IProgressMonitor monitor) throws CoreException {
+		SubMonitor subMonitor = SubMonitor.convert(monitor, 2);
+		subMonitor.setTaskName("Creating project");
+		IProject project = projectDetails.getProjectHandle();
+		if (!project.exists()) {
+			URI projectLocation = projectDetails.getLocationURI();
+			IProjectDescription desc = project.getWorkspace().newProjectDescription(project.getName());
+			if (projectDetails.getLocationURI() != null && ResourcesPlugin.getWorkspace().getRoot().getLocationURI()
+					.equals(projectDetails.getLocationURI())) {
+				projectLocation = null;
 			}
-			return project;
-		} finally {
-			monitor.done();
+			desc.setLocationURI(projectLocation);
+
+			desc.setName(projectDetails.getArtifact());
+
+			desc.setBuildSpec(new ICommand[] { command("org.eclipse.wst.common.project.facet.core.builder"),
+					command("org.eclipse.jdt.core.javabuilder"), command("org.eclipse.m2e.core.maven2Builder") });
+
+			desc.setNatureIds(new String[] { "org.eclipse.wst.common.project.facet.core.nature",
+					"org.eclipse.jdt.core.javanature", "org.eclipse.m2e.core.maven2Nature",
+					"org.eclipse.wst.common.modulecore.ModuleCoreNature" });
+
+			project.create(desc, subMonitor.split(1, SubMonitor.SUPPRESS_NONE));
+			project.open(subMonitor.split(1, SubMonitor.SUPPRESS_NONE));
 		}
+		subMonitor.setWorkRemaining(0);
+		return project;
 	}
 
 	@SuppressWarnings("restriction")
@@ -132,57 +93,74 @@ public class NewSoftLeaderWebappStarterModel {
 		return command;
 	}
 
-	private void createFiles(IProject project, IProgressMonitor monitor) {
-		monitor.beginTask("Creating files", (int) files.stream().filter(F::isFile).count());
-		try {
-			String pkgPath = projectDetails.getPkgPath();
-			files.stream().filter(F::isFile).forEach(f -> {
+	private void createSnippet(IProject project, IProgressMonitor monitor)
+			throws MalformedURLException, IOException, CoreException {
+		Collection<DependencyRadio> selecteds = dependency.getModules().values().stream().flatMap(Collection::stream)
+				.filter(DependencyRadio::isSelected).filter(DependencyRadio::hasAnySnippet)
+				.collect(Collectors.toList());
+
+		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size());
+		subMonitor.setTaskName("Importing snippet");
+		selecteds.stream().forEach(selected -> {
+			try {
+				String snippetUrl = starter.getBaseUrl() + "/" + selected.getSnippet();
+				subMonitor.subTask("Downloading '" + snippetUrl + "'");
+				Snippet snippet = Snippet.load(snippetUrl);
+				subMonitor.subTask("Loading '" + selected.getSnippet() + "'");
+				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
+						snippet.getFolders().size() + snippet.getSources().size());
+				createFolders(project, snippet.getFolders(), snippetMonitor);
+				createSources(project, snippet.getSources(), snippetMonitor);
+			} catch (Exception e) {
+				throw new Error(e);
+			} finally {
+				subMonitor.worked(1);
+			}
+		});
+	}
+
+	private void createSources(IProject project, Collection<Source> sources, SubMonitor monitor) throws CoreException {
+		String pkgPath = projectDetails.getPkgPath();
+		for (Source source : sources) {
+			SubMonitor subMonitor = monitor.split(1, SubMonitor.SUPPRESS_NONE);
+			String path = source.getFullPath().replace("{pkg}", pkgPath);
+			IFile file = project.getFile(path);
+			source.getContent().ifPresent(content -> {
 				try {
-					IFile file = project.getFile(f.getFullPath().replace("{pkg}", pkgPath));
-					String content = f.getContent().map(Supplier::get).orElse("");
-					if (f.isJava()) {
-						file.create(new JavaInputStream(projectDetails.getPkg(), content), true, monitor);
-					} else if (f.isPOM()) {
-						file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, monitor);
-					} else if (f.isComponent()) {
+					if (source.isJava()) {
+						file.create(new JavaInputStream(projectDetails.getPkg(), content), true, subMonitor);
+					} else if (source.isPOM()) {
+						file.create(new PomInputStream(projectDetails, dependency, datasource, content), true,
+								subMonitor);
+					} else if (source.isComponent()) {
 						file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content),
-								true, monitor);
-					} else if (f.isDatasource()) {
-						file.create(new DatasourceInputStream(projectDetails, datasource, content), true, monitor);
+								true, subMonitor);
+					} else if (source.isDatasource()) {
+						file.create(new DatasourceInputStream(projectDetails, datasource, content), true, subMonitor);
 					} else {
-						file.create(new ByteArrayInputStream(content.getBytes()), true, monitor);
+						file.create(new ByteArrayInputStream(content.getBytes()), true, subMonitor);
 					}
-				} catch (Exception e) {
-					throw new Error("Error creating " + f, e);
+					// System.out.println("File [" + path + "] created:");
+				} catch (CoreException e) {
+					throw new Error(e);
 				}
 			});
-		} finally {
-			monitor.done();
 		}
 	}
 
-	private void createMavenArchetype(IProject project, IProgressMonitor monitor) {
-		monitor.beginTask("Creating maven archetype", (int) files.stream().filter(F::isFolder).count());
-		try {
-			String pkg = projectDetails.getPkgPath();
-			files.stream().filter(F::isFolder).forEach(f -> {
-				try {
-					String path = f.getPath().replace("{pkg}", pkg);
-					createFolder(project.getFolder(path), monitor);
-					// System.out.println("Folder [" + path + "] created");
-				} catch (Exception e) {
-					throw new Error("Error creating " + f, e);
-				}
-			});
-		} finally {
-			monitor.done();
+	private void createFolders(IProject project, Collection<String> folders, SubMonitor monitor) throws CoreException {
+		String pkg = projectDetails.getPkgPath();
+		for (String folder : folders) {
+			String path = folder.replace("{pkg}", pkg);
+			createFolder(project.getFolder(path), monitor.split(1, SubMonitor.SUPPRESS_NONE));
+			// System.out.println("Folder [" + path + "] created");
 		}
 	}
 
 	private void createFolder(IFolder folder, IProgressMonitor monitor) throws CoreException {
 		IContainer parent = folder.getParent();
 		if (parent instanceof IFolder) {
-			createFolder((IFolder) parent, SubMonitor.convert(monitor, 1));
+			createFolder((IFolder) parent, new NullProgressMonitor());
 		}
 		if (!folder.exists()) {
 			folder.create(false, true, monitor);
