@@ -57,7 +57,8 @@ public class StarterTest {
 		group.setStyle(Style.CHECK);
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
-		data.add(new Dependency("tw.com.softleader", "softleader-web-mvc", null, null, true, false, "softleader-web-mvc.zip"));
+		data.add(new Dependency("tw.com.softleader", "softleader-web-mvc", null, null, true, false,
+				"softleader-web-mvc.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-security", null, null, true, false, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-resources", null, null, false, true, null));
 
@@ -94,7 +95,15 @@ public class StarterTest {
 		database.setStyle(Style.RADIO);
 		database.setData(new ArrayList<>());
 		database.getData().add(
-				new Database("POSTGRESQL", "org.postgresql", "postgresql", null, "org.postgresql.Driver", true, true));
+				new Database("PostgreSQL", "org.postgresql", "postgresql", null, "org.postgresql.Driver", true, true));
+		database.getData().add(
+				new Database("MySQL", "mysql", "mysql-connector-java", null, "com.mysql.jdbc.Driver", false, true));
+		database.getData().add(new Database("oracle ojdbc14", "com.oracle", "ojdbc14", "10.2.0.4.0",
+				"oracle.jdbc.driver.OracleDriver", false, true));
+		database.getData().add(new Database("Oracle ojdbc6", "com.oracle", "ojdbc6", "11.2.0.1.0",
+				"oracle.jdbc.driver.OracleDriver", false, true));
+		database.getData().add(new Database("Microsoft sqljdbc4", "com.microsoft.sqlserver", "sqljdbc4", "4.0",
+				"org.hsqldb.jdbcDriver", false, true));
 		database.getData()
 				.add(new Database("HSQL", "org.hsqldb", "hsqldb", null, "org.hsqldb.jdbcDriver", false, true));
 		database.getData().add(new Database("H2", "com.h2database", "h2", null, "org.h2.Driver", false, true));
