@@ -125,26 +125,24 @@ public class NewSoftLeaderWebappStarterModel {
 			SubMonitor subMonitor = monitor.split(1, SubMonitor.SUPPRESS_NONE);
 			String path = source.getFullPath().replace("{pkg}", pkgPath);
 			IFile file = project.getFile(path);
-			source.getContent().ifPresent(content -> {
-				try {
-					if (source.isJava()) {
-						file.create(new JavaInputStream(projectDetails.getPkg(), content), true, subMonitor);
-					} else if (source.isPOM()) {
-						file.create(new PomInputStream(projectDetails, dependency, datasource, content), true,
-								subMonitor);
-					} else if (source.isComponent()) {
-						file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content),
-								true, subMonitor);
-					} else if (source.isDatasource()) {
-						file.create(new DatasourceInputStream(projectDetails, datasource, content), true, subMonitor);
-					} else {
-						file.create(new ByteArrayInputStream(content.getBytes()), true, subMonitor);
-					}
-					// System.out.println("File [" + path + "] created:");
-				} catch (CoreException e) {
-					throw new Error(e);
+			String content = source.getContent();
+			if (content == null || content.isEmpty()) {
+				subMonitor.worked(1);
+			} else {
+				if (source.isJava()) {
+					file.create(new JavaInputStream(projectDetails.getPkg(), content), true, subMonitor);
+				} else if (source.isPOM()) {
+					file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, subMonitor);
+				} else if (source.isComponent()) {
+					file.create(new ComponentInputStream(projectDetails.getProjectName(), dependency, content), true,
+							subMonitor);
+				} else if (source.isDatasource()) {
+					file.create(new DatasourceInputStream(projectDetails, datasource, content), true, subMonitor);
+				} else {
+					file.create(new ByteArrayInputStream(content.getBytes()), true, subMonitor);
 				}
-			});
+				// System.out.println("File [" + path + "] created:");
+			}
 		}
 	}
 

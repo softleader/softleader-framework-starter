@@ -1,7 +1,5 @@
 package tw.com.softleader.starter.pojo;
 
-import java.util.Optional;
-
 public class Source {
 
 	private String name;
@@ -72,21 +70,13 @@ public class Source {
 		this.archive = archive;
 	}
 
-	public Optional<String> getContent() {
-		return Optional.ofNullable(content);
+	public String getContent() {
+		return content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
 	}
-	//
-	// public boolean isFolder() {
-	// return name == null || name.trim().isEmpty();
-	// }
-	//
-	// public boolean isFile() {
-	// return !isFolder();
-	// }
 
 	public boolean isJava() {
 		return getName().endsWith(".java");

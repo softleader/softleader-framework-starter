@@ -71,7 +71,7 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		password = createText(composite, "Password", "", textModifyListener);
 
 		setControl(composite);
-		setPageComplete(true);
+		setPageComplete(false);
 		setMessage(null);
 		Dialog.applyDialogFont(composite);
 	}
