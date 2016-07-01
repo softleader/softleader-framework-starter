@@ -90,19 +90,19 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 
 	private boolean validatePage() {
 		setErrorMessage(null);
-		if (getDriverClass().getValue().isEmpty()) {
+		if (getDriverClass().getValue() == null || getDriverClass().getValue().isEmpty()) {
 			setMessage("DriverClass is required");
 			return false;
 		}
-		if (getUrl().getValue().isEmpty()) {
+		if (getUrl().getValue() == null || getUrl().getValue().isEmpty()) {
 			setMessage("Url is required");
 			return false;
 		}
-		if (getPassword().getValue().isEmpty()) {
+		if (getPassword().getValue() == null || getPassword().getValue().isEmpty()) {
 			setMessage("Password is required");
 			return false;
 		}
-		if (getUsername().getValue().isEmpty()) {
+		if (getUsername().getValue() == null || getUsername().getValue().isEmpty()) {
 			setMessage("Username is required");
 			return false;
 		}

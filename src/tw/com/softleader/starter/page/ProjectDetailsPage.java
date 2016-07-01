@@ -214,11 +214,11 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 
 	private boolean validateMavenBasics() {
 		setErrorMessage(null);
-		if (getGroup().getValue().isEmpty()) {
+		if (getGroup().getValue() == null || getGroup().getValue().isEmpty()) {
 			setMessage("Group is required");
 			return false;
 		}
-		if (getArtifact().getValue().isEmpty()) {
+		if (getArtifact().getValue() == null || getArtifact().getValue().isEmpty()) {
 			setMessage("Artifact is required");
 			return false;
 		}
@@ -226,11 +226,11 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 			setMessage("Artifact must not end with '-'");
 			return false;
 		}
-		if (getVersion().getValue().isEmpty()) {
+		if (getVersion().getValue() == null || getVersion().getValue().isEmpty()) {
 			setMessage("Version is required");
 			return false;
 		}
-		if (getPkg().getValue().isEmpty()) {
+		if (getPkg().getValue() == null || getPkg().getValue().isEmpty()) {
 			setMessage("Package is required");
 			return false;
 		}

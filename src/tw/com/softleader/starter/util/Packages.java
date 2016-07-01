@@ -11,6 +11,9 @@ public final class Packages {
 			"(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*");
 
 	public static boolean test(CharSequence input) {
+		if (input == null || input.toString().isEmpty()) {
+			return false;
+		}
 		return VALID_PACKAGES.matcher(input).matches();
 	}
 
