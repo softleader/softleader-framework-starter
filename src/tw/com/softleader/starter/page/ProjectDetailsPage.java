@@ -1,7 +1,11 @@
 package tw.com.softleader.starter.page;
 
 import java.net.URI;
+import java.sql.Array;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -32,6 +36,7 @@ import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea.IErrorMessageReporter;
 
 import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.util.Packages;
 
 public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterPage {
 
@@ -122,33 +127,43 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		group = createText(composite, "Group").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 		artifact = createText(composite, "Artifact").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 		version = createText(composite, "Version").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
-		desc = createText(composite, "Description").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 		pkg = createText(composite, "Package").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		desc = createText(composite, "Description").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 		useDefaultsMaven(userDefaultMavenBasics.getSelection());
 
 		Dialog.applyDialogFont(composite);
 	}
 
 	public void useDefaultsMaven(boolean useDefaults) {
-		group.editable(!useDefaults);
-		artifact.editable(!useDefaults);
-		version.editable(!useDefaults);
-		desc.editable(!useDefaults);
-		pkg.editable(!useDefaults);
+		group.enabled(!useDefaults);
+		artifact.enabled(!useDefaults);
+		version.enabled(!useDefaults);
+		// desc.enabled(!useDefaults); // desc always enabled
+		pkg.enabled(!useDefaults);
 		setDefaultMavenBasics();
 	}
 
 	private void setDefaultMavenBasics() {
 		if (userDefaultMavenBasics.getSelection()) {
 			String projectName = Optional.ofNullable(getProjectName().getValue()).orElse("");
-			// TODO: to convert projectName
 			group.setText(starter.getProject().getGroup());
 			artifact.setText(starter.getProject().getArtifact() + projectName);
 			version.setText(starter.getProject().getVersion());
 			desc.setText(starter.getProject().getDesc() + projectName);
-			pkg.setText(starter.getProject().getPkg()
-					+ projectName.replaceAll("-", "_").replaceAll("\\s", "").toLowerCase());
+			pkg.setText(starter.getProject().getPkg() + getProjectPackage(projectName));
 		}
+	}
+
+	private String getProjectPackage(String projectName) {
+		if (projectName == null || projectName.trim().isEmpty()) {
+			return "";
+		}
+		return Stream.of(projectName.replaceAll("[\\-|\\s]", "_").toLowerCase().split("\\.")).map(p -> {
+			if (!Packages.test(p)) {
+				p = "_" + p;
+			}
+			return p;
+		}).collect(Collectors.joining(".", ".", ""));
 	}
 
 	private final void createProjectNameGroup(Composite parent) {
@@ -221,6 +236,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		}
 		if (getPkg().getValue().endsWith(".")) {
 			setMessage("Package must not end with '.'");
+			return false;
+		}
+		if (!Packages.test(getPkg().getValue())) {
+			setMessage("'" + getPkg().getValue() + "' is not a valid package");
 			return false;
 		}
 

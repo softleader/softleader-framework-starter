@@ -32,7 +32,7 @@ public class StarterTest {
 		pd.setArtifact("softleader-");
 		pd.setDesc("SoftLeader project for ");
 		pd.setGroup("tw.com.softleader");
-		pd.setPkg("tw.com.softleader.");
+		pd.setPkg("tw.com.softleader");
 		pd.setVersion("0.0.1-SNAPSHOT");
 
 		Group<Version> versionGroup;

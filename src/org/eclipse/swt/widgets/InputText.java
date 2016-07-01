@@ -29,8 +29,8 @@ public class InputText extends Text {
 		return value;
 	}
 
-	public InputText editable(boolean editable) {
-		setEditable(editable);
+	public InputText enabled(boolean enabled) {
+		setEnabled(enabled);
 		return this;
 	}
 
