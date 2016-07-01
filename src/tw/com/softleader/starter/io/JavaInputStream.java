@@ -4,12 +4,12 @@ import java.io.ByteArrayInputStream;
 
 public class JavaInputStream extends ByteArrayInputStream {
 
-	public JavaInputStream(String pkg, String source) {
-		super(merge(pkg, source).getBytes());
+	public JavaInputStream(String projectName, String pkg, String source) {
+		super(merge(projectName, pkg, source).getBytes());
 	}
 
-	private static String merge(String pkg, String source) {
-		source = source.replaceAll("\\{pkg\\}", pkg);
+	private static String merge(String projectName, String pkg, String source) {
+		source = source.replaceAll("\\{pj\\}", projectName).replaceAll("\\{pkg\\}", pkg);
 		return source;
 	}
 

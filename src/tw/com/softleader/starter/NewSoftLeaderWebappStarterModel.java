@@ -132,10 +132,12 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.worked(1);
 			} else {
 				if (source.isWebApplicationInitializer()) {
-					file.create(new WebApplicationInitializerInputStream(projectDetails.getPkg().getValue(),
-							snippet.getRootConfigs(), snippet.getServletConfigs(), content), true, subMonitor);
+					file.create(new WebApplicationInitializerInputStream(projectDetails.getProjectName().getValue(),
+							projectDetails.getPkg().getValue(), snippet.getRootConfigs(), snippet.getServletConfigs(),
+							content), true, subMonitor);
 				} else if (source.isJava()) {
-					file.create(new JavaInputStream(projectDetails.getPkg().getValue(), content), true, subMonitor);
+					file.create(new JavaInputStream(projectDetails.getProjectName().getValue(),
+							projectDetails.getPkg().getValue(), content), true, subMonitor);
 				} else if (source.isPOM()) {
 					file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, subMonitor);
 				} else if (source.isComponent()) {

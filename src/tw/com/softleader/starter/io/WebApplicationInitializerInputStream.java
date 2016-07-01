@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 public class WebApplicationInitializerInputStream extends JavaInputStream {
 
-	public WebApplicationInitializerInputStream(String pkg, Collection<String> rootConfigs,
+	public WebApplicationInitializerInputStream(String projectName, String pkg, Collection<String> rootConfigs,
 			Collection<String> servletConfigs, String source) {
-		super(pkg, merge(pkg, rootConfigs, servletConfigs, source));
+		super(projectName, pkg, merge(pkg, rootConfigs, servletConfigs, source));
 	}
 
 	private static String merge(String pkg, Collection<String> rootConfigs, Collection<String> servletConfigs,
