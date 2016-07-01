@@ -15,10 +15,17 @@ import tw.com.softleader.starter.util.JSON;
 public class StarterTest {
 
 	@Test
+	public void generateId() {
+		System.out.println(System.currentTimeMillis());
+	}
+
+	@Test
 	public void testToJson() {
 		Starter starter = new Starter();
 		starter.setBaseUrl(
 				"https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources");
+
+		starter.setRevision(Starter.CURRENT_REVISION);
 
 		Project pd;
 		starter.setProject(pd = new Project());

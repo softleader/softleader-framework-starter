@@ -51,6 +51,11 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 			throw new Error(e);
 		}
 
+		if (!starter.isUpToDate()) {
+			MessageDialog.openInformation(getShell(), "Update SoftLeader Starter",
+					"A new version of SoftLeader Starter is available\n\nGet the latest version from https://github.com/softleader/softleader-framework-starter/releases.");
+		}
+
 		projectDetails = new ProjectDetailsPage(TITLE, starter);
 
 		dependency = new DependencyPage(TITLE, starter);

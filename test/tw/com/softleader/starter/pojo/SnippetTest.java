@@ -14,7 +14,7 @@ public class SnippetTest {
 	@Test
 	public void testToJson() {
 		Snippet snippet = new Snippet();
-
+		
 		Collection<String> rootConfigs;
 		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
 		rootConfigs.add("tw.com.softleader.data.config.DataSourceConfiguration.class");

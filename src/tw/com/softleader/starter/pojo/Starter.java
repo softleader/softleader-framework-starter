@@ -12,6 +12,9 @@ import tw.com.softleader.starter.util.JSON;
 
 public class Starter {
 
+	static final long CURRENT_REVISION = 1467338446431L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
+
+	private long revision;
 	private String baseUrl;
 	private Project project;
 	private Group<Version> versions;
@@ -21,6 +24,10 @@ public class Starter {
 	@VisibleForTesting
 	Starter() {
 		super();
+	}
+
+	public boolean isUpToDate() {
+		return revision <= CURRENT_REVISION;
 	}
 
 	public static Starter fromUrl(URL url) throws IOException {
@@ -70,6 +77,14 @@ public class Starter {
 
 	public void setModules(Collection<Group<Dependency>> modules) {
 		this.modules = modules;
+	}
+
+	public long getRevision() {
+		return revision;
+	}
+
+	public void setRevision(long revision) {
+		this.revision = revision;
 	}
 
 }
