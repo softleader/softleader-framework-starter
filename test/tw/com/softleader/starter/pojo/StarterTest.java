@@ -29,8 +29,8 @@ public class StarterTest {
 
 		Project pd;
 		starter.setProject(pd = new Project());
-		pd.setArtifact("softleader-project");
-		pd.setDesc("SoftLeader Project");
+		pd.setArtifact("softleader-");
+		pd.setDesc("SoftLeader project for ");
 		pd.setGroup("tw.com.softleader");
 		pd.setPkg("tw.com.softleader.");
 		pd.setVersion("0.0.1-SNAPSHOT");

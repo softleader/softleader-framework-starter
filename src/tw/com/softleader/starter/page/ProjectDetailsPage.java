@@ -1,6 +1,7 @@
 package tw.com.softleader.starter.page;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -11,8 +12,12 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.InputText;
@@ -40,6 +45,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	private URI locationURI;
 	private ProjectContentsLocationArea locationArea;
 	private WorkingSetGroup workingSetGroup;
+	private Button userDefaultMavenBasics;
 
 	private Listener textModifyListener = new Listener() {
 
@@ -52,7 +58,14 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		@Override
 		public void handleEvent(Event e) {
 			setLocationForSelection();
+			setDefaultMavenBasics();
 			setPageComplete(validatePage());
+		}
+	};
+	private SelectionListener defaultMavenBasicsListener = new SelectionAdapter() {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			useDefaultsMaven(userDefaultMavenBasics.getSelection());
 		}
 	};
 
@@ -69,7 +82,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		createProjectDetails(composite);
-		createMavenDetails(composite);
+		createMavenBasics(composite);
 		setPageComplete(false);
 		setErrorMessage(null);
 		setMessage(null);
@@ -90,21 +103,52 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setButtonLayoutData(locationArea.getBrowseButton());
 	}
 
-	private void createMavenDetails(Composite parent) {
+	private void createMavenBasics(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout());
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		userDefaultMavenBasics = new Button(composite, SWT.CHECK | SWT.RIGHT);
+		userDefaultMavenBasics.setText("Use default maven basics");
+		userDefaultMavenBasics.setSelection(true);
+		userDefaultMavenBasics.addSelectionListener(defaultMavenBasicsListener);
+
+		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		group = createText(composite, "Group", starter.getProject().getGroup(), TEXT_WIDTH, textModifyListener);
-		artifact = createText(composite, "Artifact", starter.getProject().getArtifact(), TEXT_WIDTH,
-				textModifyListener);
-		version = createText(composite, "Version", starter.getProject().getVersion(), TEXT_WIDTH, textModifyListener);
-		desc = createText(composite, "Description", starter.getProject().getDesc(), TEXT_WIDTH, textModifyListener);
-		pkg = createText(composite, "Package", starter.getProject().getPkg(), TEXT_WIDTH, textModifyListener);
+		group = createText(composite, "Group").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		artifact = createText(composite, "Artifact").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		version = createText(composite, "Version").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		desc = createText(composite, "Description").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		pkg = createText(composite, "Package").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
+		useDefaultsMaven(userDefaultMavenBasics.getSelection());
 
 		Dialog.applyDialogFont(composite);
+	}
+
+	public void useDefaultsMaven(boolean useDefaults) {
+		group.editable(!useDefaults);
+		artifact.editable(!useDefaults);
+		version.editable(!useDefaults);
+		desc.editable(!useDefaults);
+		pkg.editable(!useDefaults);
+		setDefaultMavenBasics();
+	}
+
+	private void setDefaultMavenBasics() {
+		if (userDefaultMavenBasics.getSelection()) {
+			String projectName = Optional.ofNullable(getProjectName().getValue()).orElse("");
+			// TODO: to convert projectName
+			group.setText(starter.getProject().getGroup());
+			artifact.setText(starter.getProject().getArtifact() + projectName);
+			version.setText(starter.getProject().getVersion());
+			desc.setText(starter.getProject().getDesc() + projectName);
+			pkg.setText(starter.getProject().getPkg()
+					+ projectName.replaceAll("-", "_").replaceAll("\\s", "").toLowerCase());
+		}
 	}
 
 	private final void createProjectNameGroup(Composite parent) {
@@ -153,7 +197,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		};
 	}
 
-	private boolean validateMavenDetails() {
+	private boolean validateMavenBasics() {
 		setErrorMessage(null);
 		if (getGroup().getValue().isEmpty()) {
 			setMessage("Group is required");
@@ -231,7 +275,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 
 	protected boolean validatePage() {
 		locationURI = locationArea.getProjectLocationURI();
-		return validateProjectDetails() && validateMavenDetails();
+		return validateProjectDetails() && validateMavenBasics();
 	}
 
 	protected boolean validateProjectDetails() {

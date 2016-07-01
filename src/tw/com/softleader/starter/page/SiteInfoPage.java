@@ -52,7 +52,8 @@ public class SiteInfoPage extends WizardPage implements SoftLeaderStarterPage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		composite.setLayout(layout);
-		baseUrl = createText(composite, "Base Url", starter.getBaseUrl(), TEXT_WIDTH, textModifyListener);
+		baseUrl = createText(composite, "Base Url").text(starter.getBaseUrl()).width(TEXT_WIDTH).listener(SWT.Modify,
+				textModifyListener);
 	}
 
 	private boolean validatePage() {
