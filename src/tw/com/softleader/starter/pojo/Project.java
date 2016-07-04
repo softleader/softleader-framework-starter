@@ -7,6 +7,7 @@ public class Project {
 	private String version;
 	private String desc;
 	private String pkg;
+	private String globalSnippet; // 包含 project settings 那些 global 的程式碼
 
 	public String getGroup() {
 		return group;
@@ -46,6 +47,14 @@ public class Project {
 
 	public void setPkg(String pkg) {
 		this.pkg = pkg;
+	}
+
+	public String getGlobalSnippet() {
+		return globalSnippet;
+	}
+
+	public void setGlobalSnippet(String globalSnippet) {
+		this.globalSnippet = globalSnippet;
 	}
 
 }

@@ -10,6 +10,33 @@ import org.junit.Test;
 import tw.com.softleader.starter.util.JSON;
 
 public class SnippetTest {
+
+	@Test
+	public void testProjectSnippet() {
+		Snippet snippet = new Snippet();
+
+		Collection<String> folders;
+		snippet.setFolders(folders = new ArrayList<>());
+		folders.add(".settings");
+		folders.add("src/main/java/{pkgPath}/config");
+
+		Collection<Source> sources;
+		snippet.setSources(sources = new ArrayList<>());
+		sources.add(new Source("org.eclipse.wst.common.component", ".settings", "org.eclipse.wst.common.component"));
+		sources.add(new Source("org.eclipse.wst.common.project.facet.core.xml", ".settings",
+				"org.eclipse.wst.common.project.facet.core.xml"));
+		sources.add(new Source("org.eclipse.m2e.core.prefs", ".settings", "org.eclipse.m2e.core.prefs"));
+		sources.add(new Source("org.eclipse.jdt.core.prefs", ".settings", "org.eclipse.jdt.core.prefs"));
+		sources.add(new Source("org.eclipse.core.resources.prefs", ".settings", "org.eclipse.core.resources.prefs"));
+		sources.add(new Source("org.eclipse.wst.validation.prefs", ".settings", "org.eclipse.wst.validation.prefs"));
+		sources.add(new Source(".classpath", "", "classpath"));
+		sources.add(new Source("pom.xml", "", "pom.xml"));
+		sources.add(new Source("WebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
+				"WebApplicationInitializer.java"));
+
+		System.out.println(JSON.toString(snippet));
+	}
+
 	@Test
 	public void testDoaminRule() {
 		Snippet snippet = new Snippet();
@@ -36,8 +63,6 @@ public class SnippetTest {
 
 		Collection<String> folders;
 		snippet.setFolders(folders = new ArrayList<>());
-		folders.add(".settings");
-		folders.add("src/main/java/{pkgPath}/config");
 		folders.add("src/main/java/{pkgPath}/service");
 		folders.add("src/main/java/{pkgPath}/web");
 		folders.add("src/main/resources");
@@ -47,30 +72,15 @@ public class SnippetTest {
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
-		sources.add(
-				new Source("org.eclipse.wst.common.component", ".settings", "org.eclipse.wst.common.component", true));
-		sources.add(new Source("org.eclipse.wst.common.project.facet.core.xml", ".settings",
-				"org.eclipse.wst.common.project.facet.core.xml", true));
-		sources.add(new Source("org.eclipse.m2e.core.prefs", ".settings", "org.eclipse.m2e.core.prefs", true));
-		sources.add(new Source("org.eclipse.jdt.core.prefs", ".settings", "org.eclipse.jdt.core.prefs", true));
-		sources.add(
-				new Source("org.eclipse.core.resources.prefs", ".settings", "org.eclipse.core.resources.prefs", true));
-		sources.add(
-				new Source("org.eclipse.wst.validation.prefs", ".settings", "org.eclipse.wst.validation.prefs", true));
-		sources.add(new Source(".classpath", "", "classpath", true));
-		sources.add(new Source("pom.xml", "", "pom.xml", true));
 		sources.add(new Source("SecurityWebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
-				"SecurityWebApplicationInitializer.java", true));
-		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkgPath}/config", "WebSecurityConfig.java",
-				false));
-		sources.add(new Source("WebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
-				"WebApplicationInitializer.java", false));
-		sources.add(new Source("UserDetailsService.java", "src/main/java/{pkgPath}/service", "UserDetailsService.java",
-				false));
-		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/web", "IndexController.java", false));
-		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties", false));
-		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp", false));
-		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp", false));
+				"SecurityWebApplicationInitializer.java"));
+		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkgPath}/config", "WebSecurityConfig.java"));
+		sources.add(
+				new Source("UserDetailsService.java", "src/main/java/{pkgPath}/service", "UserDetailsService.java"));
+		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/web", "IndexController.java"));
+		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties"));
+		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp"));
+		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp"));
 
 		String json = JSON.toString(snippet);
 		System.out.println(json);

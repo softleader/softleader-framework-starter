@@ -1,8 +1,6 @@
 package tw.com.softleader.starter.page;
 
 import java.net.URI;
-import java.sql.Array;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -47,6 +45,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	private InputText version;
 	private InputText desc;
 	private InputText pkg;
+	private String globalSnippet;
 	private URI locationURI;
 	private ProjectContentsLocationArea locationArea;
 	private WorkingSetGroup workingSetGroup;
@@ -78,6 +77,7 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		super("Project details page");
 		setTitle(title);
 		this.starter = starter;
+		this.globalSnippet = starter.getProject().getGlobalSnippet();
 	}
 
 	@Override
@@ -332,6 +332,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setErrorMessage(null);
 		setMessage(null);
 		return true;
+	}
+
+	public String getGlobalSnippet() {
+		return globalSnippet;
 	}
 
 }

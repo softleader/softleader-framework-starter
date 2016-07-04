@@ -6,10 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.internal.events.BuildCommand;
@@ -104,27 +100,25 @@ public class NewSoftLeaderWebappStarterModel {
 				.filter(DependencyRadio::isSelected).filter(DependencyRadio::hasAnySnippet)
 				.collect(Collectors.toList());
 
-		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size());
+		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size() + 1);
 		subMonitor.setTaskName("Importing snippet");
 
-		Map<Snippet, Collection<Source>> globals = new HashMap<>(); // value的collection只放global為true的
-
-		selecteds.stream().forEach(selected -> {
+		Collection<Snippet> snippets = selecteds.parallelStream().map(selected -> {
 			try {
 				String snippetUrl = siteInfo.getBaseUrl() + "/" + selected.getSnippet();
 				subMonitor.subTask("Downloading " + snippetUrl);
-				Snippet snippet = Snippet.load(snippetUrl);
-				subMonitor.subTask("Loading " + selected.getSnippet());
+				return Snippet.load(snippetUrl);
+			} catch (Exception e) {
+				throw new Error(e);
+			}
+		}).collect(Collectors.toList());
 
-				Map<Boolean, List<Source>> partitioningByGlobal = snippet.getSources().stream()
-						.collect(Collectors.partitioningBy(Source::isGlobal));
-
-				globals.put(snippet, partitioningByGlobal.get(true));
-
+		snippets.forEach(snippet -> {
+			try {
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
-						snippet.getFolders().size() + partitioningByGlobal.get(false).size());
+						snippet.getFolders().size() + snippet.getSources().size());
 				createFolders(project, snippet, snippetMonitor);
-				createSources(project, partitioningByGlobal.get(false), snippetMonitor);
+				createSources(project, snippet.getSources(), snippetMonitor);
 			} catch (Exception e) {
 				throw new Error(e);
 			} finally {
@@ -132,16 +126,21 @@ public class NewSoftLeaderWebappStarterModel {
 			}
 		});
 
-		createGlobalSnippet(project, globals, subMonitor);
+		try {
+			subMonitor.setTaskName("Importing global snippet");
+			String globalSnippetUrl = siteInfo.getBaseUrl() + "/" + projectDetails.getGlobalSnippet();
+			subMonitor.subTask("Downloading " + globalSnippetUrl);
+			Snippet globalSnippet = Snippet.load(globalSnippetUrl);
+			createGlobalSnippet(project, globalSnippet, snippets, subMonitor);
+		} finally {
+			subMonitor.worked(1);
+		}
 	}
 
-	private void createGlobalSnippet(IProject project, Map<Snippet, Collection<Source>> globals, SubMonitor monitor)
+	private void createGlobalSnippet(IProject project, Snippet global, Collection<Snippet> snippets, SubMonitor monitor)
 			throws CoreException {
-		Set<Snippet> snippets = globals.keySet();
-		Set<Source> sources = globals.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
 		String pkgPath = projectDetails.getPkgPath();
-
-		for (Source source : sources) {
+		for (Source source : global.getSources()) {
 			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
 			String path = source.getFullPath().replaceAll("\\{pkgPath\\}", pkgPath);
 			IFile file = project.getFile(path);
@@ -150,7 +149,9 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.worked(1);
 			} else {
 				SnippetSource snippetSource;
-				if (source.isWebApplicationInitializer()) {
+				if (source.isPom()) {
+					snippetSource = new Pom(projectDetails, dependency, datasource);
+				} else if (source.isWebApplicationInitializer()) {
 					snippetSource = new WebApplicationInitializer(projectDetails, snippets);
 				} else if (source.isComponent()) {
 					snippetSource = new Component(projectDetails, dependency);
@@ -173,9 +174,7 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.worked(1);
 			} else {
 				SnippetSource snippetSource;
-				if (source.isPom()) {
-					snippetSource = new Pom(projectDetails, dependency, datasource);
-				} else if (source.isDatasource()) {
+				if (source.isDatasource()) {
 					snippetSource = new Datasource(projectDetails, datasource);
 				} else {
 					snippetSource = new SnippetSource(projectDetails);

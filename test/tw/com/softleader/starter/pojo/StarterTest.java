@@ -27,13 +27,14 @@ public class StarterTest {
 
 		starter.setRevision(Starter.CURRENT_REVISION);
 
-		Project pd;
-		starter.setProject(pd = new Project());
-		pd.setArtifact("softleader-");
-		pd.setDesc("SoftLeader project for ");
-		pd.setGroup("tw.com.softleader");
-		pd.setPkg("tw.com.softleader");
-		pd.setVersion("0.0.1-SNAPSHOT");
+		Project pj;
+		starter.setProject(pj = new Project());
+		pj.setArtifact("softleader-");
+		pj.setDesc("SoftLeader project for ");
+		pj.setGroup("tw.com.softleader");
+		pj.setPkg("tw.com.softleader");
+		pj.setVersion("0.0.1-SNAPSHOT");
+		pj.setGlobalSnippet("global-snippet.zip");
 
 		Group<Version> versionGroup;
 		starter.setVersions(versionGroup = new Group<>());
