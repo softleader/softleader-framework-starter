@@ -119,6 +119,7 @@ public class NewSoftLeaderWebappStarterModel {
 			String globalSnippetUrl = siteInfo.getBaseUrl() + "/" + projectDetails.getGlobalSnippet();
 			subMonitor.subTask("Downloading " + globalSnippetUrl);
 			Snippet globalSnippet = Snippet.load(globalSnippetUrl);
+			createFolders(project, globalSnippet, subMonitor);
 			createGlobalSnippet(project, globalSnippet, snippets, subMonitor);
 		} finally {
 			subMonitor.worked(1);
