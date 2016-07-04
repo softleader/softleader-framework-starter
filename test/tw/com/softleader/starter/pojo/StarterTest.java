@@ -16,6 +16,7 @@ public class StarterTest {
 
 	@Test
 	public void generateId() {
+		// tw.com.softleader.starter.pojo.Starter.CURRENT_REVISION
 		System.out.println(System.currentTimeMillis());
 	}
 

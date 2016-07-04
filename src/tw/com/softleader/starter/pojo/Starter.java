@@ -13,7 +13,7 @@ import tw.com.softleader.starter.util.JSON;
 
 public class Starter {
 
-	static final long CURRENT_REVISION = 1467338446431L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
+	static final long CURRENT_REVISION = 1467628286587L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
 
 	private long revision;
 	private String baseUrl;
