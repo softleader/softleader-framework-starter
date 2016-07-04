@@ -34,7 +34,7 @@ public class StarterTest {
 		pj.setGroup("tw.com.softleader");
 		pj.setPkg("tw.com.softleader");
 		pj.setVersion("0.0.1-SNAPSHOT");
-		pj.setGlobalSnippet("global-snippet.zip");
+		pj.setGlobalSnippet("global-snippet/global-snippet.zip");
 
 		Group<Version> versionGroup;
 		starter.setVersions(versionGroup = new Group<>());
@@ -66,7 +66,7 @@ public class StarterTest {
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
 		data.add(new Dependency("tw.com.softleader", "softleader-web-mvc", null, null, true, false,
-				"softleader-web-mvc.zip"));
+				"softleader-web-mvc/softleader-web-mvc.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-security", null, null, true, false, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-resources", null, null, false, true, null));
 
@@ -76,7 +76,7 @@ public class StarterTest {
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-rule", null, null, false, true,
-				"softleader-domain-rule.zip"));
+				"softleader-domain-rule/softleader-domain-rule.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-formula", null, null, false, true, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-scheduling", null, null, false, true, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-report-jasper", null, null, false, true, null));

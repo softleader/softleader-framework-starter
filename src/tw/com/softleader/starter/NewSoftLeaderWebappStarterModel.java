@@ -100,7 +100,7 @@ public class NewSoftLeaderWebappStarterModel {
 				.filter(DependencyRadio::isSelected).filter(DependencyRadio::hasAnySnippet)
 				.collect(Collectors.toList());
 
-		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size() + 1);
+		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size() * 2 + 1);
 		subMonitor.setTaskName("Importing snippet");
 
 		Collection<Snippet> snippets = selecteds.parallelStream().map(selected -> {
@@ -110,6 +110,8 @@ public class NewSoftLeaderWebappStarterModel {
 				return Snippet.load(snippetUrl);
 			} catch (Exception e) {
 				throw new Error(e);
+			} finally {
+				subMonitor.worked(1);
 			}
 		}).collect(Collectors.toList());
 
@@ -127,7 +129,6 @@ public class NewSoftLeaderWebappStarterModel {
 		});
 
 		try {
-			subMonitor.setTaskName("Importing global snippet");
 			String globalSnippetUrl = siteInfo.getBaseUrl() + "/" + projectDetails.getGlobalSnippet();
 			subMonitor.subTask("Downloading " + globalSnippetUrl);
 			Snippet globalSnippet = Snippet.load(globalSnippetUrl);
