@@ -115,6 +115,15 @@ public class NewSoftLeaderWebappStarterModel {
 			}
 		}).collect(Collectors.toList());
 
+		try {
+			String globalSnippetUrl = siteInfo.getBaseUrl() + "/" + projectDetails.getGlobalSnippet();
+			subMonitor.subTask("Downloading " + globalSnippetUrl);
+			Snippet globalSnippet = Snippet.load(globalSnippetUrl);
+			createGlobalSnippet(project, globalSnippet, snippets, subMonitor);
+		} finally {
+			subMonitor.worked(1);
+		}
+
 		snippets.forEach(snippet -> {
 			try {
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
@@ -127,15 +136,6 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.worked(1);
 			}
 		});
-
-		try {
-			String globalSnippetUrl = siteInfo.getBaseUrl() + "/" + projectDetails.getGlobalSnippet();
-			subMonitor.subTask("Downloading " + globalSnippetUrl);
-			Snippet globalSnippet = Snippet.load(globalSnippetUrl);
-			createGlobalSnippet(project, globalSnippet, snippets, subMonitor);
-		} finally {
-			subMonitor.worked(1);
-		}
 	}
 
 	private void createGlobalSnippet(IProject project, Snippet global, Collection<Snippet> snippets, SubMonitor monitor)
