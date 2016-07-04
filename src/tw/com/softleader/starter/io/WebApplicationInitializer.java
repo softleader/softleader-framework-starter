@@ -20,9 +20,9 @@ public class WebApplicationInitializer extends SnippetSource {
 	@Override
 	public byte[] apply(String source) {
 		String root = rootConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
-		source = source.replaceAll("\\{rootConfigClasses\\}", root);
+		source = source.replace("{rootConfigClasses}", root);
 		String servlet = servletConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
-		source = source.replaceAll("\\{servletConfigClasses\\}", servlet);
+		source = source.replace("{servletConfigClasses}", servlet);
 		return super.apply(source);
 	}
 

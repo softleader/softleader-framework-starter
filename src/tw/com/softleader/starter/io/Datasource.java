@@ -17,11 +17,11 @@ public class Datasource extends SnippetSource {
 	@Override
 	public byte[] apply(String source) {
 		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst().get();
-		source = source.replaceAll("\\{database\\}", ds.getDatabase().toUpperCase());
-		source = source.replaceAll("\\{driverClass\\}", datasource.getDriverClass().getValue());
-		source = source.replaceAll("\\{url\\}", datasource.getUrl().getValue());
-		source = source.replaceAll("\\{username\\}", datasource.getUsername().getValue());
-		source = source.replaceAll("\\{password\\}", datasource.getPassword().getValue());
+		source = source.replace("{database}", ds.getDatabase().toUpperCase());
+		source = source.replace("{driverClass}", datasource.getDriverClass().getValue());
+		source = source.replace("{url}", datasource.getUrl().getValue());
+		source = source.replace("{username}", datasource.getUsername().getValue());
+		source = source.replace("{password}", datasource.getPassword().getValue());
 
 		return super.apply(source);
 	}

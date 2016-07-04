@@ -10,9 +10,18 @@ import org.junit.Test;
 import tw.com.softleader.starter.util.JSON;
 
 public class SnippetTest {
+	@Test
+	public void testDoaminRule() {
+		Snippet snippet = new Snippet();
+		Collection<String> rootConfigs;
+		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
+		rootConfigs.add("tw.com.softleader.rule.config.RuleConfiguration.class");
+
+		System.out.println(JSON.toString(snippet));
+	}
 
 	@Test
-	public void testToJson() {
+	public void testWebMvc() {
 		Snippet snippet = new Snippet();
 
 		Collection<String> rootConfigs;

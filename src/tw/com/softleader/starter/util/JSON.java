@@ -39,7 +39,7 @@ public class JSON {
 		BooleanAdapter booleanAdapter = new BooleanAdapter();
 		return new GsonBuilder().registerTypeAdapter(Boolean.class, booleanAdapter)
 				.registerTypeAdapter(boolean.class, booleanAdapter)
-				.setPrettyPrinting()
+				// .setPrettyPrinting()
 				.create();
 	}
 

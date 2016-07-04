@@ -25,7 +25,7 @@ public class Component extends SnippetSource {
 				.filter(DependencyRadio::isSelected)
 				.map(select -> select.getComponentText(version.getSoftleaderFramework()))
 				.collect(Collectors.joining("\n"));
-		source = source.replaceAll("\\{dependent-module\\}", dependentModule);
+		source = source.replace("{dependent-module}", dependentModule);
 		return super.apply(source);
 	}
 

@@ -25,22 +25,22 @@ public class Pom extends SnippetSource {
 
 	@Override
 	public byte[] apply(String source) {
-		source = source.replaceAll("\\{projectName\\}", projectDetails.getProjectName().getValue());
-		source = source.replaceAll("\\{groupId\\}", projectDetails.getGroup().getValue());
-		source = source.replaceAll("\\{artifactId\\}", projectDetails.getArtifact().getValue());
-		source = source.replaceAll("\\{version\\}", projectDetails.getVersion().getValue());
+		source = source.replace("{projectName}", projectDetails.getProjectName().getValue());
+		source = source.replace("{groupId}", projectDetails.getGroup().getValue());
+		source = source.replace("{artifactId}", projectDetails.getArtifact().getValue());
+		source = source.replace("{version}", projectDetails.getVersion().getValue());
 
 		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
-		source = source.replaceAll("\\{slVersion\\}", version.getSoftleaderFramework());
-		source = source.replaceAll("\\{ioVersion\\}", version.getIoPlatform());
+		source = source.replace("{slVersion}", version.getSoftleaderFramework());
+		source = source.replace("{ioVersion}", version.getIoPlatform());
 
 		String dependencyText = dependency.getModules().values().stream().flatMap(Collection::stream)
 				.filter(DependencyRadio::isSelected).sorted(Comparator.comparing(DependencyRadio::getArtifactId))
 				.map(DependencyRadio::getPomText).collect(Collectors.joining("\n"));
-		source = source.replaceAll("\\{dependencies\\}", dependencyText);
+		source = source.replace("{dependencies}", dependencyText);
 
 		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst().get(); // 一定會有選擇
-		source = source.replaceAll("\\{datasource\\}", ds.getPomText());
+		source = source.replace("{datasource}", ds.getPomText());
 
 		return super.apply(source);
 	}

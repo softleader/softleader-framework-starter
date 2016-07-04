@@ -74,7 +74,8 @@ public class StarterTest {
 		group.setStyle(Style.CHECK);
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
-		data.add(new Dependency("tw.com.softleader", "softleader-domain-rule", null, null, false, true, null));
+		data.add(new Dependency("tw.com.softleader", "softleader-domain-rule", null, null, false, true,
+				"softleader-domain-rule.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-formula", null, null, false, true, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-scheduling", null, null, false, true, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-report-jasper", null, null, false, true, null));
