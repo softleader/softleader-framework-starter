@@ -116,17 +116,15 @@ public class NewSoftLeaderWebappStarterModel {
 				Snippet snippet = Snippet.load(snippetUrl);
 				subMonitor.subTask("Loading " + selected.getSnippet());
 
-				Map<Boolean, List<Source>> byGlobal = snippet.getSources().stream()
+				Map<Boolean, List<Source>> partitioningByGlobal = snippet.getSources().stream()
 						.collect(Collectors.partitioningBy(Source::isGlobal));
-				if (!byGlobal.get(true).isEmpty()) {
-					globals.put(snippet, globals.get(true));
-				}
+
+				globals.put(snippet, partitioningByGlobal.get(true));
 
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
-						snippet.getFolders().size() + globals.get(false).size());
+						snippet.getFolders().size() + partitioningByGlobal.get(false).size());
 				createFolders(project, snippet, snippetMonitor);
-
-				createSources(project, globals.get(false), snippetMonitor);
+				createSources(project, partitioningByGlobal.get(false), snippetMonitor);
 			} catch (Exception e) {
 				throw new Error(e);
 			} finally {
