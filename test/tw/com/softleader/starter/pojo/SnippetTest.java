@@ -14,7 +14,7 @@ public class SnippetTest {
 	@Test
 	public void testToJson() {
 		Snippet snippet = new Snippet();
-		
+
 		Collection<String> rootConfigs;
 		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
 		rootConfigs.add("tw.com.softleader.data.config.DataSourceConfiguration.class");
@@ -28,12 +28,12 @@ public class SnippetTest {
 		Collection<String> folders;
 		snippet.setFolders(folders = new ArrayList<>());
 		folders.add(".settings");
-		folders.add("src/main/java/{pkg}/config");
-		folders.add("src/main/java/{pkg}/service");
-		folders.add("src/main/java/{pkg}/web");
+		folders.add("src/main/java/{pkgPath}/config");
+		folders.add("src/main/java/{pkgPath}/service");
+		folders.add("src/main/java/{pkgPath}/web");
 		folders.add("src/main/resources");
 		folders.add("src/main/webapp/WEB-INF/pages");
-		folders.add("src/test/java/{pkg}");
+		folders.add("src/test/java/{pkgPath}");
 		folders.add("src/test/resources");
 
 		Collection<Source> sources;
@@ -47,13 +47,14 @@ public class SnippetTest {
 		sources.add(new Source("org.eclipse.wst.validation.prefs", ".settings", "org.eclipse.wst.validation.prefs"));
 		sources.add(new Source(".classpath", "", "classpath"));
 		sources.add(new Source("pom.xml", "", "pom.xml"));
-		sources.add(new Source("SecurityWebApplicationInitializer.java", "src/main/java/{pkg}/config",
+		sources.add(new Source("SecurityWebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
 				"SecurityWebApplicationInitializer.java"));
-		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkg}/config", "WebSecurityConfig.java"));
-		sources.add(new Source("WebApplicationInitializer.java", "src/main/java/{pkg}/config",
+		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkgPath}/config", "WebSecurityConfig.java"));
+		sources.add(new Source("WebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
 				"WebApplicationInitializer.java"));
-		sources.add(new Source("UserDetailsService.java", "src/main/java/{pkg}/service", "UserDetailsService.java"));
-		sources.add(new Source("IndexController.java", "src/main/java/{pkg}/web", "IndexController.java"));
+		sources.add(
+				new Source("UserDetailsService.java", "src/main/java/{pkgPath}/service", "UserDetailsService.java"));
+		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/web", "IndexController.java"));
 		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties"));
 		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp"));
 		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp"));

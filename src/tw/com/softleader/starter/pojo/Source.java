@@ -82,20 +82,16 @@ public class Source {
 		return getName().endsWith("WebApplicationInitializer.java");
 	}
 
-	public boolean isJava() {
-		return getName().endsWith(".java");
-	}
-
 	public boolean isComponent() {
 		return getName().endsWith(".component");
 	}
 
 	public boolean isDatasource() {
-		return getName().endsWith("datasource.properties");
+		return getName().equals("datasource.properties");
 	}
 
-	public boolean isPOM() {
-		return getName().endsWith("pom.xml");
+	public boolean isPom() {
+		return getName().equals("pom.xml");
 	}
 
 }

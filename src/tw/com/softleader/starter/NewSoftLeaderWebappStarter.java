@@ -3,6 +3,7 @@ package tw.com.softleader.starter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.UUID;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -15,6 +16,10 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
@@ -25,6 +30,7 @@ import tw.com.softleader.starter.pojo.Starter;
 public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
 	public static final String STARTER = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/starter.json";
+	private static final String RELEASES = "https://github.com/softleader/softleader-framework-starter/releases";
 	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
 	private static final String TITLE = "New SoftLeader Webapp";
 	private ProjectDetailsPage projectDetails;
@@ -52,8 +58,18 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		}
 
 		if (!starter.isUpToDate()) {
-			MessageDialog.openInformation(getShell(), "Update SoftLeader Starter",
-					"A new version of SoftLeader Starter is available\n\nGet the latest version from https://github.com/softleader/softleader-framework-starter/releases.");
+			boolean ok = MessageDialog.openConfirm(getShell(), "Update SoftLeader Starter",
+					"A new version of SoftLeader Starter is available, press OK to download.");
+			if (ok) {
+				try {
+					openBrowser(RELEASES);
+				} catch (PartInitException | MalformedURLException e) {
+					MessageDialog.openInformation(getShell(), "Could not open browser",
+							"Please get the latest version from " + RELEASES);
+				}
+			} else {
+				MessageDialog.openWarning(getShell(), "Caution", "Project creates may fail with an older version!");
+			}
 		}
 
 		projectDetails = new ProjectDetailsPage(TITLE, starter);
@@ -68,6 +84,23 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		siteInfo.setPreviousPage(datasource);
 
 		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource, siteInfo);
+	}
+
+	@SuppressWarnings("restriction")
+	private void openBrowser(String location) throws MalformedURLException, PartInitException {
+		URL url = new URL(location);
+		try {
+			PlatformUI.getWorkbench().getBrowserSupport().getExternalBrowser().openURL(url);
+		} catch (PartInitException e) {
+			int flags = IWorkbenchBrowserSupport.AS_EDITOR | IWorkbenchBrowserSupport.LOCATION_BAR
+					| IWorkbenchBrowserSupport.NAVIGATION_BAR;
+			if (!WorkbenchBrowserSupport.getInstance().isInternalWebBrowserAvailable()) {
+				flags |= IWorkbenchBrowserSupport.AS_EXTERNAL | IWorkbenchBrowserSupport.LOCATION_BAR
+						| IWorkbenchBrowserSupport.NAVIGATION_BAR;
+			}
+			WorkbenchBrowserSupport.getInstance().createBrowser(flags, UUID.randomUUID().toString(), null, null)
+					.openURL(url);
+		}
 	}
 
 	@Override

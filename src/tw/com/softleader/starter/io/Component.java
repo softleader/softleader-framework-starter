@@ -1,6 +1,5 @@
 package tw.com.softleader.starter.io;
 
-import java.io.ByteArrayInputStream;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -8,24 +7,26 @@ import org.eclipse.swt.widgets.DependencyRadio;
 import org.eclipse.swt.widgets.VersionRadio;
 
 import tw.com.softleader.starter.page.DependencyPage;
+import tw.com.softleader.starter.page.ProjectDetailsPage;
 
-public class ComponentInputStream extends ByteArrayInputStream {
+public class Component extends SnippetSource {
 
-	public ComponentInputStream(String projectName, DependencyPage dependency, String source) {
-		super(merge(projectName, dependency, source).getBytes());
+	protected final DependencyPage dependency;
+
+	public Component(ProjectDetailsPage projectDetails, DependencyPage dependency) {
+		super(projectDetails);
+		this.dependency = dependency;
 	}
 
-	private static String merge(String projectName, DependencyPage dependency, String source) {
-		source = source.replaceAll("\\{pj\\}", projectName);
-
+	@Override
+	public byte[] apply(String source) {
 		VersionRadio version = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
 		String dependentModule = dependency.getModules().values().stream().flatMap(Collection::stream)
 				.filter(DependencyRadio::isSelected)
 				.map(select -> select.getComponentText(version.getSoftleaderFramework()))
 				.collect(Collectors.joining("\n"));
-		source = source.replace("{dependent-module}", dependentModule);
-
-		return source;
+		source = source.replaceAll("\\{dependent-module\\}", dependentModule);
+		return super.apply(source);
 	}
 
 }

@@ -23,11 +23,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.swt.widgets.DependencyRadio;
 
-import tw.com.softleader.starter.io.ComponentInputStream;
-import tw.com.softleader.starter.io.DatasourceInputStream;
-import tw.com.softleader.starter.io.JavaInputStream;
-import tw.com.softleader.starter.io.PomInputStream;
-import tw.com.softleader.starter.io.WebApplicationInitializerInputStream;
+import tw.com.softleader.starter.io.Component;
+import tw.com.softleader.starter.io.Datasource;
+import tw.com.softleader.starter.io.Pom;
+import tw.com.softleader.starter.io.SnippetSource;
+import tw.com.softleader.starter.io.WebApplicationInitializer;
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
@@ -125,31 +125,26 @@ public class NewSoftLeaderWebappStarterModel {
 		String pkgPath = projectDetails.getPkgPath();
 		for (Source source : sources) {
 			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
-			String path = source.getFullPath().replace("{pkg}", pkgPath);
+			String path = source.getFullPath().replaceAll("\\{pkgPath\\}", pkgPath);
 			IFile file = project.getFile(path);
 			String content = source.getContent();
 			if (content == null || content.isEmpty()) {
 				subMonitor.worked(1);
 			} else {
+				SnippetSource snippetSource;
 				if (source.isWebApplicationInitializer()) {
-					file.create(new WebApplicationInitializerInputStream(projectDetails.getProjectName().getValue(),
-							projectDetails.getPkg().getValue(), snippet.getRootConfigs(), snippet.getServletConfigs(),
-							content), true, subMonitor);
-				} else if (source.isJava()) {
-					file.create(new JavaInputStream(projectDetails.getProjectName().getValue(),
-							projectDetails.getPkg().getValue(), content), true, subMonitor);
-				} else if (source.isPOM()) {
-					file.create(new PomInputStream(projectDetails, dependency, datasource, content), true, subMonitor);
+					snippetSource = new WebApplicationInitializer(projectDetails, snippet.getRootConfigs(),
+							snippet.getServletConfigs());
+				} else if (source.isPom()) {
+					snippetSource = new Pom(projectDetails, dependency, datasource);
 				} else if (source.isComponent()) {
-					file.create(
-							new ComponentInputStream(projectDetails.getProjectName().getValue(), dependency, content),
-							true, subMonitor);
+					snippetSource = new Component(projectDetails, dependency);
 				} else if (source.isDatasource()) {
-					file.create(new DatasourceInputStream(projectDetails, datasource, content), true, subMonitor);
+					snippetSource = new Datasource(projectDetails, datasource);
 				} else {
-					file.create(new ByteArrayInputStream(content.getBytes()), true, subMonitor);
+					snippetSource = new SnippetSource(projectDetails);
 				}
-				// System.out.println("File [" + path + "] created:");
+				file.create(new ByteArrayInputStream(snippetSource.apply(content)), true, subMonitor);
 			}
 		}
 	}
@@ -158,7 +153,7 @@ public class NewSoftLeaderWebappStarterModel {
 		Collection<String> folders = snippet.getFolders();
 		String pkg = projectDetails.getPkgPath();
 		for (String folder : folders) {
-			String path = folder.replace("{pkg}", pkg);
+			String path = folder.replaceAll("\\{pkgPath\\}", pkg);
 			createFolder(project.getFolder(path), monitor.newChild(1, SubMonitor.SUPPRESS_NONE));
 			// System.out.println("Folder [" + path + "] created");
 		}
