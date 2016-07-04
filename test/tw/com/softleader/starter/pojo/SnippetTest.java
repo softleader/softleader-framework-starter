@@ -60,7 +60,7 @@ public class SnippetTest {
 		sources.add(new Source(".classpath", "", "classpath", true));
 		sources.add(new Source("pom.xml", "", "pom.xml", true));
 		sources.add(new Source("SecurityWebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
-				"SecurityWebApplicationInitializer.java", false));
+				"SecurityWebApplicationInitializer.java", true));
 		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkgPath}/config", "WebSecurityConfig.java",
 				false));
 		sources.add(new Source("WebApplicationInitializer.java", "src/main/java/{pkgPath}/config",

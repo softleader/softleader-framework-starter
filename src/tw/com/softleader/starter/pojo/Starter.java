@@ -2,6 +2,7 @@ package tw.com.softleader.starter.pojo;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -18,7 +19,7 @@ public class Starter {
 	private String baseUrl;
 	private Project project;
 	private Group<Version> versions;
-	private Collection<Group<Dependency>> modules;
+	private Collection<Group<Dependency>> modules = new ArrayList<>();
 	private Group<Database> database;
 
 	@VisibleForTesting

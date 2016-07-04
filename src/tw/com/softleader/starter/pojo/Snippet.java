@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -23,10 +24,10 @@ public class Snippet {
 
 	private static final String SNIPPET_JSON = "snippet.json";
 
-	private Collection<String> rootConfigs;
-	private Collection<String> servletConfigs;
-	private Collection<String> folders;
-	private Collection<Source> sources;
+	private Collection<String> rootConfigs = new ArrayList<>();
+	private Collection<String> servletConfigs = new ArrayList<>();
+	private Collection<String> folders = new ArrayList<>();
+	private Collection<Source> sources = new ArrayList<>();
 
 	public static Snippet load(String url) throws MalformedURLException, IOException {
 		InputStream in = new URL(url).openStream();
@@ -73,6 +74,12 @@ public class Snippet {
 
 	public void setSources(Collection<Source> sources) {
 		this.sources = sources;
+	}
+
+	@Override
+	public String toString() {
+		return "Snippet [rootConfigs=" + rootConfigs + ", servletConfigs=" + servletConfigs + ", folders=" + folders
+				+ ", sources=" + sources + "]";
 	}
 
 }
