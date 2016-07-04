@@ -65,7 +65,7 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 					openBrowser(RELEASES);
 				} catch (PartInitException | MalformedURLException e) {
 					MessageDialog.openInformation(getShell(), "Could not open browser",
-							"Please get the latest version from " + RELEASES);
+							"Please get the latest version from '" + RELEASES + "'");
 				}
 			} else {
 				MessageDialog.openWarning(getShell(), "Caution", "Project creates may fail with an older version!");
