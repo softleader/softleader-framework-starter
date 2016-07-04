@@ -6,6 +6,7 @@ public class Source {
 	private String path;
 	private String archive; // archive location in zip file
 	private String content;
+	private boolean global;
 
 	@Override
 	public String toString() {
@@ -21,11 +22,12 @@ public class Source {
 		this.path = path;
 	}
 
-	public Source(String name, String path, String archive) {
+	public Source(String name, String path, String archive, boolean global) {
 		super();
 		this.name = name;
 		this.path = path;
 		this.archive = archive;
+		this.global = global;
 	}
 
 	public boolean isFolder() {
@@ -92,6 +94,14 @@ public class Source {
 
 	public boolean isPom() {
 		return getName().equals("pom.xml");
+	}
+
+	public boolean isGlobal() {
+		return global;
+	}
+
+	public void setGlobal(boolean global) {
+		this.global = global;
 	}
 
 }

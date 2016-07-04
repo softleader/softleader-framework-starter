@@ -6,6 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.internal.events.BuildCommand;
@@ -102,27 +106,43 @@ public class NewSoftLeaderWebappStarterModel {
 
 		SubMonitor subMonitor = SubMonitor.convert(monitor, selecteds.size());
 		subMonitor.setTaskName("Importing snippet");
+
+		Map<Snippet, Collection<Source>> globals = new HashMap<>(); // value的collection只放global為true的
+
 		selecteds.stream().forEach(selected -> {
 			try {
 				String snippetUrl = siteInfo.getBaseUrl() + "/" + selected.getSnippet();
 				subMonitor.subTask("Downloading " + snippetUrl);
 				Snippet snippet = Snippet.load(snippetUrl);
 				subMonitor.subTask("Loading " + selected.getSnippet());
+
+				Map<Boolean, List<Source>> byGlobal = snippet.getSources().stream()
+						.collect(Collectors.partitioningBy(Source::isGlobal));
+				if (!byGlobal.get(true).isEmpty()) {
+					globals.put(snippet, globals.get(true));
+				}
+
 				SubMonitor snippetMonitor = SubMonitor.convert(monitor,
-						snippet.getFolders().size() + snippet.getSources().size());
+						snippet.getFolders().size() + globals.get(false).size());
 				createFolders(project, snippet, snippetMonitor);
-				createSources(project, snippet, snippetMonitor);
+
+				createSources(project, globals.get(false), snippetMonitor);
 			} catch (Exception e) {
 				throw new Error(e);
 			} finally {
 				subMonitor.worked(1);
 			}
 		});
+
+		createGlobalSnippet(project, globals, subMonitor);
 	}
 
-	private void createSources(IProject project, Snippet snippet, SubMonitor monitor) throws CoreException {
-		Collection<Source> sources = snippet.getSources();
+	private void createGlobalSnippet(IProject project, Map<Snippet, Collection<Source>> globals, SubMonitor monitor)
+			throws CoreException {
+		Set<Snippet> snippets = globals.keySet();
+		Set<Source> sources = globals.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
 		String pkgPath = projectDetails.getPkgPath();
+
 		for (Source source : sources) {
 			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
 			String path = source.getFullPath().replaceAll("\\{pkgPath\\}", pkgPath);
@@ -133,12 +153,30 @@ public class NewSoftLeaderWebappStarterModel {
 			} else {
 				SnippetSource snippetSource;
 				if (source.isWebApplicationInitializer()) {
-					snippetSource = new WebApplicationInitializer(projectDetails, snippet.getRootConfigs(),
-							snippet.getServletConfigs());
-				} else if (source.isPom()) {
-					snippetSource = new Pom(projectDetails, dependency, datasource);
+					snippetSource = new WebApplicationInitializer(projectDetails, snippets);
 				} else if (source.isComponent()) {
 					snippetSource = new Component(projectDetails, dependency);
+				} else {
+					snippetSource = new SnippetSource(projectDetails);
+				}
+				file.create(new ByteArrayInputStream(snippetSource.apply(content)), true, subMonitor);
+			}
+		}
+	}
+
+	private void createSources(IProject project, Collection<Source> sources, SubMonitor monitor) throws CoreException {
+		String pkgPath = projectDetails.getPkgPath();
+		for (Source source : sources) {
+			SubMonitor subMonitor = monitor.newChild(1, SubMonitor.SUPPRESS_NONE);
+			String path = source.getFullPath().replaceAll("\\{pkgPath\\}", pkgPath);
+			IFile file = project.getFile(path);
+			String content = source.getContent();
+			if (content == null || content.isEmpty()) {
+				subMonitor.worked(1);
+			} else {
+				SnippetSource snippetSource;
+				if (source.isPom()) {
+					snippetSource = new Pom(projectDetails, dependency, datasource);
 				} else if (source.isDatasource()) {
 					snippetSource = new Datasource(projectDetails, datasource);
 				} else {
