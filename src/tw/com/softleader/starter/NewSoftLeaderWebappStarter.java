@@ -58,7 +58,7 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 		}
 
 		if (!starter.isUpToDate()) {
-			boolean ok = MessageDialog.openConfirm(getShell(), "Update SoftLeader Starter",
+			boolean ok = MessageDialog.openConfirm(getShell(), "Update Available",
 					"A new version of SoftLeader Starter is available, press OK to download.");
 			if (ok) {
 				try {
