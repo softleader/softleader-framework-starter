@@ -12,6 +12,23 @@ import tw.com.softleader.starter.util.JSON;
 public class SnippetTest {
 
 	@Test
+	public void testDomainSchedulingSnippet() {
+		Snippet snippet = new Snippet();
+
+		Collection<String> rootConfigs;
+		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
+		rootConfigs.add("SchedulingConfig.class");
+
+		Collection<Source> sources;
+		snippet.setSources(sources = new ArrayList<>());
+		sources.add(new Source("schedule.properties", "src/main/resources", "schedule.properties"));
+		sources.add(new Source("SchedulingConfig.java", "src/main/java/{pkgPath}/config", "SchedulingConfig.java"));
+		sources.add(new Source("JobController.java", "src/main/java/{pkgPath}/web", "JobController.java"));
+
+		System.out.println(JSON.toString(snippet));
+	}
+
+	@Test
 	public void testProjectSnippet() {
 		Snippet snippet = new Snippet();
 

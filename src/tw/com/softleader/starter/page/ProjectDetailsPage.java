@@ -146,6 +146,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 	private void setDefaultMavenBasics() {
 		if (userDefaultMavenBasics.getSelection()) {
 			String projectName = Optional.ofNullable(getProjectName().getValue()).orElse("");
+			if (projectName.startsWith("softleader-")) {
+				projectName = projectName.replaceFirst("softleader-", "");
+			}
+			projectName = projectName.trim();
 			group.setText(starter.getProject().getGroup());
 			artifact.setText(starter.getProject().getArtifact() + projectName.toLowerCase());
 			version.setText(starter.getProject().getVersion());

@@ -98,10 +98,6 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 			setMessage("Url is required");
 			return false;
 		}
-		if (getPassword().getValue() == null || getPassword().getValue().isEmpty()) {
-			setMessage("Password is required");
-			return false;
-		}
 		if (getUsername().getValue() == null || getUsername().getValue().isEmpty()) {
 			setMessage("Username is required");
 			return false;

@@ -79,7 +79,8 @@ public class StarterTest {
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-rule", null, null, false, true,
 				"softleader-domain-rule/softleader-domain-rule.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-formula", null, null, false, true, null));
-		data.add(new Dependency("tw.com.softleader", "softleader-domain-scheduling", null, null, false, true, null));
+		data.add(new Dependency("tw.com.softleader", "softleader-domain-scheduling", null, null, false, true,
+				"softleader-web-scheduling/softleader-web-scheduling.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-report-jasper", null, null, false, true, null));
 		data.add(new Dependency("tw.com.softleader", "softleader-domain-bpm", null, null, false, false, null));
 
