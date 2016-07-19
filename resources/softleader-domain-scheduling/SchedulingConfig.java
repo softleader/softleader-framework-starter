@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -48,7 +47,7 @@ public class SchedulingConfig {
   }
 
   @Bean
-  public TaskScheduler taskScheduler(LeaderElection leaderElection) {
+  public LeaderElectionTaskScheduler taskScheduler(LeaderElection leaderElection) {
     final ThreadPoolTaskScheduler taskSchedule = new ThreadPoolTaskScheduler();
     taskSchedule.setPoolSize(Integer.parseInt(poolSize));
     taskSchedule.afterPropertiesSet();
