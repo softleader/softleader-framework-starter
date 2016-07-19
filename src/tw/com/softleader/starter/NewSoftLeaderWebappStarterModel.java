@@ -109,6 +109,7 @@ public class NewSoftLeaderWebappStarterModel {
 				subMonitor.subTask("Downloading " + snippetUrl);
 				return Snippet.load(snippetUrl);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new Error(e);
 			} finally {
 				subMonitor.worked(1);
@@ -132,6 +133,7 @@ public class NewSoftLeaderWebappStarterModel {
 				createFolders(project, snippet, snippetMonitor);
 				createSources(project, snippet.getSources(), snippetMonitor);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new Error(e);
 			} finally {
 				subMonitor.worked(1);
