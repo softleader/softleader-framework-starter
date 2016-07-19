@@ -98,6 +98,8 @@ public class SnippetTest {
 		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties"));
 		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp"));
 		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp"));
+		sources.add(new Source("logback.xml", "src/main/resources/", "logback.xml"));
+		sources.add(new Source("logback-test.xml", "src/test/resources/", "logback.xml"));
 
 		String json = JSON.toString(snippet);
 		System.out.println(json);
