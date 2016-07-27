@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import {pkg}.example.entity.ExampleEntity;
 import {pkg}.example.service.ExampleService;
 
+/**
+ * 相關文件: https://github.com/softleader/softleader-framework-docs/wiki/QueryPrompt
+ * 
+ * @author Matt S.Y. Ho
+ *
+ */
 @RestController
 @RequestMapping("/examples")
 public class ExampleController {

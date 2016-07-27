@@ -12,6 +12,12 @@ import {pkg}.example.dao.ExampleDao;
 import {pkg}.example.entity.ExampleEntity;
 import {pkg}.example.service.ExampleService;
 
+/**
+ * 相關文件: https://github.com/softleader/softleader-framework-docs/wiki/Entity-Guarantee
+ * 
+ * @author Matt S.Y. Ho
+ *
+ */
 @Service
 public class ExampleServiceImpl extends AbstractCrudCodeService<ExampleEntity, Long>
     implements ExampleService {

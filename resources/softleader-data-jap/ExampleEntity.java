@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
@@ -15,6 +17,11 @@ import tw.com.softleader.commons.validation.constraints.AssertThat;
 import tw.com.softleader.commons.validation.constraints.Latin;
 import tw.com.softleader.data.entity.GenericCodeEntity;
 
+/**
+ * 相關文件: https://github.com/softleader/softleader-framework-docs/wiki/Bean-Validation
+ * 
+ * @author Matt S.Y. Ho
+ */
 @SuppressWarnings("serial")
 @Setter
 @Getter
@@ -25,6 +32,8 @@ import tw.com.softleader.data.entity.GenericCodeEntity;
     propertyNode = "age", message = "{example.birthday.and.age.not.match}")
 public class ExampleEntity extends GenericCodeEntity<Long> {
 
+  @Min(0)
+  @Max(130)
   @Column(name = "age")
   private int age;
 
