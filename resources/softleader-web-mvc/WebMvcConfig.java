@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -25,7 +24,6 @@ import tw.com.softleader.commons.json.jackson.TranslatableJsonSerializer;
 import tw.com.softleader.data.page.SLPageableHandlerMethodArgumentResolver;
 import tw.com.softleader.web.mvc.config.WebMvcConfiguration;
 
-@Lazy
 @Configuration
 @EnableWebMvc
 @Primary
