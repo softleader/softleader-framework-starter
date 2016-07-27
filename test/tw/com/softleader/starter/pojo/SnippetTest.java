@@ -123,8 +123,8 @@ public class SnippetTest {
 
 		Collection<String> folders;
 		snippet.setFolders(folders = new ArrayList<>());
-		folders.add("src/main/java/{pkgPath}/service");
-		folders.add("src/main/java/{pkgPath}/web");
+		folders.add("src/main/java/{pkgPath}/security/service");
+		folders.add("src/main/java/{pkgPath}/index/web");
 		folders.add("src/main/resources");
 		folders.add("src/main/webapp/WEB-INF/pages");
 		folders.add("src/test/java/{pkgPath}");

@@ -15,6 +15,8 @@ public class WebApplicationInitializer extends SnippetSource {
 		super(projectDetails);
 		this.rootConfigs = snippets.stream().map(Snippet::getRootConfigs).flatMap(Collection::stream)
 				.collect(Collectors.toSet());
+		snippets.stream().map(Snippet::getRemoveRootConfigs).flatMap(Collection::stream)
+				.forEach(this.rootConfigs::remove);
 		this.servletConfigs = snippets.stream().map(Snippet::getServletConfigs).flatMap(Collection::stream)
 				.collect(Collectors.toSet());
 	}
