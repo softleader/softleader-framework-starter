@@ -141,7 +141,7 @@ public class SnippetTest {
 				"UserDetailsService.java"));
 		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/index/web", "IndexController.java"));
 		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties"));
-		sources.add(new Source("datasource.properties", "test/main/resources", "datasource.properties"));
+		sources.add(new Source("datasource.properties", "src/test/resources", "datasource.properties"));
 		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp"));
 		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp"));
 		sources.add(new Source("logback.xml", "src/main/resources/", "logback.xml"));
