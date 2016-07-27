@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 
-import {pkg}.service.UserDetailsService;
+import {pkg}.security.service.UserDetailsService;
 import tw.com.softleader.security.authentication.MoreDetailsBinder;
 import tw.com.softleader.security.authentication.MoreUserDetailsService;
 import tw.com.softleader.security.config.MoreWebSecurityConfiguration;
