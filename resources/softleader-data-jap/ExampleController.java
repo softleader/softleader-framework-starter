@@ -36,7 +36,7 @@ public class ExampleController {
   @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
   public ExampleEntity getOne(@PathVariable("id") long id) {
     return exampleService.getOne(id)
-        // FIXME: 專案應該影自己的撈不到資料的邏輯
+        // FIXME: 專案應該影自己的撈不到資料的邏輯, 如: .orElseThrow(() -> new NotFoundException(ExampleEntity.class, id));
         .orElse(null);
   }
 
