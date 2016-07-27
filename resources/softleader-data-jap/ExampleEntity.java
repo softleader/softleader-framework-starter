@@ -39,7 +39,7 @@ public class ExampleEntity extends GenericCodeEntity<Long> {
   @NotNull
   @Latin
   @Override
-  public String getCode() {
+  public String getCode() { // 可以透過 override getter 對 super 的欄位加上驗證
     return super.getCode();
   }
 
