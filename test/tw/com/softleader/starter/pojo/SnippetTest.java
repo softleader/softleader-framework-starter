@@ -7,9 +7,51 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
 import tw.com.softleader.starter.util.JSON;
 
 public class SnippetTest {
+
+	@Test
+	public void testJpaSnippet() {
+		Snippet snippet = new Snippet();
+
+		Collection<String> folders;
+		snippet.setFolders(folders = new ArrayList<>());
+		folders.add("src/main/java/{pkgPath}/example/dao");
+		folders.add("src/main/java/{pkgPath}/example/entity");
+		folders.add("src/main/java/{pkgPath}/example/service");
+		folders.add("src/main/java/{pkgPath}/example/service/impl");
+		folders.add("src/main/java/{pkgPath}/example/web");
+		folders.add("src/test/java/{pkgPath}/example/service");
+		folders.add("src/test/java/{pkgPath}/example/web");
+
+		snippet.setRootConfigs(Lists.newArrayList("DataSourceConfig.class"));
+		snippet.setRemoveRootConfigs(Lists.newArrayList("tw.com.softleader.data.config.DataSourceConfiguration.class"));
+
+		Collection<Source> sources;
+		snippet.setSources(sources = new ArrayList<>());
+		sources.add(new Source("DataSourceConfig.java", "src/main/java/{pkgPath}/config", "DataSourceConfig.java"));
+		sources.add(
+				new Source("ExampleController.java", "src/main/java/{pkgPath}/example/web", "ExampleController.java"));
+		sources.add(new Source("ExampleControllerTest.java", "src/test/java/{pkgPath}/example/web",
+				"ExampleControllerTest.java"));
+		sources.add(new Source("ExampleDao.java", "src/main/java/{pkgPath}/example/dao", "ExampleDao.java"));
+		sources.add(new Source("ExampleEntity.java", "src/main/java/{pkgPath}/example/entity", "ExampleEntity.java"));
+		sources.add(
+				new Source("ExampleService.java", "src/main/java/{pkgPath}/example/service", "ExampleService.java"));
+		sources.add(new Source("ExampleServiceImpl.java", "src/main/java/{pkgPath}/example/service/impl",
+				"ExampleServiceImpl.java"));
+		sources.add(new Source("ExampleServiceTest.java", "src/test/java/{pkgPath}/example/service",
+				"ExampleServiceTest.java"));
+		sources.add(
+				new Source("ValidationMessages.properties", "src/main/resources/", "ValidationMessages.properties"));
+		sources.add(
+				new Source("ValidationMessages.properties", "src/test/resources/", "ValidationMessages.properties"));
+
+		System.out.println(JSON.toString(snippet));
+	}
 
 	@Test
 	public void testDomainSchedulingSnippet() {
@@ -29,7 +71,7 @@ public class SnippetTest {
 	}
 
 	@Test
-	public void testProjectSnippet() {
+	public void testGlobalSnippet() {
 		Snippet snippet = new Snippet();
 
 		Collection<String> folders;
@@ -71,12 +113,13 @@ public class SnippetTest {
 		Collection<String> rootConfigs;
 		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
 		rootConfigs.add("tw.com.softleader.data.config.DataSourceConfiguration.class");
-		rootConfigs.add("tw.com.softleader.domain.config.DomainConfiguration.class");
+		rootConfigs.add("tw.com.softleader.domain.config.DefaultDomainConfiguration.class");
 		rootConfigs.add("WebSecurityConfig.class");
+		rootConfigs.add("ServiceConfig.class");
 
 		Collection<String> servletConfigs;
 		snippet.setServletConfigs(servletConfigs = new ArrayList<>());
-		servletConfigs.add("tw.com.softleader.web.mvc.config.WebMvcConfiguration.class");
+		servletConfigs.add("WebMvcConfig.class");
 
 		Collection<String> folders;
 		snippet.setFolders(folders = new ArrayList<>());
@@ -92,10 +135,13 @@ public class SnippetTest {
 		sources.add(new Source("SecurityWebApplicationInitializer.java", "src/main/java/{pkgPath}/config",
 				"SecurityWebApplicationInitializer.java"));
 		sources.add(new Source("WebSecurityConfig.java", "src/main/java/{pkgPath}/config", "WebSecurityConfig.java"));
-		sources.add(
-				new Source("UserDetailsService.java", "src/main/java/{pkgPath}/service", "UserDetailsService.java"));
-		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/web", "IndexController.java"));
+		sources.add(new Source("ServiceConfig.java", "src/main/java/{pkgPath}/config", "ServiceConfig.java"));
+		sources.add(new Source("WebMvcConfig.java", "src/main/java/{pkgPath}/config", "WebMvcConfig.java"));
+		sources.add(new Source("UserDetailsService.java", "src/main/java/{pkgPath}/security/service",
+				"UserDetailsService.java"));
+		sources.add(new Source("IndexController.java", "src/main/java/{pkgPath}/index/web", "IndexController.java"));
 		sources.add(new Source("datasource.properties", "src/main/resources", "datasource.properties"));
+		sources.add(new Source("datasource.properties", "test/main/resources", "datasource.properties"));
 		sources.add(new Source("index.jsp", "src/main/webapp/WEB-INF/pages", "index.jsp"));
 		sources.add(new Source("login.jsp", "src/main/webapp/WEB-INF/pages", "login.jsp"));
 		sources.add(new Source("logback.xml", "src/main/resources/", "logback.xml"));

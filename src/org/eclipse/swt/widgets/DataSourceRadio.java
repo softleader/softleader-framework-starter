@@ -21,7 +21,7 @@ public class DataSourceRadio extends DependencyRadio {
 			public void handleEvent(Event event) {
 				DatasourcePage page = pageSupplier.get();
 				Optional.ofNullable(database.getDriver()).ifPresent(page.getDriverClass()::setText);
-				Optional.ofNullable(database.getUrlHint()).ifPresent(page.getUrlHint()::setText);
+				Optional.ofNullable(database.getUrlHint()).ifPresent(page.getUrl()::setText);
 			}
 		});
 	}

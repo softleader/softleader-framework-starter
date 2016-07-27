@@ -89,7 +89,8 @@ public class StarterTest {
 		group.setStyle(Style.RADIO);
 		group.setLayout(Layout.V);
 		group.setData(data = new ArrayList<>());
-		data.add(new Dependency("tw.com.softleader", "softleader-data-jpa", null, null, true, true, null));
+		data.add(new Dependency("tw.com.softleader", "softleader-data-jpa", null, null, true, true,
+				"softleader-data-jap/softleader-data-jap.zip"));
 		data.add(new Dependency("tw.com.softleader", "softleader-data-mybatis", null, null, false, true, null));
 
 		modules.add(group = new Group<>());

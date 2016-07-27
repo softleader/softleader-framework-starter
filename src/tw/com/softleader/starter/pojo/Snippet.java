@@ -25,6 +25,7 @@ public class Snippet {
 	private static final String SNIPPET_JSON = "snippet.json";
 
 	private Collection<String> rootConfigs = new ArrayList<>();
+	private Collection<String> removeRootConfigs = new ArrayList<>();
 	private Collection<String> servletConfigs = new ArrayList<>();
 	private Collection<String> folders = new ArrayList<>();
 	private Collection<Source> sources = new ArrayList<>();
@@ -74,6 +75,14 @@ public class Snippet {
 
 	public void setSources(Collection<Source> sources) {
 		this.sources = sources;
+	}
+
+	public Collection<String> getRemoveRootConfigs() {
+		return removeRootConfigs;
+	}
+
+	public void setRemoveRootConfigs(Collection<String> removeRootConfigs) {
+		this.removeRootConfigs = removeRootConfigs;
 	}
 
 	@Override

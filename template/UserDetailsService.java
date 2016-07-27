@@ -1,4 +1,4 @@
-package {pkg}.service;
+package {pkg}.security.service;
 
 import java.util.Map;
 
@@ -21,11 +21,11 @@ public class UserDetailsService implements MoreUserDetailsService {
   public UserDetails loadUserByUsername(String username, Map<String, String> details)
       throws UsernameNotFoundException {
     if (StringUtils.isBlank(username)) {
-      throw new BadCredentialsException("username required");
+      throw new BadCredentialsException("username is required");
     }
     String channelCode = details.get("channelCode");
     if (StringUtils.isBlank(channelCode)) {
-      throw new BadCredentialsException("channelCode required");
+      throw new BadCredentialsException("channelCode is required");
     }
     return new SimpleUserDetails(username, passwordEncoder.encode(channelCode + username));
   }

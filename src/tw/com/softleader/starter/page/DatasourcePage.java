@@ -26,7 +26,7 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 	private Collection<DataSourceRadio> datasources = new ArrayList<>();
 	private InputText driverClass;
 	private InputText url;
-	private Label urlHint;
+	// private Label urlHint;
 	private InputText username;
 	private InputText password;
 	private Starter starter;
@@ -66,8 +66,10 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 				.findFirst();
 		driverClass = createText(composite, "Driver Class").text(defaultDatabase.map(Database::getDriver).orElse(""))
 				.width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
-		url = createText(composite, "Url").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
-		urlHint = createUrlHint(composite, defaultDatabase.map(Database::getUrlHint).orElse(""));
+		url = createText(composite, "Url").width(TEXT_WIDTH).text(defaultDatabase.map(Database::getUrlHint).orElse(""))
+				.listener(SWT.Modify, textModifyListener);
+		// urlHint = createUrlHint(composite,
+		// defaultDatabase.map(Database::getUrlHint).orElse(""));
 		username = createText(composite, "Username").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 		password = createText(composite, "Password").width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
 
@@ -122,9 +124,9 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		return url;
 	}
 
-	public Label getUrlHint() {
-		return urlHint;
-	}
+	// public Label getUrlHint() {
+	// return urlHint;
+	// }
 
 	public InputText getUsername() {
 		return username;

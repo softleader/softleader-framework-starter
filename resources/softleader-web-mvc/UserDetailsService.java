@@ -1,4 +1,4 @@
-package {pkg}.service;
+package {pkg}.security.service;
 
 import java.util.Map;
 
