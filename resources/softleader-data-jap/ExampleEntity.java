@@ -1,15 +1,21 @@
 package {pkg}.example.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +50,21 @@ public class ExampleEntity extends GenericCodeEntity<Long> {
   @Email
   @Column(name = "email")
   private String email;
+
+  @JsonManagedReference("example_associations")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "example")
+  private List<ExampleAssociationEntity> associations;
+
+  public void addAssociation(ExampleAssociationEntity entity) {
+    if (this.associations == null) {
+      throw new IllegalStateException(
+          "If this is first time inserting the entity, call setAssociations(List) first, otherwise you should select from database before updating the entity");
+    }
+    this.associations.add(entity);
+    if (entity.getExample() != this) {
+      entity.setExample(this);
+    }
+  }
 
   @NotNull
   @Latin

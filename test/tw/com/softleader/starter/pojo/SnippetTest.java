@@ -39,6 +39,8 @@ public class SnippetTest {
 				"ExampleControllerTest.java"));
 		sources.add(new Source("ExampleDao.java", "src/main/java/{pkgPath}/example/dao", "ExampleDao.java"));
 		sources.add(new Source("ExampleEntity.java", "src/main/java/{pkgPath}/example/entity", "ExampleEntity.java"));
+		sources.add(new Source("ExampleAssociationEntity.java", "src/main/java/{pkgPath}/example/entity",
+				"ExampleAssociationEntity.java"));
 		sources.add(
 				new Source("ExampleService.java", "src/main/java/{pkgPath}/example/service", "ExampleService.java"));
 		sources.add(new Source("ExampleServiceImpl.java", "src/main/java/{pkgPath}/example/service/impl",
