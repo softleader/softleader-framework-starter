@@ -27,6 +27,7 @@ public class Snippet {
 	private Collection<String> rootConfigs = new ArrayList<>();
 	private Collection<String> removeRootConfigs = new ArrayList<>();
 	private Collection<String> servletConfigs = new ArrayList<>();
+	private Collection<String> servletFilters = new ArrayList<>();
 	private Collection<String> folders = new ArrayList<>();
 	private Collection<Source> sources = new ArrayList<>();
 
@@ -81,14 +82,23 @@ public class Snippet {
 		return removeRootConfigs;
 	}
 
+	public Collection<String> getServletFilters() {
+		return servletFilters;
+	}
+
+	public void setServletFilters(Collection<String> servletFilters) {
+		this.servletFilters = servletFilters;
+	}
+
 	public void setRemoveRootConfigs(Collection<String> removeRootConfigs) {
 		this.removeRootConfigs = removeRootConfigs;
 	}
 
 	@Override
 	public String toString() {
-		return "Snippet [rootConfigs=" + rootConfigs + ", servletConfigs=" + servletConfigs + ", folders=" + folders
-				+ ", sources=" + sources + "]";
+		return "Snippet [rootConfigs=" + rootConfigs + ", removeRootConfigs=" + removeRootConfigs + ", servletConfigs="
+				+ servletConfigs + ", servletFilters=" + servletFilters + ", folders=" + folders + ", sources="
+				+ sources + "]";
 	}
 
 }

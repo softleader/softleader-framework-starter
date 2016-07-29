@@ -29,6 +29,7 @@ public class SnippetTest {
 
 		snippet.setRootConfigs(Lists.newArrayList("DataSourceConfig.class"));
 		snippet.setRemoveRootConfigs(Lists.newArrayList("tw.com.softleader.data.config.DataSourceConfiguration.class"));
+		snippet.setServletConfigs(Lists.newArrayList("DataSourceConfig.class"));
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
