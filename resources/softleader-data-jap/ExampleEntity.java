@@ -58,7 +58,7 @@ public class ExampleEntity extends GenericCodeEntity<Long> {
   public void addAssociation(ExampleAssociationEntity entity) {
     if (this.associations == null) {
       throw new IllegalStateException(
-          "If this is first time inserting the entity, call setAssociations(List) first, otherwise you should select from database before updating the entity");
+          "If this is the first time inserting the entity, call setAssociations(List) first, otherwise you should select from database before updating the entity");
     }
     this.associations.add(entity);
     if (entity.getExample() != this) {
