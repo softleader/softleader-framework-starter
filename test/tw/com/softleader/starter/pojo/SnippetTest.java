@@ -29,7 +29,8 @@ public class SnippetTest {
 
 		snippet.setRootConfigs(Lists.newArrayList("DataSourceConfig.class"));
 		snippet.setRemoveRootConfigs(Lists.newArrayList("tw.com.softleader.data.config.DataSourceConfiguration.class"));
-		snippet.setServletConfigs(Lists.newArrayList("DataSourceConfig.class"));
+		snippet.setServletConfigs(Lists.newArrayList(
+				"new org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter.OpenEntityManagerInViewFilter()"));
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
@@ -63,12 +64,13 @@ public class SnippetTest {
 		Collection<String> rootConfigs;
 		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
 		rootConfigs.add("SchedulingConfig.class");
+		snippet.setFolders(Lists.newArrayList("src/main/java/{pkgPath}/job"));
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
 		sources.add(new Source("schedule.properties", "src/main/resources", "schedule.properties"));
 		sources.add(new Source("SchedulingConfig.java", "src/main/java/{pkgPath}/config", "SchedulingConfig.java"));
-		sources.add(new Source("JobController.java", "src/main/java/{pkgPath}/web", "JobController.java"));
+		sources.add(new Source("JobController.java", "src/main/java/{pkgPath}/job/web", "JobController.java"));
 
 		System.out.println(JSON.toString(snippet));
 	}

@@ -21,7 +21,9 @@ public class Datasource extends SnippetSource {
 		source = source.replace("{driverClass}", datasource.getDriverClass().getValue());
 		source = source.replace("{url}", datasource.getUrl().getValue());
 		source = source.replace("{username}", datasource.getUsername().getValue());
-		source = source.replace("{password}", datasource.getPassword().getValue());
+		if (datasource.getPassword().getValue() != null) {
+			source = source.replace("{password}", datasource.getPassword().getValue());
+		}
 
 		return super.apply(source);
 	}
