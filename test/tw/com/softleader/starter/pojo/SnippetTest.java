@@ -27,10 +27,8 @@ public class SnippetTest {
 		folders.add("src/test/java/{pkgPath}/example/service");
 		folders.add("src/test/java/{pkgPath}/example/web");
 
-		snippet.getRootConfigs().add("DataSourceConfig.class");
-		snippet.getRemoveRootConfigs().add("tw.com.softleader.data.config.DataSourceConfiguration.class");
-		snippet.getServletFilters().add(
-				"new org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter.OpenEntityManagerInViewFilter()");
+		snippet.setRootConfigs(Lists.newArrayList("DataSourceConfig.class"));
+		snippet.setRemoveRootConfigs(Lists.newArrayList("tw.com.softleader.data.config.DataSourceConfiguration.class"));
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
