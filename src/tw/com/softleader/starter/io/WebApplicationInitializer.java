@@ -10,6 +10,7 @@ public class WebApplicationInitializer extends SnippetSource {
 
 	protected final Collection<String> rootConfigs;
 	protected final Collection<String> servletConfigs;
+	protected final Collection<String> servletFilters;
 
 	public WebApplicationInitializer(ProjectDetailsPage projectDetails, Collection<Snippet> snippets) {
 		super(projectDetails);
@@ -19,14 +20,18 @@ public class WebApplicationInitializer extends SnippetSource {
 				.forEach(this.rootConfigs::remove);
 		this.servletConfigs = snippets.stream().map(Snippet::getServletConfigs).flatMap(Collection::stream)
 				.collect(Collectors.toSet());
+		this.servletFilters = snippets.stream().map(Snippet::getServletFilters).flatMap(Collection::stream)
+				.collect(Collectors.toSet());
 	}
 
 	@Override
 	public byte[] apply(String source) {
-		String root = rootConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
-		source = source.replace("{rootConfigClasses}", root);
-		String servlet = servletConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
-		source = source.replace("{servletConfigClasses}", servlet);
+		String roots = rootConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
+		source = source.replace("{rootConfigClasses}", roots);
+		String servlets = servletConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
+		source = source.replace("{servletConfigClasses}", servlets);
+		String filters = servletConfigs.stream().collect(Collectors.joining(", ", "{", "}"));
+		source = source.replace("{servletFilters}", filters);
 		return super.apply(source);
 	}
 

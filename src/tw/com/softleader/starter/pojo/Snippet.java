@@ -24,6 +24,7 @@ public class Snippet {
 
 	private static final String SNIPPET_JSON = "snippet.json";
 
+	private Collection<String> servletFilters = new ArrayList<>();
 	private Collection<String> rootConfigs = new ArrayList<>();
 	private Collection<String> removeRootConfigs = new ArrayList<>();
 	private Collection<String> servletConfigs = new ArrayList<>();
@@ -89,6 +90,14 @@ public class Snippet {
 	public String toString() {
 		return "Snippet [rootConfigs=" + rootConfigs + ", servletConfigs=" + servletConfigs + ", folders=" + folders
 				+ ", sources=" + sources + "]";
+	}
+
+	public Collection<String> getServletFilters() {
+		return servletFilters;
+	}
+
+	public void setServletFilters(Collection<String> servletFilters) {
+		this.servletFilters = servletFilters;
 	}
 
 }
