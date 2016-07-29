@@ -64,7 +64,7 @@ public class SnippetTest {
 		Collection<String> rootConfigs;
 		snippet.setRootConfigs(rootConfigs = new ArrayList<>());
 		rootConfigs.add("SchedulingConfig.class");
-		snippet.setFolders(Lists.newArrayList("src/main/java/{pkgPath}/job"));
+		snippet.setFolders(Lists.newArrayList("src/main/java/{pkgPath}/job/web"));
 
 		Collection<Source> sources;
 		snippet.setSources(sources = new ArrayList<>());
