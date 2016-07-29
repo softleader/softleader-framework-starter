@@ -1,4 +1,4 @@
-package {pkg}.web;
+package {pkg}.job.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
