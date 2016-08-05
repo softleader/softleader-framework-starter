@@ -50,10 +50,5 @@ public class WebMvcConfig extends WebMvcConfiguration {
     argumentResolvers.add(resolver);
     argumentResolvers.add(new AuthenticationPrincipalArgumentResolver());
   }
-
-  @Override
-  public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(new MappingJackson2HttpMessageConverter(jacksonObjectMapper(translater())));
-  }
     
 }

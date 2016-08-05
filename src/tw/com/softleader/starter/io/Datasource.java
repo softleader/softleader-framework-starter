@@ -1,5 +1,7 @@
 package tw.com.softleader.starter.io;
 
+import java.util.Optional;
+
 import org.eclipse.swt.widgets.DataSourceRadio;
 
 import tw.com.softleader.starter.page.DatasourcePage;
@@ -21,9 +23,7 @@ public class Datasource extends SnippetSource {
 		source = source.replace("{driverClass}", datasource.getDriverClass().getValue());
 		source = source.replace("{url}", datasource.getUrl().getValue());
 		source = source.replace("{username}", datasource.getUsername().getValue());
-		if (datasource.getPassword().getValue() != null) {
-			source = source.replace("{password}", datasource.getPassword().getValue());
-		}
+		source = source.replace("{password}", Optional.ofNullable(datasource.getPassword().getValue()).orElse(""));
 
 		return super.apply(source);
 	}
