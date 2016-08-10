@@ -28,7 +28,7 @@ import tw.com.softleader.domain.config.DefaultDomainConfiguration;
 import {pkg}.config.DataSourceConfig;
 import {pkg}.config.ServiceConfig;
 import {pkg}.config.WebMvcConfig;
-import {pkg}.example.entity.ExampleEntity;
+import {pkg}.example.entity.Example;
 
 @WebAppConfiguration
 @WithMockUser("exmaple")
@@ -53,7 +53,7 @@ public class ExampleControllerTest {
 
   @Test
   public void testSaveAndDelete() throws Exception {
-    final ExampleEntity expected = new ExampleEntity();
+    final Example expected = new Example();
     expected.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     expected.setAge(18);
     expected.setBirthday(LocalDate.now().minusYears(expected.getAge()));
@@ -65,7 +65,7 @@ public class ExampleControllerTest {
         .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
     Assert.assertNotNull(respone);
-    final ExampleEntity actual = mapper.readValue(respone, ExampleEntity.class);
+    final Example actual = mapper.readValue(respone, Example.class);
     Assert.assertNotNull(actual.getId());
     Assert.assertNotNull(actual.getCreatedBy());
     Assert.assertNotNull(actual.getCreatedTime());

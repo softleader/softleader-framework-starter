@@ -1,8 +1,8 @@
 package {pkg}.example.dao;
 
 import tw.com.softleader.data.dao.GenericCrudCodeDao;
-import {pkg}.example.entity.ExampleEntity;
+import {pkg}.example.entity.Example;
 
-public interface ExampleDao extends GenericCrudCodeDao<ExampleEntity, Long> {
+public interface ExampleDao extends GenericCrudCodeDao<Example, Long> {
 
 }

@@ -22,10 +22,10 @@ import tw.com.softleader.data.entity.GenericEntity;
 @Getter
 @Entity
 @Table(name = "EXAMPLE_ASSOCIATION")
-public class ExampleAssociationEntity extends GenericEntity<Long> {
+public class ExampleAssociation extends GenericEntity<Long> {
 
   @JsonBackReference("example_associations")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "EXAMPLE_ID")
-  private ExampleEntity example;
+  private Example example;
 }

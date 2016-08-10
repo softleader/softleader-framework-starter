@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import {pkg}.example.entity.ExampleEntity;
+import {pkg}.example.entity.Example;
 import {pkg}.example.service.ExampleService;
 
 /**
@@ -29,7 +29,7 @@ public class ExampleController {
   private ExampleService exampleService;
 
   @RequestMapping(method = {RequestMethod.POST})
-  public ExampleEntity save(@RequestBody @Validated ExampleEntity entity,
+  public Example save(@RequestBody @Validated Example entity,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       // FIXME: 專案應該影自己的處理資料驗證失敗的邏輯
@@ -40,9 +40,9 @@ public class ExampleController {
   }
 
   @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-  public ExampleEntity getOne(@PathVariable("id") long id) {
+  public Example getOne(@PathVariable("id") long id) {
     return exampleService.getOne(id)
-        // FIXME: 專案應該影自己的撈不到資料的邏輯, 如: .orElseThrow(() -> new NotFoundException(ExampleEntity.class, id));
+        // FIXME: 專案應該影自己的撈不到資料的邏輯, 如: .orElseThrow(() -> new NotFoundException(Example.class, id));
         .orElse(null);
   }
 

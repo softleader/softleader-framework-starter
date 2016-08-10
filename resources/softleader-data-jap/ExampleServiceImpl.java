@@ -9,7 +9,7 @@ import tw.com.softleader.domain.exception.ValidationException;
 import tw.com.softleader.domain.guarantee.constraints.EntityUnique;
 import tw.com.softleader.domain.guarantee.constraints.EntityUpToDate;
 import {pkg}.example.dao.ExampleDao;
-import {pkg}.example.entity.ExampleEntity;
+import {pkg}.example.entity.Example;
 import {pkg}.example.service.ExampleService;
 
 /**
@@ -19,19 +19,19 @@ import {pkg}.example.service.ExampleService;
  *
  */
 @Service
-public class ExampleServiceImpl extends AbstractCrudCodeService<ExampleEntity, Long>
+public class ExampleServiceImpl extends AbstractCrudCodeService<Example, Long>
     implements ExampleService {
 
   @Autowired
   private ExampleDao sampleDao;
 
   @Override
-  public CrudCodeDao<ExampleEntity, Long> getDao() {
+  public CrudCodeDao<Example, Long> getDao() {
     return sampleDao;
   }
 
   @Override
-  public ExampleEntity save(@EntityUnique @EntityUpToDate ExampleEntity entity)
+  public Example save(@EntityUnique @EntityUpToDate Example entity)
       throws ValidationException {
     return super.save(entity);
   }

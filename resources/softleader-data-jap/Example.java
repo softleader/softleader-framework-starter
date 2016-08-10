@@ -36,7 +36,7 @@ import tw.com.softleader.data.entity.GenericCodeEntity;
 @AssertThat(
     value = "this.age > 0 && this.birthday != null && forName('java.time.Period').between(this.birthday, forName('java.time.LocalDate').now()).getYears() == this.age",
     propertyNode = "age", message = "{example.birthday.and.age.not.match}")
-public class ExampleEntity extends GenericCodeEntity<Long> {
+public class Example extends GenericCodeEntity<Long> {
 
   @Min(0)
   @Max(130)
@@ -53,9 +53,9 @@ public class ExampleEntity extends GenericCodeEntity<Long> {
 
   @JsonManagedReference("example_associations")
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "example")
-  private List<ExampleAssociationEntity> associations;
+  private List<ExampleAssociation> associations;
 
-  public void addAssociation(ExampleAssociationEntity entity) {
+  public void addAssociation(ExampleAssociation entity) {
     if (this.associations == null) {
       throw new IllegalStateException(
           "If this is the first time inserting the entity, call setAssociations(List) first, otherwise you should select from database before updating the entity");

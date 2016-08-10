@@ -19,8 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import {pkg}.config.DataSourceConfig;
 import {pkg}.config.ServiceConfig;
-import {pkg}.example.entity.ExampleAssociationEntity;
-import {pkg}.example.entity.ExampleEntity;
+import {pkg}.example.entity.ExampleAssociation;
+import {pkg}.example.entity.Example;
 import tw.com.softleader.domain.config.DefaultDomainConfiguration;
 import tw.com.softleader.domain.exception.AlreadyExistException;
 import tw.com.softleader.domain.exception.OutOfDateException;
@@ -40,11 +40,11 @@ public class ExampleServiceTest {
    */
   @Test
   public void testInsert() throws Exception {
-    final ExampleEntity entity = new ExampleEntity();
+    final Example entity = new Example();
     entity.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     entity.setAge(10);
     entity.setBirthday(LocalDate.now().minusYears(entity.getAge()));
-    final ExampleEntity saved = exampleService.save(entity);
+    final Example saved = exampleService.save(entity);
     Assert.assertEquals(entity, saved);
     Assert.assertNotNull(entity.getId());
     Assert.assertNotNull(entity.getCreatedBy());
@@ -61,7 +61,7 @@ public class ExampleServiceTest {
   @Transactional(TxType.NOT_SUPPORTED)
   @Test(expected = AlreadyExistException.class)
   public void testDuplicateSave() {
-    final ExampleEntity entity = new ExampleEntity();
+    final Example entity = new Example();
     entity.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     entity.setAge(10);
     entity.setBirthday(LocalDate.now().minusYears(entity.getAge()));
@@ -78,7 +78,7 @@ public class ExampleServiceTest {
   @Transactional(TxType.NOT_SUPPORTED)
   @Test(expected = OutOfDateException.class)
   public void testOutOfDateSave() {
-    ExampleEntity entity = new ExampleEntity();
+    Example entity = new Example();
     entity.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     entity.setAge(10);
     entity.setBirthday(LocalDate.now().minusYears(entity.getAge()));
@@ -93,7 +93,7 @@ public class ExampleServiceTest {
    */
   @Test(expected = ConstraintViolationException.class)
   public void testAgeAndBirthdayViolation() {
-    final ExampleEntity entity = new ExampleEntity();
+    final Example entity = new Example();
     entity.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     entity.setAge(10);
     entity.setBirthday(LocalDate.now());
@@ -113,16 +113,16 @@ public class ExampleServiceTest {
    */
   @Test
   public void testAssociations() throws Exception {
-    final ExampleEntity entity = new ExampleEntity();
+    final Example entity = new Example();
     entity.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 10));
     entity.setAge(10);
     entity.setBirthday(LocalDate.now().minusYears(entity.getAge()));
     entity.setAssociations(new ArrayList<>());
     final int associationSize = 2;
     IntStream.range(0, associationSize).forEach(i -> {
-      entity.addAssociation(new ExampleAssociationEntity());
+      entity.addAssociation(new ExampleAssociation());
     });
-    final ExampleEntity saved = exampleService.save(entity);
+    final Example saved = exampleService.save(entity);
     Assert.assertNotNull(saved.getAssociations());
     Assert.assertEquals(associationSize, saved.getAssociations().size());
     saved.getAssociations().forEach(a -> {
