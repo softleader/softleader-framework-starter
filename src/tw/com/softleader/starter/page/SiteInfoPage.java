@@ -10,11 +10,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Listener;
 
-import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.pojo.Webapp;
 
 public class SiteInfoPage extends WizardPage implements SoftLeaderStarterPage {
 
-	private final Starter starter;
+	private final Webapp webapp;
 	private InputText baseUrl;
 
 	private Listener textModifyListener = new Listener() {
@@ -25,10 +25,10 @@ public class SiteInfoPage extends WizardPage implements SoftLeaderStarterPage {
 		}
 	};
 
-	public SiteInfoPage(String title, Starter starter) {
+	public SiteInfoPage(String title, Webapp webapp) {
 		super("Project details page");
 		setTitle(title);
-		this.starter = starter;
+		this.webapp = webapp;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class SiteInfoPage extends WizardPage implements SoftLeaderStarterPage {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		composite.setLayout(layout);
-		baseUrl = createText(composite, "Base Url").text(starter.getBaseUrl()).width(TEXT_WIDTH).listener(SWT.Modify,
+		baseUrl = createText(composite, "Base Url").text(webapp.getBaseUrl()).width(TEXT_WIDTH).listener(SWT.Modify,
 				textModifyListener);
 	}
 

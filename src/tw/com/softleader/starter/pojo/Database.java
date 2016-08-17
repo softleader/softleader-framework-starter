@@ -1,32 +1,12 @@
 package tw.com.softleader.starter.pojo;
 
-public class Database {
+public class Database extends Dependency {
 
 	private String name;
-	private String group;
-	private String artifact;
-	private String version;
-	private String driver;
-	private boolean dft;
-	private boolean enabled;
-	private String urlHint;
-
-	public Database() {
-		super();
-	}
-
-	public Database(String name, String group, String artifact, String version, String driver, boolean dft,
-			boolean enabled, String urlHint) {
-		super();
-		this.name = name;
-		this.group = group;
-		this.artifact = artifact;
-		this.version = version;
-		this.driver = driver;
-		this.dft = dft;
-		this.enabled = enabled;
-		this.urlHint = urlHint;
-	}
+	private String driverClass;
+	private String url;
+	private String username;
+	private String password;
 
 	public String getName() {
 		return name;
@@ -36,65 +16,36 @@ public class Database {
 		this.name = name;
 	}
 
-	public String getGroup() {
-		return group;
+	public String getDriverClass() {
+		return driverClass;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setDriverClass(String driverClass) {
+		this.driverClass = driverClass;
 	}
 
-	public String getArtifact() {
-		return artifact;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setArtifact(String artifact) {
-		this.artifact = artifact;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public boolean isDft() {
-		return dft;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setDft(boolean dft) {
-		this.dft = dft;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getDriver() {
-		return driver;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setDriver(String driver) {
-		this.driver = driver;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public String getUrlHint() {
-		return urlHint;
-	}
-
-	public void setUrlHint(String urlHint) {
-		this.urlHint = urlHint;
-	}
-
-	@Override
-	public String toString() {
-		return "Database [name=" + name + ", group=" + group + ", artifact=" + artifact + ", version=" + version
-				+ ", driver=" + driver + ", dft=" + dft + ", enabled=" + enabled + ", urlHint=" + urlHint + "]";
-	}
 }

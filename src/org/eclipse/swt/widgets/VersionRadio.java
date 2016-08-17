@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
-import tw.com.softleader.starter.pojo.Version;
+import tw.com.softleader.starter.pojo.WebappVersion;
 
 public class VersionRadio extends Button {
 
@@ -12,7 +12,7 @@ public class VersionRadio extends Button {
 	private final String ioPlatform;
 	private boolean selected;
 
-	public VersionRadio(Composite parent, Version version) {
+	public VersionRadio(Composite parent, WebappVersion version) {
 		super(parent, SWT.RADIO);
 		setText(version.getSl());
 		setSelection(version.isDft());

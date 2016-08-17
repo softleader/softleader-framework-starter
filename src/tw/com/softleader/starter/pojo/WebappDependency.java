@@ -1,11 +1,15 @@
 package tw.com.softleader.starter.pojo;
 
-public class Dependency {
+import tw.com.softleader.starter.enums.MvnScope;
+
+public class WebappDependency {
 
 	private String groupId;
 	private String artifactId;
 	private String version;
-	private String scope;
+	private MvnScope scope;
+	private boolean dft;
+	private boolean enabled;
 
 	public String getGroupId() {
 		return groupId;
@@ -31,12 +35,28 @@ public class Dependency {
 		this.version = version;
 	}
 
-	public String getScope() {
+	public MvnScope getScope() {
 		return scope;
 	}
 
-	public void setScope(String scope) {
+	public void setScope(MvnScope scope) {
 		this.scope = scope;
+	}
+
+	public boolean isDft() {
+		return dft;
+	}
+
+	public void setDft(boolean dft) {
+		this.dft = dft;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

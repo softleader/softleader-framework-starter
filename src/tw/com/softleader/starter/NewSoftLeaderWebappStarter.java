@@ -25,11 +25,12 @@ import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
 import tw.com.softleader.starter.page.SiteInfoPage;
-import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.pojo.Webapp;
 
 public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
-	public static final String STARTER = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/starter.json";
+	// public static final String STARTER = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/starter.json";
+	public static final String STARTER = "http://118.163.91.249/starter/webapp";
 	private static final String RELEASES = "https://github.com/softleader/softleader-framework-starter/releases";
 	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
 	private static final String TITLE = "New SoftLeader Webapp";
@@ -48,16 +49,16 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// layout.forEach(System.out::println);
 
-		Starter starter;
+		Webapp webapp;
 		try {
-			starter = Starter.fromUrl(STARTER);
+			webapp = Webapp.fromUrl(STARTER);
 		} catch (IOException e) {
 			MessageDialog.openError(getShell(), "Error opening the wizard",
 					String.format(ERROR_DIALOG, e.getMessage()));
 			throw new Error(e);
 		}
 
-		if (!starter.isUpToDate()) {
+		if (!webapp.isUpToDate()) {
 			boolean ok = MessageDialog.openConfirm(getShell(), "Update Available",
 					"A new version of SoftLeader Starter is available, press OK to download.");
 			if (ok) {
@@ -72,15 +73,15 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 			}
 		}
 
-		projectDetails = new ProjectDetailsPage(TITLE, starter);
+		projectDetails = new ProjectDetailsPage(TITLE, webapp);
 
-		dependency = new DependencyPage(TITLE, starter);
+		dependency = new DependencyPage(TITLE, webapp);
 		dependency.setPreviousPage(projectDetails);
 
-		datasource = new DatasourcePage(TITLE, starter);
+		datasource = new DatasourcePage(TITLE, webapp);
 		datasource.setPreviousPage(dependency);
 
-		siteInfo = new SiteInfoPage(TITLE, starter);
+		siteInfo = new SiteInfoPage(TITLE, webapp);
 		siteInfo.setPreviousPage(datasource);
 
 		model = new NewSoftLeaderWebappStarterModel(projectDetails, dependency, datasource, siteInfo);

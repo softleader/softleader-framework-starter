@@ -1,10 +1,13 @@
 package org.eclipse.swt.widgets;
 
+import java.util.Optional;
+
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
-import tw.com.softleader.starter.pojo.Dependency;
-import tw.com.softleader.starter.pojo.Group.Style;
+import tw.com.softleader.starter.enums.MvnScope;
+import tw.com.softleader.starter.enums.SwtStyle;
+import tw.com.softleader.starter.pojo.WebappDependency;
 
 public class DependencyRadio extends Button {
 
@@ -13,18 +16,16 @@ public class DependencyRadio extends Button {
 	private final String groupId;
 	private final String artifactId;
 	private final String version;
-	private final String scope;
+	private final MvnScope scope;
 	private boolean selected;
-	private String snippet;
 
-	public DependencyRadio(Composite parent, Style style, Dependency dependency) {
-		this(parent, dependency.getArtifact(), dependency.getGroup(), dependency.getArtifact(), dependency.getVersion(),
-				dependency.getScope(), style.swt, dependency.isDft(), dependency.isEnabled());
-		this.snippet = dependency.getSnippet();
+	public DependencyRadio(Composite parent, SwtStyle style, WebappDependency dependency) {
+		this(parent, dependency.getArtifactId(), dependency.getGroupId(), dependency.getArtifactId(),
+				dependency.getVersion(), dependency.getScope(), style.swt, dependency.isDft(), dependency.isEnabled());
 	}
 
 	public DependencyRadio(Composite parent, String text, String groupId, String artifactId, String version,
-			String scope, int style, boolean defaultSelected, boolean enabled) {
+			MvnScope scope, int style, boolean defaultSelected, boolean enabled) {
 		super(parent, style);
 		setText(text);
 		setSelection(defaultSelected);
@@ -63,38 +64,8 @@ public class DependencyRadio extends Button {
 	}
 
 	public String getScope() {
-		return scope;
-	}
+		return Optional.ofNullable(scope).map(Object::toString).map(String::toLowerCase).orElse(null);
 
-	public String getPomText() {
-		String text = "\t\t<dependency>\n";
-		text += "\t\t\t<groupId>" + getGroupId() + "</groupId>\n";
-		text += "\t\t\t<artifactId>" + getArtifactId() + "</artifactId>\n";
-		if (getVersion() != null && !getVersion().isEmpty()) {
-			text += "\t\t\t<version>" + getVersion() + "</version>\n";
-		}
-		if (getScope() != null && !getScope().isEmpty()) {
-			text += "\t\t\t<scope>" + getScope() + "</scope>\n";
-		}
-		text += "\t\t</dependency>";
-		return text;
-	}
-
-	public String getComponentText(String version) {
-		String text = "\t\t<dependent-module archiveName=\"" + getArtifactId() + "-" + version
-				+ ".jar\" deploy-path=\"/WEB-INF/lib\" handle=\"module:/resource/" + getArtifactId() + "/"
-				+ getArtifactId() + "\">\n";
-		text += "\t\t\t<dependency-type>uses</dependency-type>\n";
-		text += "\t\t</dependent-module>";
-		return text;
-	}
-
-	public String getSnippet() {
-		return snippet;
-	}
-
-	public boolean hasAnySnippet() {
-		return getSnippet() != null && !getSnippet().isEmpty();
 	}
 
 }

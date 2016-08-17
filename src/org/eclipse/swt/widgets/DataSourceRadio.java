@@ -5,16 +5,16 @@ import java.util.function.Supplier;
 
 import org.eclipse.swt.SWT;
 
+import tw.com.softleader.starter.enums.SwtStyle;
 import tw.com.softleader.starter.page.DatasourcePage;
-import tw.com.softleader.starter.pojo.Database;
-import tw.com.softleader.starter.pojo.Group.Style;
+import tw.com.softleader.starter.pojo.WebappDatabase;
 
 public class DataSourceRadio extends DependencyRadio {
 
 	private final String database;
 
-	public DataSourceRadio(Composite parent, Database database, Supplier<DatasourcePage> pageSupplier) {
-		this(parent, database.getName(), database.getGroup(), database.getArtifact(), database.getVersion(),
+	public DataSourceRadio(Composite parent, WebappDatabase database, Supplier<DatasourcePage> pageSupplier) {
+		this(parent, database.getName(), database.getGroupId(), database.getArtifactId(), database.getVersion(),
 				database.isDft(), database.isEnabled());
 		addListener(SWT.Selection, new Listener() {
 			@Override
@@ -28,7 +28,7 @@ public class DataSourceRadio extends DependencyRadio {
 
 	public DataSourceRadio(Composite parent, String database, String groupId, String artifactId, String version,
 			boolean defaultSelected, boolean enabled) {
-		super(parent, database, groupId, artifactId, version, null, Style.RADIO.swt, defaultSelected, enabled);
+		super(parent, database, groupId, artifactId, version, null, SwtStyle.RADIO.swt, defaultSelected, enabled);
 		this.database = database;
 	}
 

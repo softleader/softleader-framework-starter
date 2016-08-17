@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.InputText;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import tw.com.softleader.starter.pojo.Database;
-import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.pojo.Webapp;
+import tw.com.softleader.starter.pojo.WebappDatabase;
 
 public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage {
 
@@ -29,7 +29,7 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 	// private Label urlHint;
 	private InputText username;
 	private InputText password;
-	private Starter starter;
+	private Webapp webapp;
 
 	private Listener textModifyListener = new Listener() {
 
@@ -39,10 +39,10 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		}
 	};
 
-	public DatasourcePage(String title, Starter starter) {
+	public DatasourcePage(String title, Webapp webapp) {
 		super("Datasource Page");
 		setTitle(title);
-		this.starter = starter;
+		this.webapp = webapp;
 	}
 
 	@Override
@@ -54,19 +54,20 @@ public class DatasourcePage extends WizardPage implements SoftLeaderStarterPage 
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label label = new Label(composite, SWT.NONE);
-		label.setText(starter.getDatabase().getText());
+		label.setText(webapp.getDatabaseText());
 		label.setFont(parent.getFont());
 
 		Group group = new Group(composite, SWT.SHADOW_IN);
-		group.setLayout(new RowLayout(starter.getDatabase().getLayout().swt));
-		starter.getDatabase().getData().stream().map(d -> new DataSourceRadio(group, d, () -> this))
-				.forEach(datasources::add);
+		group.setLayout(new RowLayout(webapp.getDatabaseLayout().swt));
+		webapp.getDatabases().stream().map(d -> new DataSourceRadio(group, d, () -> this)).forEach(datasources::add);
 
-		Optional<Database> defaultDatabase = starter.getDatabase().getData().stream().filter(Database::isDft)
+		Optional<WebappDatabase> defaultDatabase = webapp.getDatabases().stream().filter(WebappDatabase::isDft)
 				.findFirst();
-		driverClass = createText(composite, "Driver Class").text(defaultDatabase.map(Database::getDriver).orElse(""))
-				.width(TEXT_WIDTH).listener(SWT.Modify, textModifyListener);
-		url = createText(composite, "Url").width(TEXT_WIDTH).text(defaultDatabase.map(Database::getUrlHint).orElse(""))
+		driverClass = createText(composite, "Driver Class")
+				.text(defaultDatabase.map(WebappDatabase::getDriver).orElse("")).width(TEXT_WIDTH)
+				.listener(SWT.Modify, textModifyListener);
+		url = createText(composite, "Url").width(TEXT_WIDTH)
+				.text(defaultDatabase.map(WebappDatabase::getUrlHint).orElse(""))
 				.listener(SWT.Modify, textModifyListener);
 		// urlHint = createUrlHint(composite,
 		// defaultDatabase.map(Database::getUrlHint).orElse(""));

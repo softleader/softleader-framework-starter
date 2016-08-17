@@ -16,18 +16,18 @@ import org.eclipse.swt.widgets.DependencyRadio;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.VersionRadio;
 
-import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.pojo.Webapp;
 
 public class DependencyPage extends WizardPage implements SoftLeaderStarterPage {
 
 	private Collection<VersionRadio> versions = new ArrayList<>();
 	private Map<String, Collection<DependencyRadio>> modules = new HashMap<>();
-	private Starter starter;
+	private Webapp webapp;
 
-	public DependencyPage(String title, Starter starter) {
+	public DependencyPage(String title, Webapp webapp) {
 		super("Dependency Page");
 		setTitle(title);
-		this.starter = starter;
+		this.webapp = webapp;
 	}
 
 	@Override
@@ -44,26 +44,26 @@ public class DependencyPage extends WizardPage implements SoftLeaderStarterPage 
 
 	private void setVersions(Composite parent) {
 		Group group = new Group(parent, SWT.SHADOW_IN);
-		group.setText(starter.getVersions().getText());
+		group.setText(webapp.getVersionText());
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = TEXT_WIDTH;
 		group.setData(data);
-		group.setLayout(new RowLayout(starter.getVersions().getLayout().swt));
+		group.setLayout(new RowLayout(webapp.getVersionLayout().swt));
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		starter.getVersions().getData().stream().map(v -> new VersionRadio(group, v)).forEach(versions::add);
+		webapp.getVersions().stream().map(v -> new VersionRadio(group, v)).forEach(versions::add);
 	}
 
 	private void setDependencies(Composite parent) {
-		starter.getModules().forEach(module -> {
+		webapp.getModules().forEach(module -> {
 			Group group = new Group(parent, SWT.SHADOW_IN);
-			group.setText(module.getText());
+			group.setText(module.getDependencyText());
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			data.widthHint = TEXT_WIDTH;
 			group.setData(data);
-			group.setLayout(new RowLayout(module.getLayout().swt));
+			group.setLayout(new RowLayout(module.getDependencyStyle().swt));
 			group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			modules.putIfAbsent(group.getText(), module.getData().stream()
-					.map(d -> new DependencyRadio(group, module.getStyle(), d)).collect(Collectors.toList()));
+			modules.putIfAbsent(group.getText(), module.getDependencies().stream()
+					.map(d -> new DependencyRadio(group, module.getDependencyStyle(), d)).collect(Collectors.toList()));
 		});
 	}
 

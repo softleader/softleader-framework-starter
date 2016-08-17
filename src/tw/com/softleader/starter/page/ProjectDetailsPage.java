@@ -33,19 +33,18 @@ import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea;
 import org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea.IErrorMessageReporter;
 
-import tw.com.softleader.starter.pojo.Starter;
+import tw.com.softleader.starter.pojo.Webapp;
 import tw.com.softleader.starter.util.Packages;
 
 public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterPage {
 
-	private final Starter starter;
+	private final Webapp webapp;
 	private InputText projectName;
 	private InputText group;
 	private InputText artifact;
 	private InputText version;
 	private InputText desc;
 	private InputText pkg;
-	private String globalSnippet;
 	private URI locationURI;
 	private ProjectContentsLocationArea locationArea;
 	private WorkingSetGroup workingSetGroup;
@@ -73,11 +72,10 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		}
 	};
 
-	public ProjectDetailsPage(String title, Starter starter) {
+	public ProjectDetailsPage(String title, Webapp webapp) {
 		super("Project details page");
 		setTitle(title);
-		this.starter = starter;
-		this.globalSnippet = starter.getProject().getGlobalSnippet();
+		this.webapp = webapp;
 	}
 
 	@Override
@@ -150,11 +148,11 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 				projectName = projectName.replaceFirst("softleader-", "");
 			}
 			projectName = projectName.trim();
-			group.setText(starter.getProject().getGroup());
-			artifact.setText(starter.getProject().getArtifact() + projectName.toLowerCase());
-			version.setText(starter.getProject().getVersion());
-			desc.setText(starter.getProject().getDesc() + projectName);
-			pkg.setText(starter.getProject().getPkg() + getProjectPackage(projectName));
+			group.setText(webapp.getProjectGroupId());
+			artifact.setText(webapp.getProjectArtifactId() + projectName.toLowerCase());
+			version.setText(webapp.getProjectVersion());
+			desc.setText(webapp.getProjectDesc() + projectName);
+			pkg.setText(webapp.getProjectPkg() + getProjectPackage(projectName));
 		}
 	}
 
@@ -336,10 +334,6 @@ public class ProjectDetailsPage extends WizardPage implements SoftLeaderStarterP
 		setErrorMessage(null);
 		setMessage(null);
 		return true;
-	}
-
-	public String getGlobalSnippet() {
-		return globalSnippet;
 	}
 
 }

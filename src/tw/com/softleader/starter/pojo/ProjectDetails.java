@@ -1,11 +1,29 @@
 package tw.com.softleader.starter.pojo;
 
-public class Dependency {
+public class ProjectDetails {
 
+	private String name;
+	private String pkg;
 	private String groupId;
 	private String artifactId;
 	private String version;
-	private String scope;
+	  private String desc;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPkg() {
+		return pkg;
+	}
+
+	public void setPkg(String pkg) {
+		this.pkg = pkg;
+	}
 
 	public String getGroupId() {
 		return groupId;
@@ -31,12 +49,12 @@ public class Dependency {
 		this.version = version;
 	}
 
-	public String getScope() {
-		return scope;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setScope(String scope) {
-		this.scope = scope;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 }

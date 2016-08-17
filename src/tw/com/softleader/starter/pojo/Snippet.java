@@ -1,104 +1,127 @@
 package tw.com.softleader.starter.pojo;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.eclipse.swt.widgets.DataSourceRadio;
+import org.eclipse.swt.widgets.DependencyRadio;
+import org.eclipse.swt.widgets.InputText;
+import org.eclipse.swt.widgets.VersionRadio;
 
 import com.google.common.base.Charsets;
 
+import tw.com.softleader.starter.page.DatasourcePage;
+import tw.com.softleader.starter.page.DependencyPage;
+import tw.com.softleader.starter.page.ProjectDetailsPage;
+import tw.com.softleader.starter.page.SiteInfoPage;
+import tw.com.softleader.starter.util.ArchiveStream;
 import tw.com.softleader.starter.util.JSON;
-import tw.com.softleader.starter.util.ZipStream;
 
 public class Snippet {
 
-	public Snippet() {
-	}
+	ProjectDetails project;
+	Version version;
+	Collection<Dependency> dependencies;
+	Database database;
 
-	private static final String SNIPPET_JSON = "snippet.json";
+	private transient Set<String> dirs;
+	private transient Map<String, String> srcs;
 
-	private Collection<String> rootConfigs = new ArrayList<>();
-	private Collection<String> removeRootConfigs = new ArrayList<>();
-	private Collection<String> servletConfigs = new ArrayList<>();
-	private Collection<String> servletFilters = new ArrayList<>();
-	private Collection<String> folders = new ArrayList<>();
-	private Collection<Source> sources = new ArrayList<>();
+	public Snippet(ProjectDetailsPage projectDetails, DependencyPage dependency, DatasourcePage datasource,
+			SiteInfoPage siteInfo) throws IOException, IllegalStateException, ArchiveException {
+		super();
 
-	public static Snippet load(String url) throws MalformedURLException, IOException {
-		InputStream in = new URL(url).openStream();
-		Map<String, String> files = ZipStream.toMap(in, ArchiveEntry::getName,
-				out -> new String(out.toByteArray(), Charsets.UTF_8), ByteArrayOutputStream::new);
+		project = new ProjectDetails();
+		project.setName(projectDetails.getProjectName().getValue());
+		project.setPkg(projectDetails.getPkg().getValue());
+		project.setGroupId(projectDetails.getGroup().getValue());
+		project.setArtifactId(projectDetails.getArtifact().getValue());
+		project.setVersion(projectDetails.getVersion().getValue());
+		Optional.ofNullable(projectDetails.getDesc()).map(InputText::getValue).ifPresent(project::setDesc);
 
-		String json = files.get(SNIPPET_JSON);
-		if (json == null) {
-			throw new IllegalStateException("URL [" + url + "] does not contains " + SNIPPET_JSON);
+		VersionRadio vr = dependency.getVersions().stream().filter(VersionRadio::isSelected).findFirst().get(); // 一定會有選擇
+		version = new Version();
+		version.setSoftleaderFramework(vr.getSoftleaderFramework());
+		version.setSpringIoPlatform(vr.getIoPlatform());
+
+		DataSourceRadio ds = datasource.getDatasources().stream().filter(DataSourceRadio::isSelected).findFirst().get(); // 一定會有選擇
+		database = new Database();
+		database.setName(ds.getDatabase());
+		database.setGroupId(ds.getGroupId());
+		database.setArtifactId(ds.getArtifactId());
+		database.setVersion(ds.getVersion());
+		database.setScope(ds.getScope());
+		database.setDriverClass(datasource.getDriverClass().getValue());
+		database.setUrl(datasource.getUrl().getValue());
+		database.setUsername(datasource.getUsername().getValue());
+		database.setPassword(datasource.getPassword().getValue());
+
+		dependencies = dependency.getModules().values().stream().flatMap(Collection::stream)
+				.filter(DependencyRadio::isSelected).map(dr -> {
+					Dependency d = new Dependency();
+					d.setGroupId(dr.getGroupId());
+					d.setArtifactId(dr.getArtifactId());
+					d.setVersion(dr.getVersion());
+					d.setScope(dr.getScope());
+					return d;
+				}).collect(Collectors.toList());
+
+		srcs = new HashMap<>();
+		dirs = new HashSet<>();
+
+		try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			HttpPost httppost = new HttpPost(siteInfo.getBaseUrl());
+			httppost.setHeader("Accept", "application/zip");
+			httppost.setHeader("Content-type", "application/json");
+			StringEntity entity = new StringEntity(JSON.toString(this), Charsets.UTF_8);
+			entity.setChunked(true);
+			httppost.setEntity(entity);
+			try (CloseableHttpResponse response = httpclient.execute(httppost)) {
+				BufferedInputStream in = new BufferedInputStream(response.getEntity().getContent());
+				ArchiveStream.of(in).forEach((entry, entryIn) -> {
+					if (!entry.getName().endsWith("__MACOSX")) {
+						String path = entry.getName();
+						if (path.startsWith("/")) {
+							path = path.substring(1, path.length());
+						}
+						if (entry.isDirectory()) {
+							dirs.add(path);
+						} else {
+							Optional.ofNullable(Paths.get(path).getParent()).map(Path::toString).ifPresent(dirs::add);
+							try {
+								srcs.put(path, new String(IOUtils.toByteArray(entryIn), Charsets.UTF_8));
+							} catch (IOException e) {
+								throw new IllegalStateException(e);
+							}
+						}
+					}
+				});
+			}
 		}
-		Snippet snippet = JSON.from(json, Snippet.class);
-		snippet.getSources()
-				.forEach(src -> Optional.ofNullable(files.get(src.getArchive())).ifPresent(src::setContent));
-		return snippet;
 	}
 
-	public Collection<String> getRootConfigs() {
-		return rootConfigs;
+	public Collection<String> getDirs() {
+		return dirs;
 	}
 
-	public void setRootConfigs(Collection<String> rootConfigs) {
-		this.rootConfigs = rootConfigs;
-	}
-
-	public Collection<String> getServletConfigs() {
-		return servletConfigs;
-	}
-
-	public void setServletConfigs(Collection<String> servletConfigs) {
-		this.servletConfigs = servletConfigs;
-	}
-
-	public Collection<String> getFolders() {
-		return folders;
-	}
-
-	public void setFolders(Collection<String> folders) {
-		this.folders = folders;
-	}
-
-	public Collection<Source> getSources() {
-		return sources;
-	}
-
-	public void setSources(Collection<Source> sources) {
-		this.sources = sources;
-	}
-
-	public Collection<String> getRemoveRootConfigs() {
-		return removeRootConfigs;
-	}
-
-	public Collection<String> getServletFilters() {
-		return servletFilters;
-	}
-
-	public void setServletFilters(Collection<String> servletFilters) {
-		this.servletFilters = servletFilters;
-	}
-
-	public void setRemoveRootConfigs(Collection<String> removeRootConfigs) {
-		this.removeRootConfigs = removeRootConfigs;
-	}
-
-	@Override
-	public String toString() {
-		return "Snippet [rootConfigs=" + rootConfigs + ", removeRootConfigs=" + removeRootConfigs + ", servletConfigs="
-				+ servletConfigs + ", servletFilters=" + servletFilters + ", folders=" + folders + ", sources="
-				+ sources + "]";
+	public Map<String, String> getSrcs() {
+		return srcs;
 	}
 
 }
