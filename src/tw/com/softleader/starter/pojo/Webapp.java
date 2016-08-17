@@ -13,7 +13,7 @@ import tw.com.softleader.starter.util.JSON;
 
 public class Webapp {
 
-	public static final long CURRENT_REVISION = 1469679202591L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
+	public static final long CURRENT_REVISION = 1471418080640L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
 
 	private long revision;
 	private String baseUrl;
@@ -44,7 +44,7 @@ public class Webapp {
 	public boolean isUpToDate() {
 		return revision <= CURRENT_REVISION;
 	}
-	
+
 	public String getBaseUrl() {
 		return baseUrl;
 	}
