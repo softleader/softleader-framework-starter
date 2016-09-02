@@ -13,7 +13,7 @@ import tw.com.softleader.starter.util.JSON;
 
 public class Webapp {
 
-	public static final long CURRENT_REVISION = 1471418080640L; // tw.com.softleader.starter.pojo.StarterTest.generateId()
+	public static final long CURRENT_REVISION = 1472229428800L;
 
 	private long revision;
 	private String baseUrl;
@@ -34,7 +34,9 @@ public class Webapp {
 
 	public static Webapp fromUrl(URL url) throws IOException {
 		String json = Resources.toString(url, Charsets.UTF_8);
-		return JSON.from(json, Webapp.class);
+		Webapp webapp = JSON.from(json, Webapp.class);
+		webapp.setBaseUrl(url.toString() + webapp.getBaseUrl());
+		return webapp;
 	}
 
 	public static Webapp fromUrl(String url) throws IOException {

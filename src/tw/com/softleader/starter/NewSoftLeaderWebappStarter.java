@@ -21,6 +21,12 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import tw.com.softleader.starter.page.DatasourcePage;
 import tw.com.softleader.starter.page.DependencyPage;
 import tw.com.softleader.starter.page.ProjectDetailsPage;
@@ -29,10 +35,9 @@ import tw.com.softleader.starter.pojo.Webapp;
 
 public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
-	// public static final String STARTER = "https://raw.githubusercontent.com/softleader/softleader-framework-starter/master/resources/starter.json";
-	public static final String STARTER = "http://118.163.91.249/starter/webapp";
+	public static final String STARTERS = "https://raw.githubusercontent.com/softleader/softleader-framework-starter-server/master/starters";
 	private static final String RELEASES = "https://github.com/softleader/softleader-framework-starter/releases";
-	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in the Eclipse errpr log.";
+	private static final String ERROR_DIALOG = "%s\r\n\nNote that this wizard needs internet access.\r\nA more detailed error message may be found in '{workspace}/.metadata/.log'";
 	private static final String TITLE = "New SoftLeader Webapp";
 	private ProjectDetailsPage projectDetails;
 	private DependencyPage dependency;
@@ -51,10 +56,13 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 
 		Webapp webapp;
 		try {
-			webapp = Webapp.fromUrl(STARTER);
+			String startersJson = Resources.toString(new URL(STARTERS), Charsets.UTF_8);
+			JsonObject starters = new JsonParser().parse(startersJson).getAsJsonObject();
+			String webappUrl = starters.get("webapp").getAsString();
+			webapp = Webapp.fromUrl(webappUrl);
 		} catch (IOException e) {
-			MessageDialog.openError(getShell(), "Error opening the wizard",
-					String.format(ERROR_DIALOG, e.getMessage()));
+			MessageDialog.openError(getShell(), "Error opening the wizard", String.format(ERROR_DIALOG,
+					"Something went wrong while getting information from server, please try again."));
 			throw new Error(e);
 		}
 
