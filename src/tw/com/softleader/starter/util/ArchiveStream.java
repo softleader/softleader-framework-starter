@@ -129,8 +129,9 @@ public final class ArchiveStream {
 			@Override
 			public void forEach(BiConsumer<ArchiveEntry, ArchiveInputStream> action)
 					throws IOException, ArchiveException {
-				mapToObj((entity, in) -> new Object[] { entity, in })
-						.forEach(read -> action.accept((ArchiveEntry) read[0], (ArchiveInputStream) read[1]));
+				try (Stream<>stream = mapToObj((entity, in) -> new Object[] { entity, in })) {
+					stream.forEach(read -> action.accept((ArchiveEntry) read[0], (ArchiveInputStream) read[1]));
+				}
 			}
 		};
 	}
