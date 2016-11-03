@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/tw.com.softleader.starter.feature_1.0.0.jar" id="tw.com.softleader.starter.feature" version="1.0.0"/>
+   <feature url="features/tw.com.softleader.starter.feature_1.0.0.jar" id="tw.com.softleader.starter.feature" version="1.0.0">
+      <category name="SoftLeader"/>
+   </feature>
    <category-def name="SoftLeader" label="SoftLeader"/>
 </site>
