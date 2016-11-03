@@ -43,8 +43,12 @@ public class Webapp {
 		return fromUrl(new URL(url));
 	}
 
+	/**
+	 * @deprecated 改使用 eclipse update site 控制版本, 不再自己控制 
+	 */
 	public boolean isUpToDate() {
-		return revision <= CURRENT_REVISION;
+		// return revision <= CURRENT_REVISION;
+		return true;
 	}
 
 	public String getBaseUrl() {

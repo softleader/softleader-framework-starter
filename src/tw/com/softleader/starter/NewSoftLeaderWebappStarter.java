@@ -23,7 +23,6 @@ import org.eclipse.ui.internal.browser.WorkbenchBrowserSupport;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -66,20 +65,20 @@ public class NewSoftLeaderWebappStarter extends Wizard implements INewWizard {
 			throw new Error(e);
 		}
 
-		if (!webapp.isUpToDate()) {
-			boolean ok = MessageDialog.openConfirm(getShell(), "Update Available",
-					"A new version of SoftLeader Starter is available, press OK to download.");
-			if (ok) {
-				try {
-					openBrowser(RELEASES);
-				} catch (PartInitException | MalformedURLException e) {
-					MessageDialog.openInformation(getShell(), "Could not open browser",
-							"Please get the latest version from '" + RELEASES + "'");
-				}
-			} else {
-				MessageDialog.openWarning(getShell(), "Caution", "Project creates may fail with an older version!");
-			}
-		}
+//		if (!webapp.isUpToDate()) {
+//			boolean ok = MessageDialog.openConfirm(getShell(), "Update Available",
+//					"A new version of SoftLeader Starter is available, press OK to download.");
+//			if (ok) {
+//				try {
+//					openBrowser(RELEASES);
+//				} catch (PartInitException | MalformedURLException e) {
+//					MessageDialog.openInformation(getShell(), "Could not open browser",
+//							"Please get the latest version from '" + RELEASES + "'");
+//				}
+//			} else {
+//				MessageDialog.openWarning(getShell(), "Caution", "Project creates may fail with an older version!");
+//			}
+//		}
 
 		projectDetails = new ProjectDetailsPage(TITLE, webapp);
 
