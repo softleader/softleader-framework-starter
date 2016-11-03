@@ -6,7 +6,7 @@
       provider-name="SoftLeader">
 
    <description url="http://support.softleader.com.tw/starter/update">
-      An eclipse plugin to build softleader-framework project easier and faster
+      An eclipse plugin to build softleader-framework project easier and faster.
    </description>
 
    <copyright url="https://www.softleader.com.tw">
@@ -14,7 +14,7 @@
    </copyright>
 
    <license url="http://www.softleader.com.tw/starter/license">
-      SoftLeader Public License 1.0
+      SoftLeader License 1.0
    </license>
 
    <plugin
