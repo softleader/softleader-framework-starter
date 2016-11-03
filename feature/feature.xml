@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="tw.com.softleader.starter.feature"
-      label="Starter"
+      label="SoftLeader Framework Starter"
       version="1.0.0"
       provider-name="SoftLeader">
 
