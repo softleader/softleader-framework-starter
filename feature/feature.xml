@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="tw.com.softleader.starter.feature"
+      label="Starter"
+      version="1.0.0.qualifier"
+      provider-name="SoftLeader">
+
+   <description url="http://support.softleader.com.tw/starter/update">
+      An eclipse plugin to build softleader-framework project easier and faster
+   </description>
+
+   <copyright url="https://www.softleader.com.tw">
+      Copyright © 2016 SoftLeader Technology Crop. All rights reserved.
+   </copyright>
+
+   <license url="http://www.softleader.com.tw/starter/license">
+      SoftLeader Public License 1.0
+   </license>
+
+   <plugin
+         id="softleader-framework-starter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
