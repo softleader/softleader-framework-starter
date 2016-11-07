@@ -2,7 +2,7 @@
 
 An eclipse plugin to build softleader-framework project easier and faster
 
-## How to install
+## Getting Started
 
 1. Open Eclipse
 2. Help > Install New Software, then Add: `http://support.softleader.com.tw/starter/update`
