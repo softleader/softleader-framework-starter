@@ -2,12 +2,11 @@
 
 An eclipse plugin to build softleader-framework project easier and faster
 
-## Getting Started
+## How to install
 
-1. Download the latest version from [releases page](https://github.com/softleader/softleader-framework-starter/releases)
-3. Copy jar into `${ECLIPSE_HOME}/../dropins`
-4. Restart your Eclipse
-5. File > New > Other > SoftLeader
+1. Open Eclipse
+2. Help > Install New Software, then Add: `http://support.softleader.com.tw/starter/update`
+3. Restart Eclipse
 
 > Requires eclipse 4.x+ with maven plugin installed
 
